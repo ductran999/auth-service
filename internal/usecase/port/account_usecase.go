@@ -3,8 +3,8 @@ package port
 import (
 	"context"
 
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/dto"
 )
 
 // AccountUseCase defines the business logic for managing user accounts.

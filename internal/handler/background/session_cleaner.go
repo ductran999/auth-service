@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/usecase/port"
+	"auth-service/internal/usecase/port"
+
 	"github.com/DucTran999/shared-pkg/logger"
 )
 

@@ -4,7 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/DucTran999/auth-service/test/mocks"
+	"auth-service/test/mocks"
+
 	"github.com/stretchr/testify/mock"
 )
 

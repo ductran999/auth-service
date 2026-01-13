@@ -4,10 +4,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/internal/usecase/session"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	"auth-service/internal/errs"
+	"auth-service/internal/usecase/port"
+	"auth-service/internal/usecase/session"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 )

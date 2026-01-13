@@ -3,12 +3,13 @@ package repository_test
 import (
 	"testing"
 
-	"github.com/DucTran999/auth-service/config"
-	"github.com/DucTran999/auth-service/internal/container"
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/repository"
-	"github.com/DucTran999/auth-service/pkg/hasher"
+	"auth-service/config"
+	"auth-service/internal/container"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/repository"
+	"auth-service/pkg/hasher"
+
 	"github.com/DucTran999/dbkit"
 	"github.com/stretchr/testify/require"
 )

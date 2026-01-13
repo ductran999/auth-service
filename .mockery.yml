@@ -14,9 +14,9 @@ template-schema: "{{.Template}}.schema.json"
 exclude-subpkg-regex: ["gen", "handler"]
 
 packages:
-  github.com/DucTran999/auth-service/internal:
+  auth-service/internal:
     config:
       all: true
-  github.com/DucTran999/auth-service/pkg:
+  auth-service/pkg:
     config:
       all: true

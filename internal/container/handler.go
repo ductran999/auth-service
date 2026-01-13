@@ -1,6 +1,6 @@
 package container
 
-import "github.com/DucTran999/auth-service/internal/handler/rest"
+import "auth-service/internal/handler/rest"
 
 type handlers struct {
 	sessionAuth rest.SessionAuthHandler

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/model"
+	"auth-service/internal/model"
 )
 
 // SessionRepository defines the methods required to manage session data in the persistence layer.

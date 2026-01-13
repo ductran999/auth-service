@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/internal/usecase/shared"
-	"github.com/DucTran999/auth-service/pkg/cache"
-	"github.com/DucTran999/auth-service/pkg/signer"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/dto"
+	"auth-service/internal/usecase/port"
+	"auth-service/internal/usecase/shared"
+	"auth-service/pkg/cache"
+	"auth-service/pkg/signer"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )

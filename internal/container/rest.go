@@ -1,7 +1,7 @@
 package container
 
 import (
-	"github.com/DucTran999/auth-service/internal/handler/rest"
+	"auth-service/internal/handler/rest"
 )
 
 type RestHandler struct {

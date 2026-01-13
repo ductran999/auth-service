@@ -3,12 +3,13 @@ package account_test
 import (
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/account"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/account"
+	"auth-service/internal/usecase/dto"
+	"auth-service/internal/usecase/port"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

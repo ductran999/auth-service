@@ -6,10 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/pkg/cache"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/port"
+	"auth-service/pkg/cache"
+
 	"github.com/google/uuid"
 )
 

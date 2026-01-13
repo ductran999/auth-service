@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/DucTran999/auth-service/config"
-	"github.com/DucTran999/auth-service/internal/container"
+	"auth-service/config"
+	"auth-service/internal/container"
 )
 
 func loadConfig() (*config.EnvConfiguration, error) {

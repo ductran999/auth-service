@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/DucTran999/auth-service/config"
-	"github.com/DucTran999/auth-service/internal/container"
-	"github.com/DucTran999/auth-service/internal/server/http"
+	"auth-service/config"
+	"auth-service/internal/container"
+	"auth-service/internal/server/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )

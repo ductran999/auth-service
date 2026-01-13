@@ -12,10 +12,11 @@ import (
 
 	dbConfig "github.com/DucTran999/dbkit/config"
 
-	"github.com/DucTran999/auth-service/config"
-	"github.com/DucTran999/auth-service/pkg/cache"
-	"github.com/DucTran999/auth-service/pkg/projectpath"
-	"github.com/DucTran999/auth-service/pkg/signer"
+	"auth-service/config"
+	"auth-service/pkg/cache"
+	"auth-service/pkg/projectpath"
+	"auth-service/pkg/signer"
+
 	"github.com/DucTran999/cachekit"
 	"github.com/DucTran999/dbkit"
 	"github.com/DucTran999/jwtkit"

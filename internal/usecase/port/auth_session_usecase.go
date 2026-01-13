@@ -3,8 +3,8 @@ package port
 import (
 	"context"
 
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/dto"
 )
 
 // AuthSessionUsecase defines the authentication-related business logic based on user sessions.

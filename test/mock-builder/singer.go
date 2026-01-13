@@ -4,8 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/test/mocks"
+	"auth-service/internal/model"
+	"auth-service/test/mocks"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/mock"
 )

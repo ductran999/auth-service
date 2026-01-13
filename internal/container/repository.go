@@ -1,8 +1,8 @@
 package container
 
 import (
-	"github.com/DucTran999/auth-service/internal/repository"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
+	"auth-service/internal/repository"
+	"auth-service/internal/usecase/port"
 )
 
 type repositories struct {

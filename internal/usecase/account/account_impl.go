@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/pkg/hasher"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/dto"
+	"auth-service/internal/usecase/port"
+	"auth-service/pkg/hasher"
 )
 
 type accountUsecase struct {

@@ -4,9 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
-	"github.com/DucTran999/auth-service/test/mocks"
+	"auth-service/internal/errs"
+	"auth-service/internal/usecase/dto"
+	"auth-service/test/mocks"
+
 	"github.com/stretchr/testify/mock"
 )
 

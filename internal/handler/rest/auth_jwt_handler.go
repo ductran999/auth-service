@@ -5,11 +5,12 @@ import (
 	"net/http"
 	"time"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/usecase/auth"
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
+	gen "auth-service/gen/http"
+	"auth-service/internal/errs"
+	"auth-service/internal/usecase/auth"
+	"auth-service/internal/usecase/dto"
+	"auth-service/internal/usecase/port"
+
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

@@ -1,11 +1,11 @@
 package container
 
 import (
-	"github.com/DucTran999/auth-service/internal/usecase/account"
-	"github.com/DucTran999/auth-service/internal/usecase/auth"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/internal/usecase/session"
-	"github.com/DucTran999/auth-service/internal/usecase/shared"
+	"auth-service/internal/usecase/account"
+	"auth-service/internal/usecase/auth"
+	"auth-service/internal/usecase/port"
+	"auth-service/internal/usecase/session"
+	"auth-service/internal/usecase/shared"
 )
 
 type useCases struct {
