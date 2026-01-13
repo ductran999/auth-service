@@ -8,7 +8,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
       PGDATA: /data/postgres
     volumes:
-      - ../.docker/${SERVICE_ENV}/pg-data:/data/postgres
+      - .docker/${SERVICE_ENV}/pg-data:/data/postgres
     ports:
       - "127.0.0.1:${DB_PORT}:5432"
     networks:

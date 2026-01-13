@@ -23,6 +23,7 @@ jobs:
         uses: arduino/setup-task@v2
       - name: Install Dependencies
         run: task deps
+
       - name: Tidy Modules
         run: task tidy
 

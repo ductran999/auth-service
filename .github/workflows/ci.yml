@@ -31,14 +31,18 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
+
       - name: Install Task CLI
         uses: arduino/setup-task@v2
+
       - name: Install Dependencies
         run: task deps
+
       - name: Tidy Modules
         run: task tidy
 
