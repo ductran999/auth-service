@@ -46,7 +46,7 @@ generate: ## generate api and mocks
 
 .PHONY: run
 run: ## start the app locally
-	go run cmd/auth-service/main.go
+	go run cmd/main.go
 
 .PHONY: deps
 deps: ## install library

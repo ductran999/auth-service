@@ -13,7 +13,7 @@ tasks:
   run:
     desc: "start the app"
     cmds:
-      - go run ./cmd/auth-service
+      - go run ./cmd/main.go
     silent: true
 
   testenv:
