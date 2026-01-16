@@ -20,7 +20,7 @@ tasks:
     desc: "do docker-compose file for setup test env"
     dir: "{{.USER_WORKING_DIR}}"
     preconditions:
-      - test -f environment/docker-compose.yml
+      - test -f docker-compose.yml
       - test -f .test.env
     cmds:
       - scripts/testenv.sh
@@ -29,7 +29,7 @@ tasks:
     desc: "do docker-compose file for setup test env"
     dir: "{{.USER_WORKING_DIR}}"
     preconditions:
-      - test -f environment/docker-compose.yml
+      - test -f docker-compose.yml
       - test -f .env
     cmds:
       - scripts/localenv.sh
