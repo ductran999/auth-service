@@ -25,6 +25,7 @@ type SessionAuthHandler interface {
 
 type sessionAuthHandler struct {
 	BaseHandler
+
 	logger logger.ILogger
 	authUC port.AuthSessionUsecase
 }

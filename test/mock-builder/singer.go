@@ -32,7 +32,7 @@ func (b *mockSignerBuilder) GetInstance() *mocks.TokenSigner {
 	return b.inst
 }
 
-// Sign method mocks.
+// SignSuccess Sign method mocks.
 func (b *mockSignerBuilder) SignSuccess() {
 	b.inst.EXPECT().
 		Sign(mock.Anything).
@@ -59,7 +59,7 @@ func (b *mockSignerBuilder) SignFailed() {
 		Return("", ErrSigningToken)
 }
 
-// ParseInto method mocks.
+// ParseIntoSuccess ParseInto method mocks.
 func (b *mockSignerBuilder) ParseIntoSuccess() {
 	fakeClaims := model.TokenClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -96,7 +96,7 @@ func (b *mockSignerBuilder) ParseIntoFailed() {
 		Return(ErrParsingToken)
 }
 
-// Specific token and claims combinations.
+// ParseIntoSpecificToken Specific token and claims combinations.
 func (b *mockSignerBuilder) ParseIntoSpecificToken(tokenStr string) {
 	b.inst.EXPECT().
 		ParseInto(tokenStr, mock.Anything).
@@ -109,7 +109,7 @@ func (b *mockSignerBuilder) SignSpecificClaims(claims jwt.Claims, expectedToken 
 		Return(expectedToken, nil)
 }
 
-// Chain methods for common scenarios.
+// SignAndParseSuccess Chain methods for common scenarios.
 func (b *mockSignerBuilder) SignAndParseSuccess() {
 	b.SignSuccess()
 	b.ParseIntoSuccess()

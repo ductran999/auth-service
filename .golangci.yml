@@ -178,6 +178,7 @@ linters:
     - wrapcheck
     # Whitespace Linter - Forces you to use empty lines! [fast: true, auto-fix: false]
     # FUTURE: improves code quality by allowing and blocking line breaks
+    - wsl_v5
     - wsl
     # An analyzer to detect magic numbers.
     # FUTURE: improve code quality by give semantic name for number.
@@ -196,6 +197,8 @@ linters:
     # FUTURE: can apply this rules when this syntax are family to almost developer. This syntax only apply for go 1.22+
     - intrange
     - tagalign
+    - noinlineerr
+    - godoclint
 
   exclusions:
     rules:
@@ -204,3 +207,4 @@ linters:
           - errcheck
           - gocyclo
           - dupl
+          - godoclint

@@ -28,6 +28,7 @@ type JWTAuthHandler interface {
 
 type jwtAuthHandler struct {
 	BaseHandler
+
 	logger logger.ILogger
 	authUC port.AuthJWTUsecase
 }
