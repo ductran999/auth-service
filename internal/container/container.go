@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/DucTran999/auth-service/config"
-	gen "github.com/DucTran999/auth-service/gen/http"
-	"github.com/DucTran999/auth-service/internal/handler/background"
-	"github.com/DucTran999/auth-service/pkg/cache"
-	"github.com/DucTran999/auth-service/pkg/hasher"
-	"github.com/DucTran999/auth-service/pkg/signer"
+	"auth-service/config"
+	gen "auth-service/gen/http"
+	"auth-service/internal/handler/background"
+	"auth-service/pkg/cache"
+	"auth-service/pkg/hasher"
+	"auth-service/pkg/signer"
+
 	"github.com/DucTran999/dbkit"
 	"github.com/DucTran999/shared-pkg/logger"
 )

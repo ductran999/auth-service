@@ -5,8 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+
 	"gorm.io/gorm"
 )
 

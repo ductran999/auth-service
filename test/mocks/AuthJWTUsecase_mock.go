@@ -5,9 +5,9 @@
 package mocks
 
 import (
+	"auth-service/internal/usecase/dto"
 	"context"
 
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
 	mock "github.com/stretchr/testify/mock"
 )
 

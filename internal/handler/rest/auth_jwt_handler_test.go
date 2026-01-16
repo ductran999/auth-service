@@ -7,8 +7,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/handler/rest"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	"auth-service/internal/handler/rest"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/assert/v2"

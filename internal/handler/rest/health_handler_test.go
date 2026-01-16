@@ -6,8 +6,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
-	"github.com/DucTran999/auth-service/internal/handler/rest"
+	gen "auth-service/gen/http"
+	"auth-service/internal/handler/rest"
+
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

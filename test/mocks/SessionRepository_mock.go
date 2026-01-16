@@ -5,10 +5,10 @@
 package mocks
 
 import (
+	"auth-service/internal/model"
 	"context"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

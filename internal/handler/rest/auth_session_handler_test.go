@@ -7,9 +7,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
-	"github.com/DucTran999/auth-service/internal/handler/rest"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	gen "auth-service/gen/http"
+	"auth-service/internal/handler/rest"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"

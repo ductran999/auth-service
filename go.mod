@@ -1,4 +1,4 @@
-module github.com/DucTran999/auth-service
+module auth-service
 
 go 1.24.5
 

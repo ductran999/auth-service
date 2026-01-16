@@ -5,8 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/test/mocks"
+	"auth-service/internal/model"
+	"auth-service/test/mocks"
+
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/mock"
 )

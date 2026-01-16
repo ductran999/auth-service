@@ -4,7 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
+	gen "auth-service/gen/http"
+
 	"github.com/gin-gonic/gin"
 )
 

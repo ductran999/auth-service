@@ -3,10 +3,11 @@ package shared_test
 import (
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/shared"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/shared"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/stretchr/testify/assert"
 )
 

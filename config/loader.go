@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/DucTran999/auth-service/pkg/projectpath"
+	"auth-service/pkg/projectpath"
+
 	"github.com/spf13/viper"
 )
 

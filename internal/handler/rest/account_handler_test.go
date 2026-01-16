@@ -7,11 +7,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
-	httpServer "github.com/DucTran999/auth-service/internal/server/http"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
+	gen "auth-service/gen/http"
+	httpServer "auth-service/internal/server/http"
+	mockbuilder "auth-service/test/mock-builder"
 
-	"github.com/DucTran999/auth-service/internal/handler/rest"
+	"auth-service/internal/handler/rest"
+
 	"github.com/DucTran999/shared-pkg/logger"
 
 	"github.com/gin-gonic/gin"

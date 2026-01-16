@@ -6,7 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/DucTran999/auth-service/test/setup"
+	"auth-service/test/setup"
+
 	"github.com/go-playground/assert/v2"
 	"github.com/stretchr/testify/require"
 )

@@ -5,9 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/test/mocks"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/test/mocks"
+
 	"github.com/stretchr/testify/mock"
 )
 

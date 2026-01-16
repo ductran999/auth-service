@@ -23,7 +23,7 @@ jobs:
         uses: golangci/golangci-lint-action@v8.0.0
         with:
           args: --timeout 5m --config .golangci.yml
-          version: v2.1.6
+          version: v2.7.2
 
   test-coverage:
     name: codecov-report
@@ -31,31 +31,32 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-      - name: Install Task CLI
-        uses: arduino/setup-task@v2
+
       - name: Install Dependencies
-        run: task deps
+        run: make deps
+
       - name: Tidy Modules
-        run: task tidy
+        run: make tidy
 
       - name: Run unit test
-        run: task unit_test
+        run: make unit_test
 
       - name: Setup testenv
-        run: task testenv
+        run: make testenv
 
       - name: gen keys
-        run: task keys
+        run: make keys
 
       - name: Run integration test
-        run: task integration_test
+        run: make integration_test
 
       - name: Run Coverage Tests
-        run: task coverage
+        run: make coverage
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v5

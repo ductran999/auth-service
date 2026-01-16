@@ -6,8 +6,8 @@ if [ -f .test.env ]; then
     set +a
 fi
 
-docker compose -f environment/docker-compose.yml up -d db
+docker compose -f docker-compose.yml up -d db
 
-docker compose -f environment/docker-compose.yml up -d redis
+docker compose -f docker-compose.yml up -d redis
 
-docker compose -f environment/docker-compose.yml run --rm migrate
+docker compose -f docker-compose.yml run --rm migrate

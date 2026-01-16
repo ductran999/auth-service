@@ -3,7 +3,7 @@ package port
 import (
 	"context"
 
-	"github.com/DucTran999/auth-service/internal/usecase/dto"
+	"auth-service/internal/usecase/dto"
 )
 
 type AuthJWTUsecase interface {

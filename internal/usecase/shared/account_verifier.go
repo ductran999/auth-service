@@ -3,10 +3,10 @@ package shared
 import (
 	"context"
 
-	"github.com/DucTran999/auth-service/internal/errs"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/usecase/port"
-	"github.com/DucTran999/auth-service/pkg/hasher"
+	"auth-service/internal/errs"
+	"auth-service/internal/model"
+	"auth-service/internal/usecase/port"
+	"auth-service/pkg/hasher"
 )
 
 type AccountVerifier interface {

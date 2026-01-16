@@ -1,12 +1,13 @@
-package main
+package app
 
 import (
 	"errors"
 	"fmt"
 	"net/http"
 
-	"github.com/DucTran999/auth-service/internal/container"
-	httpServer "github.com/DucTran999/auth-service/internal/server/http"
+	"auth-service/internal/container"
+	httpServer "auth-service/internal/server/http"
+
 	"github.com/DucTran999/shared-pkg/server"
 )
 

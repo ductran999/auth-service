@@ -1,10 +1,6 @@
 # Step 1: Build the Go application (builder stage)
 FROM golang:tip-alpine3.22 AS builder
 
-# Set the image metadata with labels
-LABEL maintainer="tranaduc9x@gmail.com"
-LABEL version="1.0.0"
-
 # Set environment variables for Go build
 ENV DOCKER_BUILDKIT=1
 WORKDIR /build

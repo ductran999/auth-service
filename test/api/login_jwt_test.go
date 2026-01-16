@@ -7,9 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	gen "github.com/DucTran999/auth-service/gen/http"
-	"github.com/DucTran999/auth-service/internal/handler/rest"
-	"github.com/DucTran999/auth-service/test/setup"
+	gen "auth-service/gen/http"
+	"auth-service/internal/handler/rest"
+	"auth-service/test/setup"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

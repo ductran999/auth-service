@@ -6,8 +6,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/DucTran999/auth-service/config"
-	"github.com/DucTran999/auth-service/internal/handler/background"
+	"auth-service/config"
+	"auth-service/internal/handler/background"
+
 	"github.com/DucTran999/shared-pkg/logger"
 )
 

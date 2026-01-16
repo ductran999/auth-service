@@ -4,10 +4,11 @@ import (
 	"errors"
 	"testing"
 
+	"auth-service/internal/model"
+	"auth-service/internal/repository"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/DucTran999/auth-service/internal/model"
-	"github.com/DucTran999/auth-service/internal/repository"
-	mockbuilder "github.com/DucTran999/auth-service/test/mock-builder"
 	"github.com/stretchr/testify/require"
 )
 
