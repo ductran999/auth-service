@@ -22,16 +22,16 @@ jobs:
       - name: Install Task CLI
         uses: arduino/setup-task@v2
       - name: Install Dependencies
-        run: task deps
+        run: make deps
 
       - name: Tidy Modules
-        run: task tidy
+        run: make tidy
 
       - name: Setup testenv
-        run: task testenv
+        run: make testenv
 
       - name: gen keys
-        run: task keys
+        run: make keys
 
       - name: Run api tests
-        run: task api_test
+        run: make api_test

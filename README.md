@@ -156,19 +156,19 @@ cp .env.example .env
 2. Start Redis, PostgreSQL, and run database migrations:
 
 ```bash
-task localenv
+make localenv
 ```
 
 3. Generate RSA keys:
 
 ```bash
-task keys
+make keys
 ```
 
 4. Run the auth service:
 
 ```bash
-task run
+make run
 ```
 
 ---
@@ -180,7 +180,7 @@ This project uses Go's built-in testing framework with mocks and table-driven te
 ### ✅ Run All Unit Tests
 
 ```bash
-task unit_test
+make unit_test
 ```
 
 ### ✅ Run All Integration Tests
@@ -188,13 +188,13 @@ task unit_test
 - setup db and redis for testenv
 
 ```bash
-task testenv
+make testenv
 ```
 
 - run scripts integration test
 
 ```bash
-task integration_test
+make integration_test
 ```
 
 ### ✅ Run All API Tests
@@ -202,13 +202,13 @@ task integration_test
 - Note: _if you already run it in integration tests, you can skip this step._
 
 ```bash
-task testenv
+make testenv
 ```
 
 - run scripts api test
 
 ```bash
-task api_test
+make api_test
 ```
 
 ---

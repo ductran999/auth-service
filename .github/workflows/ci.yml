@@ -37,29 +37,26 @@ jobs:
         with:
           go-version-file: go.mod
 
-      - name: Install Task CLI
-        uses: arduino/setup-task@v2
-
       - name: Install Dependencies
-        run: task deps
+        run: make deps
 
       - name: Tidy Modules
-        run: task tidy
+        run: make tidy
 
       - name: Run unit test
-        run: task unit_test
+        run: make unit_test
 
       - name: Setup testenv
-        run: task testenv
+        run: make testenv
 
       - name: gen keys
-        run: task keys
+        run: make keys
 
       - name: Run integration test
-        run: task integration_test
+        run: make integration_test
 
       - name: Run Coverage Tests
-        run: task coverage
+        run: make coverage
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v5
