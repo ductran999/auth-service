@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/handler/rest"
 
 	"github.com/gin-gonic/gin"
@@ -33,11 +33,11 @@ func TestCheckLiveness(t *testing.T) {
 	// Assertions
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	var res gen.HealthResponse
+	var res openapi.HealthResponse
 	err := json.Unmarshal(w.Body.Bytes(), &res)
 	require.NoError(t, err)
 
-	assert.Equal(t, gen.HealthResponseStatusHealthy, res.Status)
+	assert.Equal(t, openapi.HealthResponseStatusHealthy, res.Status)
 	assert.NotNil(t, res.Timestamp)
 	assert.NotNil(t, res.Uptime)
 	assert.NotNil(t, res.Version)

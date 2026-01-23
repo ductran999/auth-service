@@ -1,11 +1,10 @@
 package rest
 
 import (
+	"auth-service/gen/openapi"
 	"errors"
 	"fmt"
 	"net/http"
-
-	gen "auth-service/gen/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -64,9 +63,9 @@ func validationErrorMessage(fe validator.FieldError) string {
 }
 
 func (BaseHandler) UnauthorizeErrorResponse(ctx *gin.Context, version string, err string) {
-	respBody := gen.Unauthorized{
+	respBody := openapi.Unauthorized{
 		Version: version,
-		Error: gen.ErrorDetail{
+		Error: openapi.ErrorDetail{
 			Code:    UnauthorizedErrorCode,
 			Message: err,
 		},
@@ -76,9 +75,9 @@ func (BaseHandler) UnauthorizeErrorResponse(ctx *gin.Context, version string, er
 }
 
 func (BaseHandler) BadRequestResponse(ctx *gin.Context, version, errMsg string) {
-	respBody := gen.BadRequest{
+	respBody := openapi.BadRequest{
 		Version: version,
-		Error: gen.ErrorDetail{
+		Error: openapi.ErrorDetail{
 			Code:    BadRequestErrorCode,
 			Message: errMsg,
 		},
@@ -88,9 +87,9 @@ func (BaseHandler) BadRequestResponse(ctx *gin.Context, version, errMsg string) 
 }
 
 func (BaseHandler) ResourceConflictResponse(ctx *gin.Context, version, errMsg string) {
-	respBody := gen.Conflict{
+	respBody := openapi.Conflict{
 		Version: version,
-		Error: gen.ErrorDetail{
+		Error: openapi.ErrorDetail{
 			Code:    ConflictErrorCode,
 			Message: errMsg,
 		},
@@ -100,9 +99,9 @@ func (BaseHandler) ResourceConflictResponse(ctx *gin.Context, version, errMsg st
 }
 
 func (BaseHandler) ServerInternalErrResponse(ctx *gin.Context, version string) {
-	respBody := gen.InternalServerError{
+	respBody := openapi.InternalServerError{
 		Version: version,
-		Error: gen.ErrorDetail{
+		Error: openapi.ErrorDetail{
 			Code:    InternalErrorCode,
 			Message: http.StatusText(http.StatusInternalServerError),
 		},

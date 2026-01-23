@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	httpServer "auth-service/internal/server/http"
 	mockbuilder "auth-service/test/mock-builder"
 
@@ -143,7 +143,7 @@ func TestCreateAccount(t *testing.T) {
 			},
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.CreateAccountRequest{
+				payload := openapi.CreateAccountRequest{
 					Email:    "test@example.com",
 					Password: "p@ssG0rk1234!",
 				}
@@ -163,7 +163,7 @@ func TestCreateAccount(t *testing.T) {
 			},
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.CreateAccountRequest{
+				payload := openapi.CreateAccountRequest{
 					Email:    "test@example.com",
 					Password: "p@ssG0rk1234!",
 				}
@@ -183,7 +183,7 @@ func TestCreateAccount(t *testing.T) {
 			},
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.CreateAccountRequest{
+				payload := openapi.CreateAccountRequest{
 					Email:    "test@example.com",
 					Password: "p@ssG0rk1234!",
 				}
@@ -280,7 +280,7 @@ func TestChangePassword(t *testing.T) {
 			mustSetCookie: true,
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.ChangePasswordRequest{
+				payload := openapi.ChangePasswordRequest{
 					OldPassword: "0ldP@ssGrork1234",
 					NewPassword: "",
 				}
@@ -302,7 +302,7 @@ func TestChangePassword(t *testing.T) {
 			mustSetCookie: true,
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.ChangePasswordRequest{
+				payload := openapi.ChangePasswordRequest{
 					OldPassword: "0ldP@ssGrork1234",
 					NewPassword: "newP@ssGok1234!",
 				}
@@ -324,7 +324,7 @@ func TestChangePassword(t *testing.T) {
 			mustSetCookie: true,
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.ChangePasswordRequest{
+				payload := openapi.ChangePasswordRequest{
 					OldPassword: "0ldP@ssGrork1234",
 					NewPassword: "newP@ssGok1234!",
 				}
@@ -346,7 +346,7 @@ func TestChangePassword(t *testing.T) {
 			mustSetCookie: true,
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.ChangePasswordRequest{
+				payload := openapi.ChangePasswordRequest{
 					OldPassword: "0ldP@ssGrork1234",
 					NewPassword: "newP@ssGok1234!",
 				}
@@ -368,7 +368,7 @@ func TestChangePassword(t *testing.T) {
 			mustSetCookie: true,
 			setupPayload: func(t *testing.T) []byte {
 				t.Helper()
-				payload := gen.ChangePasswordRequest{
+				payload := openapi.ChangePasswordRequest{
 					OldPassword: "0ldP@ssGrork1234",
 					NewPassword: "newP@ssGok1234!",
 				}

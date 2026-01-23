@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/errs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/dto"
@@ -42,7 +42,7 @@ func NewAccountHandler(
 
 // CreateAccount handles the HTTP request to register a new account.
 func (hdl *accountHandler) CreateAccount(ctx *gin.Context) {
-	payload, err := ParseAndValidateJSON[gen.CreateAccountJSONRequestBody](ctx)
+	payload, err := ParseAndValidateJSON[openapi.CreateAccountJSONRequestBody](ctx)
 	if err != nil {
 		hdl.BadRequestResponse(ctx, ApiVersion1, err.Error())
 		return
@@ -76,7 +76,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 	}
 
 	// Parse & validate input JSON
-	payload, err := ParseAndValidateJSON[gen.ChangePasswordJSONRequestBody](ctx)
+	payload, err := ParseAndValidateJSON[openapi.ChangePasswordJSONRequestBody](ctx)
 	if err != nil {
 		hdl.BadRequestResponse(ctx, ApiVersion1, err.Error())
 		return
@@ -106,10 +106,10 @@ func (hdl *accountHandler) handleRegisterError(ctx *gin.Context, err error) {
 }
 
 func (hdl *accountHandler) sendRegisterSuccess(ctx *gin.Context, account *model.Account) {
-	resp := gen.RegisterResponse{
+	resp := openapi.RegisterResponse{
 		Version: ApiVersion1,
 		Success: true,
-		Data: gen.Account{
+		Data: openapi.Account{
 			Id:        account.ID,
 			Email:     account.Email,
 			Role:      account.Role,

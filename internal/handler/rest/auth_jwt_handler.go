@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/errs"
 	"auth-service/internal/usecase/auth"
 	"auth-service/internal/usecase/dto"
@@ -43,7 +43,7 @@ func NewJWTAuthHandler(logger logger.ILogger, authUC port.AuthJWTUsecase) JWTAut
 
 func (hdl *jwtAuthHandler) LoginWithJWT(ctx *gin.Context) {
 	// Parse request body
-	payload, err := ParseAndValidateJSON[gen.LoginAccountJSONRequestBody](ctx)
+	payload, err := ParseAndValidateJSON[openapi.LoginAccountJSONRequestBody](ctx)
 	if err != nil {
 		hdl.BadRequestResponse(ctx, APIVersion2, err.Error())
 		return
@@ -121,10 +121,10 @@ func (hdl *jwtAuthHandler) responseLoginJWTSuccess(ctx *gin.Context, tokens *dto
 		Expires:  time.Now().Add(auth.RefreshTokenLifetime),
 	})
 
-	resp := gen.LoginJWTResponse{
+	resp := openapi.LoginJWTResponse{
 		Success: true,
 		Version: APIVersion2,
-		Data: gen.AccessToken{
+		Data: openapi.AccessToken{
 			AccessToken: tokens.AccessToken,
 		},
 	}

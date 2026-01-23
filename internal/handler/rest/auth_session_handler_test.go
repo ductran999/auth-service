@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/handler/rest"
 	mockbuilder "auth-service/test/mock-builder"
 
@@ -59,7 +59,7 @@ func TestLoginAccount(t *testing.T) {
 			},
 			tokenKey: rest.RefreshTokenKey,
 			setupPayload: func(t *testing.T) []byte {
-				req := gen.LoginAccountJSONRequestBody{
+				req := openapi.LoginAccountJSONRequestBody{
 					Email:    "wrong@example.com",
 					Password: "wrongpass",
 				}
@@ -77,7 +77,7 @@ func TestLoginAccount(t *testing.T) {
 			},
 			tokenKey: rest.RefreshTokenKey,
 			setupPayload: func(t *testing.T) []byte {
-				req := gen.LoginAccountJSONRequestBody{
+				req := openapi.LoginAccountJSONRequestBody{
 					Email:    "user@example.com",
 					Password: "validPass123!",
 				}
@@ -94,7 +94,7 @@ func TestLoginAccount(t *testing.T) {
 				return NewAuthSessionHandlerUT(t, builder)
 			},
 			setupPayload: func(t *testing.T) []byte {
-				req := gen.LoginAccountJSONRequestBody{
+				req := openapi.LoginAccountJSONRequestBody{
 					Email:    "user@example.com",
 					Password: "validPass123!",
 				}
@@ -112,7 +112,7 @@ func TestLoginAccount(t *testing.T) {
 			},
 			tokenKey: rest.RefreshTokenKey,
 			setupPayload: func(t *testing.T) []byte {
-				req := gen.LoginAccountJSONRequestBody{
+				req := openapi.LoginAccountJSONRequestBody{
 					Email:    "user@example.com",
 					Password: "validPass123!",
 				}

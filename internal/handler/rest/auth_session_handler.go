@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/errs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/dto"
@@ -39,7 +39,7 @@ func NewSessionAuthHandler(logger logger.ILogger, authUC port.AuthSessionUsecase
 
 func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	// Parse request body
-	payload, err := ParseAndValidateJSON[gen.LoginAccountJSONRequestBody](ctx)
+	payload, err := ParseAndValidateJSON[openapi.LoginAccountJSONRequestBody](ctx)
 	if err != nil {
 		hdl.BadRequestResponse(ctx, ApiVersion1, err.Error())
 		return
@@ -106,10 +106,10 @@ func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *m
 		SameSite: http.SameSiteStrictMode,
 	})
 
-	resp := gen.LoginResponse{
+	resp := openapi.LoginResponse{
 		Success: true,
 		Version: ApiVersion1,
-		Data: gen.Account{
+		Data: openapi.Account{
 			Id:    session.AccountID,
 			Email: session.Account.Email,
 			Role:  session.Account.Role,

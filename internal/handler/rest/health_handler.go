@@ -1,10 +1,9 @@
 package rest
 
 import (
+	"auth-service/gen/openapi"
 	"net/http"
 	"time"
-
-	gen "auth-service/gen/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,8 +27,8 @@ func NewHealthHandler(serviceVersion string) HealthHandler {
 func (h *healthHandler) CheckLiveness(ctx *gin.Context) {
 	uptime := int64(time.Since(h.startTime).Seconds())
 
-	response := gen.HealthResponse{
-		Status:    gen.HealthResponseStatusHealthy,
+	response := openapi.HealthResponse{
+		Status:    openapi.HealthResponseStatusHealthy,
 		Timestamp: time.Now().UTC(),
 		Uptime:    &uptime,
 		Version:   &h.serviceVersion,

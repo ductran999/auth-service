@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"auth-service/config"
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/handler/background"
 	"auth-service/pkg/cache"
 	"auth-service/pkg/hasher"
@@ -29,7 +29,7 @@ type Container struct {
 	useCases     *useCases
 	handlers     *handlers
 
-	RestHandler           gen.ServerInterface
+	RestHandler           openapi.ServerInterface
 	CleanupSessionHandler background.SessionCleaner
 }
 

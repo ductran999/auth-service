@@ -9,7 +9,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Directories
-PKG_GEN_PATH="gen/http"
+PKG_GEN_PATH="gen/openapi"
 
 echo -e "${GREEN}🚀 Starting API generation...${NC}"
 
@@ -17,7 +17,7 @@ echo -e "${GREEN}🚀 Starting API generation...${NC}"
 mkdir -p ${PKG_GEN_PATH}
 
 # OpenAPI spec file
-OPENAPI_SPEC="api.spec.yml"
+OPENAPI_SPEC="./api/openapi.yaml"
 
 # Check if OpenAPI spec exists
 if [ ! -f "$OPENAPI_SPEC" ]; then
@@ -32,7 +32,7 @@ rm -f ${PKG_GEN_PATH}/*
 
 # Generate types
 echo -e "${YELLOW}🔧 Generating Go types...${NC}"
-oapi-codegen -generate "types" -package gen -o ${PKG_GEN_PATH}/types.gen.go ${OPENAPI_SPEC}
+oapi-codegen -generate "types" -package openapi -o ${PKG_GEN_PATH}/types.gen.go ${OPENAPI_SPEC}
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ Go types generated${NC}"
@@ -43,7 +43,7 @@ fi
 
 # Generate server
 echo -e "${YELLOW}🔧 Generating Go server code...${NC}"
-oapi-codegen -generate "gin" -package gen -o ${PKG_GEN_PATH}/server.gen.go ${OPENAPI_SPEC}
+oapi-codegen -generate "gin" -package openapi -o ${PKG_GEN_PATH}/server.gen.go ${OPENAPI_SPEC}
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ Go server code generated${NC}"

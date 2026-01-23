@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	gen "auth-service/gen/http"
+	"auth-service/gen/openapi"
 	"auth-service/internal/handler/rest"
 	"auth-service/test/setup"
 
@@ -90,7 +90,7 @@ func TestJWTLogin(t *testing.T) {
 
 			if tc.checkToken {
 				// check that access_token exist
-				resp := gen.LoginJWTResponse{}
+				resp := openapi.LoginJWTResponse{}
 				err := json.Unmarshal(w.Body.Bytes(), &resp)
 				require.NoError(t, err)
 				assert.NotEmpty(t, resp.Data.AccessToken)

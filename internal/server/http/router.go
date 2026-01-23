@@ -1,9 +1,8 @@
 package http
 
 import (
+	"auth-service/gen/openapi"
 	"fmt"
-
-	gen "auth-service/gen/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -39,14 +38,14 @@ func SetupValidator() error {
 	return nil
 }
 
-func NewRouter(serviceEnv string, h gen.ServerInterface) (*gin.Engine, error) {
+func NewRouter(serviceEnv string, h openapi.ServerInterface) (*gin.Engine, error) {
 	if serviceEnv == ProductionEnv.String() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	router := gin.Default()
 
-	gen.RegisterHandlers(router, h)
+	openapi.RegisterHandlers(router, h)
 
 	return router, nil
 }
