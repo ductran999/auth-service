@@ -1,11 +1,9 @@
 package rest
 
 import (
-	"errors"
 	"net/http"
 
 	"auth-service/gen/openapi"
-	"auth-service/internal/errs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/dto"
 	"auth-service/internal/usecase/port"
@@ -63,10 +61,10 @@ func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	// Authenticate user and create session
 	session, err := hdl.authUC.Login(ctx.Request.Context(), loginInput)
 	if err != nil {
-		if errors.Is(err, errs.ErrInvalidCredentials) || errors.Is(err, errs.ErrAccountNotFound) {
-			hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, err.Error())
-			return
-		}
+		// if errors.Is(err, sessionUC.ErrInvalidCredentials) || errors.Is(err, accountUC.ErrAccountNotFound) {
+		// 	hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, err.Error())
+		// 	return
+		// }
 
 		hdl.logger.Error(err.Error())
 		hdl.ServerInternalErrResponse(ctx, ApiVersion1)

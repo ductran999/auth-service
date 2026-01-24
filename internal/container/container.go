@@ -7,11 +7,11 @@ import (
 	"auth-service/config"
 	"auth-service/gen/openapi"
 	"auth-service/internal/handler/background"
-	"auth-service/pkg/cache"
 	"auth-service/pkg/hasher"
-	"auth-service/pkg/signer"
 
+	"github.com/DucTran999/cachekit"
 	"github.com/DucTran999/dbkit"
+	"github.com/DucTran999/jwtkit"
 	"github.com/DucTran999/shared-pkg/logger"
 )
 
@@ -20,10 +20,10 @@ type Container struct {
 
 	Logger logger.ILogger
 	Hasher hasher.Hasher
-	Signer signer.TokenSigner
+	Signer jwtkit.JWT
 
 	AuthDB dbkit.Connection
-	Cache  cache.Cache
+	Cache  cachekit.RemoteCache
 
 	repositories *repositories
 	useCases     *useCases

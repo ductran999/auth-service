@@ -1,19 +1,25 @@
 package container
 
-import "auth-service/internal/handler/rest"
+import (
+	"auth-service/internal/handler/rest"
+	health "auth-service/internal/handler/rest/health"
+	jwtAuth "auth-service/internal/handler/rest/jwt"
+)
 
 type handlers struct {
 	sessionAuth rest.SessionAuthHandler
-	jwtAuth     rest.JWTAuthHandler
+	jwtAuth     jwtAuth.JWTAuthHandler
 	account     rest.AccountHandler
-	health      rest.HealthHandler
+	health      health.HealthHandler
 }
 
 func (c *Container) initHandlers() {
 	c.handlers = &handlers{
+		health: health.NewHealthHandler(c.AppConfig.ServiceVersion),
+
 		sessionAuth: rest.NewSessionAuthHandler(c.Logger, c.useCases.sessionAuth),
-		jwtAuth:     rest.NewJWTAuthHandler(c.Logger, c.useCases.jwtAuth),
-		account:     rest.NewAccountHandler(c.Logger, c.useCases.account, c.useCases.session),
-		health:      rest.NewHealthHandler(c.AppConfig.ServiceEnv),
+		jwtAuth:     jwtAuth.NewJWTAuthHandler(c.Logger, c.useCases.jwtAuth),
+
+		account: rest.NewAccountHandler(c.Logger, c.useCases.account, c.useCases.session),
 	}
 }

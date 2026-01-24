@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"auth-service/internal/errs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/dto"
 	"auth-service/internal/usecase/port"
@@ -34,7 +33,7 @@ func (uc *accountUsecase) Register(ctx context.Context, input dto.RegisterInput)
 		return nil, err
 	}
 	if taken {
-		return nil, errs.ErrEmailExisted
+		return nil, ErrEmailExisted
 	}
 
 	// Hash the password
@@ -85,7 +84,7 @@ func (uc *accountUsecase) ChangePassword(ctx context.Context, input dto.ChangePa
 func (uc *accountUsecase) isEmailTaken(ctx context.Context, email string) (bool, error) {
 	account, err := uc.accountRepo.FindByEmail(ctx, email)
 	if err != nil {
-		if errors.Is(err, errs.ErrAccountNotFound) {
+		if errors.Is(err, ErrAccountNotFound) {
 			return false, nil
 		}
 		return false, err
@@ -100,7 +99,7 @@ func (uc *accountUsecase) validatePassword(password, hashed string) error {
 		return err
 	}
 	if !match {
-		return errs.ErrInvalidCredentials
+		return ErrPasswordMismatch
 	}
 
 	return nil
@@ -108,7 +107,7 @@ func (uc *accountUsecase) validatePassword(password, hashed string) error {
 
 func (uc *accountUsecase) hashIfChanged(oldPassword, newPassword string) (string, error) {
 	if oldPassword == newPassword {
-		return "", errs.ErrNewPasswordMustChanged
+		return "", ErrNewPasswordMustChanged
 	}
 
 	return uc.hasher.HashPassword(newPassword)

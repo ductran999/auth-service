@@ -5,10 +5,11 @@ import (
 	"net/http"
 
 	"auth-service/gen/openapi"
-	"auth-service/internal/errs"
 	"auth-service/internal/model"
+	accountUC "auth-service/internal/usecase/account"
 	"auth-service/internal/usecase/dto"
 	"auth-service/internal/usecase/port"
+	sessionUC "auth-service/internal/usecase/session"
 
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
@@ -66,7 +67,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 	// Validate session from cookie
 	session, err := hdl.validateSessionFromCookie(ctx)
 	if err != nil {
-		if errors.Is(err, errs.ErrInvalidSessionID) || errors.Is(err, errs.ErrSessionNotFound) {
+		if errors.Is(err, sessionUC.ErrInvalidSessionID) || errors.Is(err, sessionUC.ErrSessionNotFound) {
 			hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, http.StatusText(http.StatusUnauthorized))
 		} else {
 			hdl.logger.Errorf("failed to validate session: %v", err)
@@ -96,7 +97,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 }
 
 func (hdl *accountHandler) handleRegisterError(ctx *gin.Context, err error) {
-	if errors.Is(err, errs.ErrEmailExisted) {
+	if errors.Is(err, accountUC.ErrEmailExisted) {
 		hdl.ResourceConflictResponse(ctx, ApiVersion1, err.Error())
 		return
 	}
@@ -123,16 +124,16 @@ func (hdl *accountHandler) sendRegisterSuccess(ctx *gin.Context, account *model.
 func (hdl *accountHandler) validateSessionFromCookie(ctx *gin.Context) (*model.Session, error) {
 	sessionID, err := ctx.Cookie("session_id")
 	if err != nil {
-		return nil, errs.ErrSessionNotFound
+		return nil, sessionUC.ErrSessionNotFound
 	}
 	return hdl.sessionUC.Validate(ctx.Request.Context(), sessionID)
 }
 
 func (hdl *accountHandler) handleChangePasswordError(ctx *gin.Context, err error) {
 	switch {
-	case errors.Is(err, errs.ErrInvalidCredentials):
-		hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, err.Error())
-	case errors.Is(err, errs.ErrNewPasswordMustChanged):
+	// case errors.Is(err, authUC.ErrInvalidCredentials):
+	// 	hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, err.Error())
+	case errors.Is(err, accountUC.ErrNewPasswordMustChanged):
 		hdl.BadRequestResponse(ctx, ApiVersion1, err.Error())
 	default:
 		hdl.logger.Errorf("failed to change password: %v", err)
