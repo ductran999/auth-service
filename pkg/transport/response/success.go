@@ -20,3 +20,7 @@ func OK(ctx *gin.Context, data any, messages ...string) {
 		Message: strings.Join(messages, ", "),
 	})
 }
+
+func NoContent(ctx *gin.Context) {
+	ctx.Status(http.StatusNoContent)
+}
