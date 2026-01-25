@@ -1,7 +1,8 @@
 package jwt
 
 import (
-	"net/http"
+	"auth-service/internal/apperrs"
+	"auth-service/pkg/transport/response"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,15 +10,15 @@ import (
 func (hdl *jwtAuthHandler) RefreshToken(ctx *gin.Context) {
 	refreshToken, err := ctx.Cookie(RefreshTokenKey)
 	if err != nil {
-		hdl.UnauthorizeErrorResponse(ctx, APIVersion2, http.StatusText(http.StatusUnauthorized))
+		_ = ctx.Error(apperrs.Unauthorized(err))
 		return
 	}
 
 	tokens, err := hdl.authUC.RefreshToken(ctx, refreshToken)
 	if err != nil {
-		hdl.UnauthorizeErrorResponse(ctx, APIVersion2, err.Error())
+		_ = ctx.Error(err)
 		return
 	}
 
-	hdl.responseLoginJWTSuccess(ctx, tokens)
+	response.OK(ctx, tokens)
 }

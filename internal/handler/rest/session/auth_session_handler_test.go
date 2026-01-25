@@ -1,4 +1,4 @@
-package rest_test
+package session_test
 
 // import (
 // 	"bytes"

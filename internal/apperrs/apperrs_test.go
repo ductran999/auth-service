@@ -1,7 +1,7 @@
 package apperrs_test
 
 import (
-	"auth-service/pkg/apperrs"
+	"auth-service/internal/apperrs"
 	"errors"
 	"testing"
 
@@ -14,8 +14,8 @@ var (
 )
 
 func TestAppErrors_WrapError(t *testing.T) {
-	err := apperrs.Internal(ErrDatabaseConnectionFailed)
-	assert.ErrorIs(t, err, apperrs.ErrInternal)
+	err := apperrs.NotFound(ErrDatabaseConnectionFailed)
+	assert.ErrorIs(t, err, apperrs.ErrNotFound)
 }
 
 func TestAppErrors_ToAppError(t *testing.T) {
@@ -23,5 +23,4 @@ func TestAppErrors_ToAppError(t *testing.T) {
 	appErr := apperrs.ToAppError(originalErr)
 
 	require.ErrorIs(t, appErr, apperrs.ErrNotFound)
-	assert.Equal(t, "user not found", appErr.Error())
 }

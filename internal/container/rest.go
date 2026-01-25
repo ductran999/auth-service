@@ -1,15 +1,16 @@
 package container
 
 import (
-	"auth-service/internal/handler/rest"
-	"auth-service/internal/handler/rest/health"
-	jwtAuthHandler "auth-service/internal/handler/rest/jwt"
+	"auth-service/internal/handler/rest/account"
+	health "auth-service/internal/handler/rest/health"
+	"auth-service/internal/handler/rest/jwt"
+	"auth-service/internal/handler/rest/session"
 )
 
 type RestHandler struct {
-	rest.SessionAuthHandler
-	jwtAuthHandler.JWTAuthHandler
-	rest.AccountHandler
+	session.SessionAuthHandler
+	jwt.JWTAuthHandler
+	account.AccountHandler
 	health.HealthHandler
 }
 

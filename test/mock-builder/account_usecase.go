@@ -4,6 +4,7 @@ import (
 	"errors"
 	"testing"
 
+	"auth-service/internal/apperrs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/account"
 	"auth-service/test/mocks"
@@ -39,7 +40,7 @@ func (m *mockAccountUsecase) RegisterError() {
 func (m *mockAccountUsecase) RegisterConflictEmail() {
 	m.inst.EXPECT().
 		Register(mock.Anything, mock.Anything).
-		Return(nil, account.ErrEmailExisted)
+		Return(nil, apperrs.Conflict(account.ErrEmailExisted))
 }
 
 func (m *mockAccountUsecase) RegisterSuccess() {

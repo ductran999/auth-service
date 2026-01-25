@@ -1,4 +1,4 @@
-package rest_test
+package account_test
 
 // import (
 // 	"bytes"

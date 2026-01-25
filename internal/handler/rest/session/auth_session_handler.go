@@ -1,12 +1,15 @@
-package rest
+package session
 
 import (
 	"net/http"
 
 	"auth-service/gen/openapi"
+	"auth-service/internal/apperrs"
 	"auth-service/internal/model"
 	"auth-service/internal/usecase/dto"
 	"auth-service/internal/usecase/port"
+	"auth-service/pkg/transport/request"
+	"auth-service/pkg/transport/response"
 
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
@@ -22,8 +25,6 @@ type SessionAuthHandler interface {
 }
 
 type sessionAuthHandler struct {
-	BaseHandler
-
 	logger logger.ILogger
 	authUC port.AuthSessionUsecase
 }
@@ -37,9 +38,9 @@ func NewSessionAuthHandler(logger logger.ILogger, authUC port.AuthSessionUsecase
 
 func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	// Parse request body
-	payload, err := ParseAndValidateJSON[openapi.LoginAccountJSONRequestBody](ctx)
+	payload, err := request.ParseAndValidateJSON[openapi.LoginAccountJSONRequestBody](ctx)
 	if err != nil {
-		hdl.BadRequestResponse(ctx, ApiVersion1, err.Error())
+		_ = ctx.Error(apperrs.InvalidInput(err))
 		return
 	}
 
@@ -61,13 +62,7 @@ func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	// Authenticate user and create session
 	session, err := hdl.authUC.Login(ctx.Request.Context(), loginInput)
 	if err != nil {
-		// if errors.Is(err, sessionUC.ErrInvalidCredentials) || errors.Is(err, accountUC.ErrAccountNotFound) {
-		// 	hdl.UnauthorizeErrorResponse(ctx, ApiVersion1, err.Error())
-		// 	return
-		// }
-
-		hdl.logger.Error(err.Error())
-		hdl.ServerInternalErrResponse(ctx, ApiVersion1)
+		_ = ctx.Error(err)
 		return
 	}
 
@@ -88,7 +83,7 @@ func (hdl *sessionAuthHandler) LogoutAccount(ctx *gin.Context) {
 	ctx.SetCookie(SessionKey, "", -1, "/", "", true, true)
 
 	// Always respond with 204 No Content
-	hdl.NoContentResponse(ctx)
+	response.NoContent(ctx)
 }
 
 func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *model.Session) {
@@ -104,14 +99,11 @@ func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *m
 		SameSite: http.SameSiteStrictMode,
 	})
 
-	resp := openapi.LoginResponse{
-		Success: true,
-		Version: ApiVersion1,
-		Data: openapi.Account{
-			Id:    session.AccountID,
-			Email: session.Account.Email,
-			Role:  session.Account.Role,
-		},
+	resp := openapi.Account{
+		Id:    session.AccountID,
+		Email: session.Account.Email,
+		Role:  session.Account.Role,
 	}
-	ctx.JSON(http.StatusOK, resp)
+
+	response.OK(ctx, resp, "login successfully!")
 }
