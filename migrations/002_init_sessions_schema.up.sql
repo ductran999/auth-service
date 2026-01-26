@@ -1,6 +1,3 @@
--- Enable extension for UUID generation
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 -- Create the sessions table
 CREATE TABLE sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -9,8 +6,8 @@ CREATE TABLE sessions (
     ip_address INET,
     user_agent TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW(),
-    expires_at TIMESTAMPTZ
+    last_seen_at TIMESTAMPTZ,
+    revoked_at TIMESTAMPTZ
 );
 
 -- Optional: Indexes
