@@ -346,37 +346,36 @@ func (_c *SessionRepository_MarkSessionsExpired_Call) RunAndReturn(run func(ctx 
 	return _c
 }
 
-// UpdateExpiresAt provides a mock function for the type SessionRepository
-func (_mock *SessionRepository) UpdateExpiresAt(ctx context.Context, sessionID string, expiresAt time.Time) error {
-	ret := _mock.Called(ctx, sessionID, expiresAt)
+// Revoke provides a mock function for the type SessionRepository
+func (_mock *SessionRepository) Revoke(ctx context.Context, sessionID string) error {
+	ret := _mock.Called(ctx, sessionID)
 
 	if len(ret) == 0 {
-		panic("no return value specified for UpdateExpiresAt")
+		panic("no return value specified for Revoke")
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string, time.Time) error); ok {
-		r0 = returnFunc(ctx, sessionID, expiresAt)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = returnFunc(ctx, sessionID)
 	} else {
 		r0 = ret.Error(0)
 	}
 	return r0
 }
 
-// SessionRepository_UpdateExpiresAt_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateExpiresAt'
-type SessionRepository_UpdateExpiresAt_Call struct {
+// SessionRepository_Revoke_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Revoke'
+type SessionRepository_Revoke_Call struct {
 	*mock.Call
 }
 
-// UpdateExpiresAt is a helper method to define mock.On call
+// Revoke is a helper method to define mock.On call
 //   - ctx context.Context
 //   - sessionID string
-//   - expiresAt time.Time
-func (_e *SessionRepository_Expecter) UpdateExpiresAt(ctx interface{}, sessionID interface{}, expiresAt interface{}) *SessionRepository_UpdateExpiresAt_Call {
-	return &SessionRepository_UpdateExpiresAt_Call{Call: _e.mock.On("UpdateExpiresAt", ctx, sessionID, expiresAt)}
+func (_e *SessionRepository_Expecter) Revoke(ctx interface{}, sessionID interface{}) *SessionRepository_Revoke_Call {
+	return &SessionRepository_Revoke_Call{Call: _e.mock.On("Revoke", ctx, sessionID)}
 }
 
-func (_c *SessionRepository_UpdateExpiresAt_Call) Run(run func(ctx context.Context, sessionID string, expiresAt time.Time)) *SessionRepository_UpdateExpiresAt_Call {
+func (_c *SessionRepository_Revoke_Call) Run(run func(ctx context.Context, sessionID string)) *SessionRepository_Revoke_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -386,25 +385,20 @@ func (_c *SessionRepository_UpdateExpiresAt_Call) Run(run func(ctx context.Conte
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
-		var arg2 time.Time
-		if args[2] != nil {
-			arg2 = args[2].(time.Time)
-		}
 		run(
 			arg0,
 			arg1,
-			arg2,
 		)
 	})
 	return _c
 }
 
-func (_c *SessionRepository_UpdateExpiresAt_Call) Return(err error) *SessionRepository_UpdateExpiresAt_Call {
+func (_c *SessionRepository_Revoke_Call) Return(err error) *SessionRepository_Revoke_Call {
 	_c.Call.Return(err)
 	return _c
 }
 
-func (_c *SessionRepository_UpdateExpiresAt_Call) RunAndReturn(run func(ctx context.Context, sessionID string, expiresAt time.Time) error) *SessionRepository_UpdateExpiresAt_Call {
+func (_c *SessionRepository_Revoke_Call) RunAndReturn(run func(ctx context.Context, sessionID string) error) *SessionRepository_Revoke_Call {
 	_c.Call.Return(run)
 	return _c
 }
