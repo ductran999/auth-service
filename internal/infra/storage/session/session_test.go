@@ -1,11 +1,11 @@
-package postgresql_test
+package session_test
 
 import (
 	"errors"
 	"testing"
 	"time"
 
-	"auth-service/internal/infra/storage/postgresql"
+	"auth-service/internal/infra/storage/session"
 	"auth-service/internal/model"
 	mockbuilder "auth-service/test/mock-builder"
 
@@ -33,7 +33,7 @@ func TestSessionRepo_MarkSessionsExpired_DBError(t *testing.T) {
 
 	mock.ExpectRollback()
 
-	sut := postgresql.NewSessionRepository(db)
+	sut := session.NewSessionRepository(db)
 	err := sut.MarkSessionsExpired(t.Context(), sessionIDs, expiresAt)
 
 	require.Error(t, err)
@@ -46,7 +46,7 @@ func TestSessionRepo_MarkSessionsExpired_EmptyIDs(t *testing.T) {
 	db, _, cleanup := mockbuilder.NewMockGormDB(t)
 	defer cleanup()
 
-	repo := postgresql.NewSessionRepository(db)
+	repo := session.NewSessionRepository(db)
 	err := repo.MarkSessionsExpired(t.Context(), []string{}, time.Now())
 	require.NoError(t, err)
 }
@@ -59,7 +59,7 @@ func TestSessionRepo_FindAllActiveSession_DBError(t *testing.T) {
 	mock.ExpectQuery(`SELECT "id" FROM "sessions" WHERE expires_at IS NULL`).
 		WillReturnError(errors.New("simulated db error"))
 
-	repo := postgresql.NewSessionRepository(db)
+	repo := session.NewSessionRepository(db)
 	sessions, err := repo.FindAllActiveSession(t.Context())
 
 	require.Error(t, err)
@@ -79,7 +79,7 @@ func TestSessionRepo_DeleteExpiredBefore_DBError(t *testing.T) {
 		WithArgs(cutoff).
 		WillReturnError(errors.New("simulated delete error"))
 
-	repo := postgresql.NewSessionRepository(db)
+	repo := session.NewSessionRepository(db)
 	err := repo.DeleteExpiredBefore(t.Context(), cutoff)
 
 	require.Error(t, err)
@@ -101,7 +101,7 @@ func TestSessionRepo_UpdateExpiresAt_DBError(t *testing.T) {
 		WillReturnError(errors.New("simulated update failure"))
 	mock.ExpectRollback()
 
-	repo := postgresql.NewSessionRepository(db)
+	repo := session.NewSessionRepository(db)
 	err := repo.UpdateExpiresAt(t.Context(), sessionID, expiresAt)
 
 	require.Error(t, err)
@@ -119,7 +119,7 @@ func TestSessionRepo_FindByID_DBError(t *testing.T) {
 		WithArgs(sessionID, sqlmock.AnyArg()).
 		WillReturnError(errors.New("simulated db error"))
 
-	repo := postgresql.NewSessionRepository(db)
+	repo := session.NewSessionRepository(db)
 	session, err := repo.FindByID(t.Context(), sessionID)
 
 	require.Error(t, err)
@@ -132,12 +132,10 @@ func TestSessionRepo_Create_DBError(t *testing.T) {
 	gormDB, mock, cleanup := mockbuilder.NewMockGormDB(t)
 	defer cleanup()
 
-	repo := postgresql.NewSessionRepository(gormDB)
+	repo := session.NewSessionRepository(gormDB)
 
-	now := time.Now().Add(24 * time.Hour)
 	session := &model.Session{
 		AccountID: uuid.New(),
-		ExpiresAt: &now,
 	}
 
 	// Setup mock to simulate DB error
@@ -147,7 +145,6 @@ func TestSessionRepo_Create_DBError(t *testing.T) {
 			session.AccountID.String(),
 			sqlmock.AnyArg(), // created_at
 			sqlmock.AnyArg(), // updated_at
-			session.ExpiresAt,
 		).
 		WillReturnError(errors.New("simulated db error"))
 	mock.ExpectRollback()
