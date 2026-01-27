@@ -35,6 +35,7 @@ package session
 // 	if err := uc.sessionRepo.DeleteExpiredBefore(ctx, cutoff); err != nil {
 // 		return fmt.Errorf("failed to delete sessions expired before %s: %w", cutoff.Format(time.RFC3339), err)
 // 	}
+
 // 	return nil
 // }
 

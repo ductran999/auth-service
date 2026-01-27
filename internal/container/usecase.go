@@ -4,6 +4,7 @@ import (
 	accountUsecase "auth-service/internal/usecase/account"
 	"auth-service/internal/usecase/auth/credential"
 	authJwtUsecase "auth-service/internal/usecase/auth/jwt"
+	authSessionUsecase "auth-service/internal/usecase/auth/session"
 
 	"auth-service/internal/infra/storage/redis"
 	"auth-service/internal/infra/token/signer"
@@ -34,12 +35,13 @@ func (c *Container) initUseCases() {
 
 	jwtAuthUC := authJwtUsecase.NewAuthJWTUsecase(tokenService, tokenStore, credVerifier)
 
-	// sessionUC := sessionUsecase.BN(c.Cache, c.repositories.session)
+	sessionStore := redis.NewSessionStore()
+	sessionAuthUC := authSessionUsecase.NewAuthSessionUsecase(credVerifier, sessionStore, c.repositories.session)
 
 	c.useCases = &useCases{
-		account: accountUC,
-		jwtAuth: jwtAuthUC,
-		// sessionAuth: sessionAuthUC,
+		account:     accountUC,
+		jwtAuth:     jwtAuthUC,
+		sessionAuth: sessionAuthUC,
 		// session:           sessionUC,
 		// backgroundSession: sessionUC,
 	}

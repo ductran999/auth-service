@@ -1,10 +1,9 @@
-package port
+package ports
 
 import (
+	"auth-service/internal/model"
 	"context"
 	"time"
-
-	"auth-service/internal/model"
 )
 
 // SessionRepository defines the methods required to manage session data in the persistence layer.
