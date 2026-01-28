@@ -2,9 +2,9 @@ package account
 
 import (
 	"auth-service/gen/openapi"
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/dto"
-	sessionUC "auth-service/internal/usecase/session"
+	"auth-service/internal/biz/usecase/account"
+	"auth-service/internal/biz/usecase/session"
+	"auth-service/internal/domain/sessionmodel"
 	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
 
@@ -26,7 +26,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 		return
 	}
 
-	input := dto.ChangePasswordInput{
+	input := account.ChangePasswordInput{
 		AccountID:   session.AccountID.String(),
 		OldPassword: payload.OldPassword,
 		NewPassword: payload.NewPassword,
@@ -39,10 +39,10 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 	response.NoContent(ctx)
 }
 
-func (hdl *accountHandler) validateSessionFromCookie(ctx *gin.Context) (*model.Session, error) {
+func (hdl *accountHandler) validateSessionFromCookie(ctx *gin.Context) (*sessionmodel.Session, error) {
 	sessionID, err := ctx.Cookie("session_id")
 	if err != nil {
-		return nil, sessionUC.ErrSessionNotFound
+		return nil, session.ErrSessionNotFound
 	}
 
 	return hdl.sessionUC.Validate(ctx.Request.Context(), sessionID)

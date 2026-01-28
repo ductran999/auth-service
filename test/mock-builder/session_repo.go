@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/model"
+	"auth-service/internal/domain/sessionmodel"
 	"auth-service/test/mocks"
 
 	"github.com/google/uuid"
@@ -44,14 +44,14 @@ func (blr *mockSessionRepoBuilder) FindByIdFailed() {
 }
 
 func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
-	mockSession := model.Session{
+	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
 		AccountID: FakeAccountID,
-		Account: model.Account{
-			ID:       FakeAccountID,
-			Email:    FakeEmail,
-			IsActive: true,
-		},
+		// Account: model.Account{
+		// 	ID:       FakeAccountID,
+		// 	Email:    FakeEmail,
+		// 	IsActive: true,
+		// },
 	}
 
 	blr.inst.EXPECT().
@@ -61,14 +61,14 @@ func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
 
 func (blr *mockSessionRepoBuilder) FindByIDSessionExpired() {
 	// expiredAt := time.Now().Add(-1 * time.Hour)
-	mockSession := model.Session{
+	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
 		AccountID: FakeAccountID,
-		Account: model.Account{
-			ID:       FakeAccountID,
-			Email:    FakeEmail,
-			IsActive: true,
-		},
+		// Account: model.Account{
+		// 	ID:       FakeAccountID,
+		// 	Email:    FakeEmail,
+		// 	IsActive: true,
+		// },
 		// ExpiresAt: &expiredAt,
 	}
 
@@ -87,7 +87,7 @@ func (blr *mockSessionRepoBuilder) FindSessionReuse() {
 	// mockExpires := time.Now().Add(time.Minute)
 	blr.inst.EXPECT().
 		FindByID(mock.Anything, mock.Anything).
-		Return(&model.Session{
+		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
 			AccountID: FakeAccountID,
 			// ExpiresAt: &mockExpires,
@@ -136,7 +136,7 @@ func (blr *mockSessionRepoBuilder) FindAllActiveSessionFailed() {
 }
 
 func (blr *mockSessionRepoBuilder) FindAllActiveSessionSuccess() {
-	activeSessions := []model.Session{
+	activeSessions := []sessionmodel.Session{
 		{
 			ID:        FakeSessionID,
 			AccountID: FakeAccountID,

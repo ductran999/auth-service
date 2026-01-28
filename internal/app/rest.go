@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"auth-service/internal/container"
-	httpServer "auth-service/internal/server/http"
+	"auth-service/internal/app/container"
+	httpServer "auth-service/internal/app/server/http"
 
 	"github.com/DucTran999/shared-pkg/server"
 )

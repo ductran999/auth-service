@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"auth-service/config"
-	"auth-service/internal/container"
-	"auth-service/internal/server/http"
+	"auth-service/internal/app/container"
+	"auth-service/internal/app/server/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"

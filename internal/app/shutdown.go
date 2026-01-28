@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"auth-service/internal/container"
+	"auth-service/internal/app/container"
 
 	"github.com/DucTran999/shared-pkg/server"
 )

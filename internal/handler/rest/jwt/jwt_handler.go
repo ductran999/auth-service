@@ -1,7 +1,7 @@
 package jwt
 
 import (
-	"auth-service/internal/usecase/port"
+	"auth-service/internal/biz/usecase/auth/jwt"
 
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
@@ -19,11 +19,11 @@ type JWTAuthHandler interface {
 
 type jwtAuthHandler struct {
 	logger logger.ILogger
-	authUC port.AuthJWTUsecase
+	authUC jwt.AuthJWTUsecase
 }
 
 // NewJWTAuthHandler creates a new JWT authentication handler.
-func NewJWTAuthHandler(logger logger.ILogger, authUC port.AuthJWTUsecase) JWTAuthHandler {
+func NewJWTAuthHandler(logger logger.ILogger, authUC jwt.AuthJWTUsecase) JWTAuthHandler {
 	return &jwtAuthHandler{
 		logger: logger,
 		authUC: authUC,

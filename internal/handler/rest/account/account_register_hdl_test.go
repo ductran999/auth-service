@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"auth-service/gen/openapi"
+	httpServer "auth-service/internal/app/server/http"
 	"auth-service/internal/handler/rest/account"
 	"auth-service/internal/handler/rest/middlewares"
-	httpServer "auth-service/internal/server/http"
 	mockbuilder "auth-service/test/mock-builder"
 
 	"github.com/DucTran999/shared-pkg/logger"

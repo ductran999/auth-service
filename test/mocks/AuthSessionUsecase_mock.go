@@ -5,8 +5,8 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/biz/usecase/auth/session"
+	"auth-service/internal/domain/sessionmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -40,26 +40,26 @@ func (_m *AuthSessionUsecase) EXPECT() *AuthSessionUsecase_Expecter {
 }
 
 // Login provides a mock function for the type AuthSessionUsecase
-func (_mock *AuthSessionUsecase) Login(ctx context.Context, input dto.LoginInput) (*model.Session, error) {
+func (_mock *AuthSessionUsecase) Login(ctx context.Context, input session.LoginInput) (*sessionmodel.Session, error) {
 	ret := _mock.Called(ctx, input)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Login")
 	}
 
-	var r0 *model.Session
+	var r0 *sessionmodel.Session
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, dto.LoginInput) (*model.Session, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, session.LoginInput) (*sessionmodel.Session, error)); ok {
 		return returnFunc(ctx, input)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, dto.LoginInput) *model.Session); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, session.LoginInput) *sessionmodel.Session); ok {
 		r0 = returnFunc(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Session)
+			r0 = ret.Get(0).(*sessionmodel.Session)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, dto.LoginInput) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, session.LoginInput) error); ok {
 		r1 = returnFunc(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -74,20 +74,20 @@ type AuthSessionUsecase_Login_Call struct {
 
 // Login is a helper method to define mock.On call
 //   - ctx context.Context
-//   - input dto.LoginInput
+//   - input session.LoginInput
 func (_e *AuthSessionUsecase_Expecter) Login(ctx interface{}, input interface{}) *AuthSessionUsecase_Login_Call {
 	return &AuthSessionUsecase_Login_Call{Call: _e.mock.On("Login", ctx, input)}
 }
 
-func (_c *AuthSessionUsecase_Login_Call) Run(run func(ctx context.Context, input dto.LoginInput)) *AuthSessionUsecase_Login_Call {
+func (_c *AuthSessionUsecase_Login_Call) Run(run func(ctx context.Context, input session.LoginInput)) *AuthSessionUsecase_Login_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 dto.LoginInput
+		var arg1 session.LoginInput
 		if args[1] != nil {
-			arg1 = args[1].(dto.LoginInput)
+			arg1 = args[1].(session.LoginInput)
 		}
 		run(
 			arg0,
@@ -97,12 +97,12 @@ func (_c *AuthSessionUsecase_Login_Call) Run(run func(ctx context.Context, input
 	return _c
 }
 
-func (_c *AuthSessionUsecase_Login_Call) Return(session *model.Session, err error) *AuthSessionUsecase_Login_Call {
-	_c.Call.Return(session, err)
+func (_c *AuthSessionUsecase_Login_Call) Return(session1 *sessionmodel.Session, err error) *AuthSessionUsecase_Login_Call {
+	_c.Call.Return(session1, err)
 	return _c
 }
 
-func (_c *AuthSessionUsecase_Login_Call) RunAndReturn(run func(ctx context.Context, input dto.LoginInput) (*model.Session, error)) *AuthSessionUsecase_Login_Call {
+func (_c *AuthSessionUsecase_Login_Call) RunAndReturn(run func(ctx context.Context, input session.LoginInput) (*sessionmodel.Session, error)) *AuthSessionUsecase_Login_Call {
 	_c.Call.Return(run)
 	return _c
 }

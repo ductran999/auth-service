@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/account"
+	"auth-service/internal/biz/usecase/account"
+	"auth-service/internal/domain/accountmodel"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -44,14 +44,14 @@ func (b *mockAccountRepoBuilder) CreateAccountError() {
 }
 
 func (b *mockAccountRepoBuilder) CreateAccountSuccess() {
-	mockAccount := &model.Account{
+	mockAccount := &accountmodel.Account{
 		ID:       FakeAccountID,
 		Email:    FakeEmail,
 		IsActive: true,
 	}
 	b.inst.EXPECT().
 		Create(mock.Anything, mock.Anything).Run(
-		func(ctx context.Context, account *model.Account) {
+		func(ctx context.Context, account *accountmodel.Account) {
 			*account = *mockAccount
 		},
 	).Return(nil)
@@ -64,7 +64,7 @@ func (b *mockAccountRepoBuilder) FindByEmailError() {
 }
 
 func (b *mockAccountRepoBuilder) FindByEmailHasResult() {
-	activeAccount := &model.Account{
+	activeAccount := &accountmodel.Account{
 		ID:       FakeAccountID,
 		Email:    FakeEmail,
 		IsActive: true,
@@ -76,7 +76,7 @@ func (b *mockAccountRepoBuilder) FindByEmailHasResult() {
 }
 
 func (b *mockAccountRepoBuilder) FindByEmailAccountInactive() {
-	mockAccount := &model.Account{
+	mockAccount := &accountmodel.Account{
 		ID:       FakeAccountID,
 		Email:    FakeEmail,
 		IsActive: false,
@@ -100,7 +100,7 @@ func (b *mockAccountRepoBuilder) FindByIDFailed() {
 }
 
 func (b *mockAccountRepoBuilder) FindByIDSuccess() {
-	mockAccount := &model.Account{
+	mockAccount := &accountmodel.Account{
 		ID:           FakeAccountID,
 		Email:        FakeEmail,
 		PasswordHash: FakeOldPass,

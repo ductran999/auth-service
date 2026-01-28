@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
+	"auth-service/internal/domain/sessionmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -39,23 +39,23 @@ func (_m *SessionUsecase) EXPECT() *SessionUsecase_Expecter {
 }
 
 // Validate provides a mock function for the type SessionUsecase
-func (_mock *SessionUsecase) Validate(ctx context.Context, sessionID string) (*model.Session, error) {
+func (_mock *SessionUsecase) Validate(ctx context.Context, sessionID string) (*sessionmodel.Session, error) {
 	ret := _mock.Called(ctx, sessionID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Validate")
 	}
 
-	var r0 *model.Session
+	var r0 *sessionmodel.Session
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Session, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*sessionmodel.Session, error)); ok {
 		return returnFunc(ctx, sessionID)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Session); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *sessionmodel.Session); ok {
 		r0 = returnFunc(ctx, sessionID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Session)
+			r0 = ret.Get(0).(*sessionmodel.Session)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -96,12 +96,12 @@ func (_c *SessionUsecase_Validate_Call) Run(run func(ctx context.Context, sessio
 	return _c
 }
 
-func (_c *SessionUsecase_Validate_Call) Return(session *model.Session, err error) *SessionUsecase_Validate_Call {
+func (_c *SessionUsecase_Validate_Call) Return(session *sessionmodel.Session, err error) *SessionUsecase_Validate_Call {
 	_c.Call.Return(session, err)
 	return _c
 }
 
-func (_c *SessionUsecase_Validate_Call) RunAndReturn(run func(ctx context.Context, sessionID string) (*model.Session, error)) *SessionUsecase_Validate_Call {
+func (_c *SessionUsecase_Validate_Call) RunAndReturn(run func(ctx context.Context, sessionID string) (*sessionmodel.Session, error)) *SessionUsecase_Validate_Call {
 	_c.Call.Return(run)
 	return _c
 }

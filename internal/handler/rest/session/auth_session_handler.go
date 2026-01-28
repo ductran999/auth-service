@@ -1,15 +1,13 @@
 package session
 
 import (
-	"net/http"
-
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/dto"
-	"auth-service/internal/usecase/port"
+	"auth-service/internal/biz/usecase/auth/session"
+	"auth-service/internal/domain/sessionmodel"
 	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
+	"net/http"
 
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
@@ -26,10 +24,10 @@ type SessionAuthHandler interface {
 
 type sessionAuthHandler struct {
 	logger logger.ILogger
-	authUC port.AuthSessionUsecase
+	authUC session.AuthSessionUsecase
 }
 
-func NewSessionAuthHandler(logger logger.ILogger, authUC port.AuthSessionUsecase) SessionAuthHandler {
+func NewSessionAuthHandler(logger logger.ILogger, authUC session.AuthSessionUsecase) SessionAuthHandler {
 	return &sessionAuthHandler{
 		logger: logger,
 		authUC: authUC,
@@ -51,7 +49,7 @@ func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	}
 
 	// Convert request to model
-	loginInput := dto.LoginInput{
+	loginInput := session.LoginInput{
 		CurrentSessionID: currentSessionID,
 		Email:            payload.Email,
 		Password:         payload.Password,
@@ -86,7 +84,7 @@ func (hdl *sessionAuthHandler) LogoutAccount(ctx *gin.Context) {
 	response.NoContent(ctx)
 }
 
-func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *model.Session) {
+func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *sessionmodel.Session) {
 	// Determine environment is secure or not
 	secure := ctx.Request.Header.Get("X-Forwarded-Proto") == "https" || ctx.Request.TLS != nil
 
@@ -101,8 +99,6 @@ func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *m
 
 	resp := openapi.Account{
 		UserId: session.AccountID,
-		Email:  session.Account.Email,
-		Role:   session.Account.Role,
 	}
 
 	response.OK(ctx, resp, "login successfully!")

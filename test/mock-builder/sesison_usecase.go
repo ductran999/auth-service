@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/session"
+	"auth-service/internal/biz/usecase/session"
+	"auth-service/internal/domain/sessionmodel"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -44,7 +44,7 @@ func (m *mockSessionUsecase) ValidateInvalidSession() {
 func (m *mockSessionUsecase) ValidateSessionSuccess() {
 	m.inst.EXPECT().
 		Validate(mock.Anything, mock.Anything).
-		Return(&model.Session{
+		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
 			AccountID: FakeAccountID,
 		}, nil)
