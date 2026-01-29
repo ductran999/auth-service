@@ -3,7 +3,7 @@ package account
 import (
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/ports/repositories"
-	"auth-service/pkg/hasher"
+	"auth-service/internal/biz/ports/security"
 	"context"
 	"errors"
 )
@@ -15,7 +15,7 @@ type ChangePasswordInput struct {
 }
 
 type changePasswordUsecase struct {
-	hasher      hasher.Hasher
+	hasher      security.PasswordHasher
 	accountRepo repositories.AccountRepo
 }
 
@@ -62,7 +62,7 @@ func (uc *changePasswordUsecase) hashIfChanged(oldPassword, newPassword string) 
 		return "", apperrs.InvalidInput(ErrNewPasswordMustChanged)
 	}
 
-	passHash, err := uc.hasher.HashPassword(newPassword)
+	passHash, err := uc.hasher.Hash(newPassword)
 	if err != nil {
 		return "", apperrs.Internal(err)
 

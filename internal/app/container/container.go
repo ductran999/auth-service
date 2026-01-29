@@ -6,8 +6,9 @@ import (
 
 	"auth-service/config"
 	"auth-service/gen/openapi"
+	"auth-service/internal/biz/ports/security"
 	"auth-service/internal/handler/background"
-	"auth-service/pkg/hasher"
+	"auth-service/internal/infra/account"
 
 	"github.com/DucTran999/cachekit"
 	"github.com/DucTran999/dbkit"
@@ -19,7 +20,7 @@ type Container struct {
 	AppConfig *config.EnvConfiguration
 
 	Logger logger.ILogger
-	Hasher hasher.Hasher
+	Hasher security.PasswordHasher
 	Signer jwtkit.JWT
 
 	AuthDB dbkit.Connection
@@ -70,7 +71,7 @@ func NewContainer(cfg *config.EnvConfiguration) (*Container, error) {
 		AuthDB:    conn,
 		Cache:     cache,
 		Logger:    logger,
-		Hasher:    hasher.NewHasher(), // Utility for password hashing and similar needs
+		Hasher:    account.NewHasher(), // Utility for password hashing and similar needs
 		Signer:    signer,
 	}
 

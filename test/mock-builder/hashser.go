@@ -15,34 +15,34 @@ var (
 )
 
 type mockHasherBuilder struct {
-	inst *mocks.Hasher
+	inst *mocks.PasswordHasher
 }
 
 func newMockHasherBuilder(t *testing.T) *mockHasherBuilder {
 	return &mockHasherBuilder{
-		inst: mocks.NewHasher(t),
+		inst: mocks.NewPasswordHasher(t),
 	}
 }
 
-func (b *mockHasherBuilder) GetInstance() *mocks.Hasher {
+func (b *mockHasherBuilder) GetInstance() *mocks.PasswordHasher {
 	return b.inst
 }
 
 func (b *mockHasherBuilder) HashingPasswordFailed() {
 	b.inst.EXPECT().
-		HashPassword(mock.AnythingOfType("string")).
+		Hash(mock.AnythingOfType("string")).
 		Return("", ErrHashingPassword)
 }
 
 func (b *mockHasherBuilder) HashingPasswordSuccess() {
 	b.inst.EXPECT().
-		HashPassword(mock.AnythingOfType("string")).
+		Hash(mock.AnythingOfType("string")).
 		Return("hashedPassword", nil)
 }
 
 func (b *mockHasherBuilder) HashingPasswordSameAsOldPass() {
 	b.inst.EXPECT().
-		HashPassword(mock.AnythingOfType("string")).
+		Hash(mock.AnythingOfType("string")).
 		Return("hashedPassword", nil)
 }
 

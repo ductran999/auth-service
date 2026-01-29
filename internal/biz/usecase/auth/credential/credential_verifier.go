@@ -2,8 +2,8 @@ package credential
 
 import (
 	"auth-service/internal/biz/ports/repositories"
+	"auth-service/internal/biz/ports/security"
 	"auth-service/internal/domain/accountmodel"
-	"auth-service/pkg/hasher"
 	"context"
 	"errors"
 )
@@ -14,11 +14,11 @@ var (
 )
 
 type CredentialVerifier struct {
-	hasher      hasher.Hasher
+	hasher      security.PasswordHasher
 	accountRepo repositories.AccountRepo
 }
 
-func NewCredentialVerifier(hasher hasher.Hasher, accountRepo repositories.AccountRepo) *CredentialVerifier {
+func NewCredentialVerifier(hasher security.PasswordHasher, accountRepo repositories.AccountRepo) *CredentialVerifier {
 	return &CredentialVerifier{
 		hasher:      hasher,
 		accountRepo: accountRepo,

@@ -99,6 +99,12 @@ func (b *mockAccountRepoBuilder) FindByIDFailed() {
 		Return(nil, ErrFindAccountByID)
 }
 
+func (b *mockAccountRepoBuilder) FindByID_NoResult() {
+	b.inst.EXPECT().
+		FindByID(mock.Anything, mock.Anything).
+		Return(nil, account.ErrAccountNotFound)
+}
+
 func (b *mockAccountRepoBuilder) FindByIDSuccess() {
 	mockAccount := &accountmodel.Account{
 		ID:           FakeAccountID,

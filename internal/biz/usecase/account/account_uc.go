@@ -2,8 +2,8 @@ package account
 
 import (
 	"auth-service/internal/biz/ports/repositories"
+	"auth-service/internal/biz/ports/security"
 	"auth-service/internal/domain/accountmodel"
-	"auth-service/pkg/hasher"
 	"context"
 )
 
@@ -22,7 +22,7 @@ type accountUsecase struct {
 	*changePasswordUsecase
 }
 
-func NewAccountUseCase(hasher hasher.Hasher, accountRepo repositories.AccountRepo) AccountUsecase {
+func NewAccountUseCase(hasher security.PasswordHasher, accountRepo repositories.AccountRepo) AccountUsecase {
 	return &accountUsecase{
 		registerUsecase: &registerUsecase{
 			hasher:      hasher,

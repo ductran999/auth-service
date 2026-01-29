@@ -43,6 +43,17 @@ func TestChangePassword(t *testing.T) {
 			expectedErr: apperrs.ErrInternal,
 		},
 		{
+			name: "not found account by id",
+			setup: func(t *testing.T) account.AccountUsecase {
+				t.Helper()
+				builders := mockbuilder.NewBuilderContainer(t)
+				builders.AccountRepoBuilder.FindByID_NoResult()
+				return NewAccountUseCaseUT(t, builders)
+			},
+			input:       validInput,
+			expectedErr: apperrs.ErrNotFound,
+		},
+		{
 			name: "failed to compare old password to hash",
 			setup: func(t *testing.T) account.AccountUsecase {
 				t.Helper()

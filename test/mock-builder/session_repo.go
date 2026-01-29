@@ -1,6 +1,7 @@
 package mockbuilder
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -104,10 +105,10 @@ func (blr *mockSessionRepoBuilder) RevokeSuccess() {
 
 func (blr *mockSessionRepoBuilder) CreateSessionSuccess() {
 	blr.inst.EXPECT().
-		Create(mock.Anything, mock.AnythingOfType("*model.Session")).
-		// Run(func(ctx context.Context, session *model.Session) {
-		// 	s.ID = FakeSessionID
-		// }).
+		Create(mock.Anything, mock.AnythingOfType("*sessionmodel.Session")).
+		Run(func(ctx context.Context, session *sessionmodel.Session) {
+			session.ID = FakeSessionID
+		}).
 		Return(nil)
 }
 

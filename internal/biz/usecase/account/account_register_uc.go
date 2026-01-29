@@ -3,8 +3,8 @@ package account
 import (
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/ports/repositories"
+	"auth-service/internal/biz/ports/security"
 	"auth-service/internal/domain/accountmodel"
-	"auth-service/pkg/hasher"
 	"context"
 	"errors"
 )
@@ -15,7 +15,7 @@ type RegisterInput struct {
 }
 
 type registerUsecase struct {
-	hasher      hasher.Hasher
+	hasher      security.PasswordHasher
 	accountRepo repositories.AccountRepo
 }
 
@@ -29,7 +29,7 @@ func (uc *registerUsecase) Register(ctx context.Context, input RegisterInput) (*
 	}
 
 	// Hash the password
-	hashedPassword, err := uc.hasher.HashPassword(input.Password)
+	hashedPassword, err := uc.hasher.Hash(input.Password)
 	if err != nil {
 		return nil, apperrs.Internal(err)
 	}
