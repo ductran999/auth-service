@@ -12,7 +12,6 @@ import (
 func waitForShutdown(
 	appCtx context.Context,
 	srv server.HttpServer,
-	workerDone <-chan struct{},
 	c *container.Container,
 ) {
 	<-appCtx.Done()
@@ -27,8 +26,6 @@ func waitForShutdown(
 	}
 
 	select {
-	case <-workerDone:
-		c.Logger.Infof("session cleanup worker stopped in %s", time.Since(shutdownStart))
 	case <-ctx.Done():
 		c.Logger.Warnf("timeout waiting for session cleanup worker (after %s)", time.Since(shutdownStart))
 	}

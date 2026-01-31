@@ -4,7 +4,7 @@ import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/account"
-	"auth-service/internal/handler/rest/middlewares"
+	"auth-service/internal/handler/middlewares"
 	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
 

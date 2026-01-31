@@ -1,10 +1,10 @@
 package container
 
 import (
-	"auth-service/internal/handler/rest/account"
-	health "auth-service/internal/handler/rest/health"
-	"auth-service/internal/handler/rest/jwt"
-	"auth-service/internal/handler/rest/session"
+	"auth-service/internal/handler/account"
+	"auth-service/internal/handler/health"
+	"auth-service/internal/handler/jwt"
+	"auth-service/internal/handler/session"
 )
 
 type RestHandler struct {

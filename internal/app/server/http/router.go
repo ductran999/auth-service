@@ -3,7 +3,7 @@ package http
 import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/app/container"
-	"auth-service/internal/handler/rest/middlewares"
+	"auth-service/internal/handler/middlewares"
 	"fmt"
 
 	"github.com/gin-gonic/gin"

@@ -1,12 +1,11 @@
 package health_test
 
 import (
+	"auth-service/internal/handler/health"
+	"auth-service/internal/handler/middlewares"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"auth-service/internal/handler/rest/health"
-	"auth-service/internal/handler/rest/middlewares"
 
 	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"

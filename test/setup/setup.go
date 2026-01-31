@@ -1,12 +1,11 @@
 package setup
 
 import (
-	"fmt"
-	"testing"
-
 	"auth-service/config"
 	"auth-service/internal/app/container"
 	"auth-service/internal/app/server/http"
+	"fmt"
+	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"

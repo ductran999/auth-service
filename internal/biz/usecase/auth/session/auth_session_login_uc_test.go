@@ -1,14 +1,13 @@
 package session_test
 
 import (
-	"testing"
-
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/auth/credential"
 	"auth-service/internal/biz/usecase/auth/session"
 	"auth-service/internal/domain/accountmodel"
 	"auth-service/test/fakes"
 	mockbuilder "auth-service/test/mock-builder"
+	"testing"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
