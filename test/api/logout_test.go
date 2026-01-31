@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"auth-service/internal/handler/session"
 	"auth-service/test/setup"
 
 	"github.com/stretchr/testify/assert"
@@ -41,7 +42,7 @@ func TestLogoutAccount(t *testing.T) {
 
 				// Extract session cookie
 				for _, c := range w.Result().Cookies() {
-					if c.Name == "session_id" {
+					if c.Name == session.SessionKey {
 						return c
 					}
 				}
@@ -85,7 +86,7 @@ func TestLogoutAccount(t *testing.T) {
 			if cookie != nil {
 				var cleared bool
 				for _, c := range w.Result().Cookies() {
-					if c.Name == "session_id" && c.MaxAge < 0 {
+					if c.Name == session.SessionKey && c.MaxAge < 0 {
 						cleared = true
 						break
 					}

@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"auth-service/internal/handler/jwt"
 	"auth-service/test/setup"
 
 	"github.com/stretchr/testify/assert"
@@ -22,7 +23,7 @@ func TestJWTLogout(t *testing.T) {
 		req := httptest.NewRequest(http.MethodPost, "/api/v2/logout", nil)
 		req.Header.Set("Content-Type", "application/json")
 		req.AddCookie(&http.Cookie{
-			Name:     "refresh_token",
+			Name:     jwt.RefreshTokenKey,
 			Value:    "", // simulated token
 			Path:     "/",
 			HttpOnly: true,
@@ -66,7 +67,7 @@ func TestJWTLogout(t *testing.T) {
 		// Extract refresh_token from Set-Cookie
 		var refreshToken string
 		for _, c := range w.Result().Cookies() {
-			if c.Name == "refresh_token" {
+			if c.Name == jwt.RefreshTokenKey {
 				refreshToken = c.Value
 			}
 		}
@@ -76,7 +77,7 @@ func TestJWTLogout(t *testing.T) {
 		req = httptest.NewRequest(http.MethodPost, "/api/v2/logout", nil)
 		req.Header.Set("Content-Type", "application/json")
 		req.AddCookie(&http.Cookie{
-			Name:  "refresh_token",
+			Name:  jwt.RefreshTokenKey,
 			Value: refreshToken,
 		})
 
@@ -88,7 +89,7 @@ func TestJWTLogout(t *testing.T) {
 		// Check cookie is cleared
 		found := false
 		for _, c := range w.Result().Cookies() {
-			if c.Name == "refresh_token" && c.MaxAge < 0 {
+			if c.Name == jwt.RefreshTokenKey && c.MaxAge < 0 {
 				found = true
 			}
 		}
