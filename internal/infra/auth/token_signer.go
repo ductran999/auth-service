@@ -72,8 +72,13 @@ func (js *jwtSigner) SignPairs(jti string, signAt time.Time, account *accountmod
 	}, nil
 }
 
-func (js *jwtSigner) VerifyRefreshToken(context.Context, string) (*authmodel.TokenClaims, error) {
-	return &authmodel.TokenClaims{}, nil
+func (js *jwtSigner) VerifyRefreshToken(ctx context.Context, rawToken string) (*authmodel.TokenClaims, error) {
+	claims := authmodel.TokenClaims{}
+	if err := js.signer.ParseInto(rawToken, &claims); err != nil {
+		return nil, err
+	}
+
+	return &claims, nil
 }
 
 func (uc *jwtSigner) buildClaims(params tokenClaimsParams) authmodel.TokenClaims {

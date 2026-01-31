@@ -47,7 +47,7 @@ func (hdl *jwtAuthHandler) responseLoginJWTSuccess(ctx *gin.Context, tokens *aut
 		HttpOnly: true,
 		Secure:   secure,
 		SameSite: http.SameSiteStrictMode,
-		Expires:  time.Now().Add(time.Second),
+		Expires:  time.Now().Add(time.Hour),
 	})
 
 	resp := openapi.AccessToken{
