@@ -27,8 +27,8 @@ func NewAuthUseCaseUT(t *testing.T, builders *mockbuilder.BuilderContainer) sess
 
 func TestLogin(t *testing.T) {
 	loginInput := session.LoginInput{
-		Email:    mockbuilder.FakeEmail,
-		Password: mockbuilder.FakeOldPass,
+		Email:    fakes.FakeAccount().Email,
+		Password: fakes.FakeAccount().PasswordHash,
 	}
 	expectedAccount := fakes.FakeAccount()
 
