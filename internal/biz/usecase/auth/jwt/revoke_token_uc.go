@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/ports/auth"
 	"context"
 )
@@ -12,16 +13,16 @@ type revokeTokenUsecase struct {
 
 func (uc *revokeTokenUsecase) RevokeRefreshToken(ctx context.Context, refreshToken string) error {
 	if refreshToken == "" {
-		return ErrInvalidRefreshToken
+		return apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
 	claims, err := uc.tokenService.VerifyRefreshToken(ctx, refreshToken)
 	if err != nil {
-		return ErrInvalidRefreshToken
+		return apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
 	if err := uc.tokenStore.Revoke(ctx, claims.Subject, claims.ID); err != nil {
-		return err
+		return apperrs.Internal(err)
 	}
 
 	return nil

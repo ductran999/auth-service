@@ -7,6 +7,7 @@ import (
 	"auth-service/internal/biz/usecase/auth/credential"
 	"auth-service/internal/biz/usecase/auth/session"
 	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	mockbuilder "auth-service/test/mock-builder"
 
 	"github.com/google/uuid"
@@ -25,25 +26,19 @@ func NewAuthUseCaseUT(t *testing.T, builders *mockbuilder.BuilderContainer) sess
 }
 
 func TestLogin(t *testing.T) {
-	type testCase struct {
+	loginInput := session.LoginInput{
+		Email:    mockbuilder.FakeEmail,
+		Password: mockbuilder.FakeOldPass,
+	}
+	expectedAccount := fakes.FakeAccount()
+
+	testTable := []struct {
 		name        string
 		setup       func(t *testing.T) session.AuthSessionUsecase
 		loginInput  session.LoginInput
 		expectedErr error
 		expected    *accountmodel.Account
-	}
-
-	loginInput := session.LoginInput{
-		Email:    mockbuilder.FakeEmail,
-		Password: mockbuilder.FakeOldPass,
-	}
-	expectedAccount := &accountmodel.Account{
-		ID:       mockbuilder.FakeAccountID,
-		Email:    mockbuilder.FakeEmail,
-		IsActive: true,
-	}
-
-	testTable := []testCase{
+	}{
 		{
 			name: "verify account failed",
 			loginInput: session.LoginInput{
@@ -64,8 +59,8 @@ func TestLogin(t *testing.T) {
 			loginInput: loginInput,
 			setup: func(t *testing.T) session.AuthSessionUsecase {
 				builders := mockbuilder.NewBuilderContainer(t)
-				builders.AccountRepoBuilder.FindByEmailHasResult()
-				builders.HasherBuilder.HashPasswordMatch()
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
+				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
 				builders.SessionRepoBuilder.CreateSessionFailed()
 				return NewAuthUseCaseUT(t, builders)
 			},
@@ -77,8 +72,8 @@ func TestLogin(t *testing.T) {
 			loginInput: loginInput,
 			setup: func(t *testing.T) session.AuthSessionUsecase {
 				builders := mockbuilder.NewBuilderContainer(t)
-				builders.AccountRepoBuilder.FindByEmailHasResult()
-				builders.HasherBuilder.HashPasswordMatch()
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
+				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
 				builders.SessionRepoBuilder.CreateSessionSuccess()
 				return NewAuthUseCaseUT(t, builders)
 			},

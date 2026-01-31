@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/ports/auth"
 	"auth-service/internal/domain/authmodel"
 	"context"
@@ -18,25 +19,25 @@ type refreshTokenUsecase struct {
 
 func (uc *refreshTokenUsecase) RefreshToken(ctx context.Context, refreshToken string) (*authmodel.TokenPairs, error) {
 	if refreshToken == "" {
-		return nil, ErrInvalidRefreshToken
+		return nil, apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
 	claims, err := uc.tokenService.VerifyRefreshToken(ctx, refreshToken)
 	if err != nil {
-		return nil, err
+		return nil, apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
 	ok, err := uc.tokenStore.Exists(ctx, claims.ID)
 	if err != nil {
-		return nil, err
+		return nil, apperrs.Internal(err)
 	}
 	if !ok {
-		return nil, ErrInvalidRefreshToken
+		return nil, apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
-	tokens, err := uc.resignTokenPairs(ctx, claims)
+	tokens, err := uc.resignTokenPairs(ctx, *claims)
 	if err != nil {
-		return nil, err
+		return nil, apperrs.Internal(err)
 	}
 
 	return tokens, nil

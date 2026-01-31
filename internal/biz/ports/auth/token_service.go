@@ -11,6 +11,6 @@ type TokenService interface {
 	Sign(claims authmodel.TokenClaims) (string, error)
 	SignPairs(jti string, signAt time.Time, account *accountmodel.Account) (*authmodel.TokenPairs, error)
 
-	VerifyAccessToken(ctx context.Context, token string) (authmodel.TokenClaims, error)
-	VerifyRefreshToken(ctx context.Context, token string) (authmodel.TokenClaims, error)
+	VerifyAccessToken(ctx context.Context, token string) (*authmodel.TokenClaims, error)
+	VerifyRefreshToken(ctx context.Context, token string) (*authmodel.TokenClaims, error)
 }

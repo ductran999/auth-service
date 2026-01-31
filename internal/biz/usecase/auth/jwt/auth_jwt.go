@@ -9,9 +9,7 @@ import (
 
 type AuthJWTUsecase interface {
 	Login(ctx context.Context, input LoginJWTInput) (*authmodel.TokenPairs, error)
-
 	RefreshToken(ctx context.Context, refreshToken string) (*authmodel.TokenPairs, error)
-
 	RevokeRefreshToken(ctx context.Context, refreshToken string) error
 }
 

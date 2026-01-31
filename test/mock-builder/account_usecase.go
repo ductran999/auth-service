@@ -7,6 +7,7 @@ import (
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/account"
 	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -47,7 +48,7 @@ func (m *mockAccountUsecase) RegisterSuccess() {
 	m.inst.EXPECT().
 		Register(mock.Anything, mock.Anything).
 		Return(&accountmodel.Account{
-			ID: FakeAccountID,
+			ID: fakes.FakeAccount().ID,
 		}, nil)
 }
 

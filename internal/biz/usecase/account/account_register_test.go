@@ -6,6 +6,7 @@ import (
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/account"
 	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	mockbuilder "auth-service/test/mock-builder"
 
 	"github.com/stretchr/testify/assert"
@@ -20,20 +21,18 @@ func NewAccountUseCaseUT(t *testing.T, builders *mockbuilder.BuilderContainer) a
 }
 
 func TestRegisterAccount(t *testing.T) {
-	type testCase struct {
+	userSample := account.RegisterInput{
+		Email:    fakes.FakeAccount().Email,
+		Password: "some-password",
+	}
+
+	testTable := []struct {
 		name        string
 		setup       func(t *testing.T) account.AccountUsecase
 		accountInfo account.RegisterInput
 		expectedErr error
 		expected    *accountmodel.Account
-	}
-
-	userSample := account.RegisterInput{
-		Email:    mockbuilder.FakeEmail,
-		Password: "abc1234!",
-	}
-
-	testTable := []testCase{
+	}{
 		{
 			name: "failed to find email in db",
 			setup: func(t *testing.T) account.AccountUsecase {
@@ -51,7 +50,7 @@ func TestRegisterAccount(t *testing.T) {
 			setup: func(t *testing.T) account.AccountUsecase {
 				t.Helper()
 				b := mockbuilder.NewBuilderContainer(t)
-				b.AccountRepoBuilder.FindByEmailHasResult()
+				b.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				return NewAccountUseCaseUT(t, b)
 			},
 			accountInfo: userSample,
@@ -97,9 +96,7 @@ func TestRegisterAccount(t *testing.T) {
 			},
 			accountInfo: userSample,
 			expectedErr: nil,
-			expected: &accountmodel.Account{
-				Email: "daniel@example.com",
-			},
+			expected:    fakes.FakeAccount(),
 		},
 	}
 

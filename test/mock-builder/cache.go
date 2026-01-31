@@ -21,20 +21,6 @@ package mockbuilder
 // 	ErrHasCache        = errors.New("failed to check key in cache")
 // )
 
-// type mockCacheBuilder struct {
-// 	inst *mocks.Cache
-// }
-
-// func (b *mockCacheBuilder) GetInstance() *mocks.Cache {
-// 	return b.inst
-// }
-
-// func newMockCacheBuilder(t *testing.T) *mockCacheBuilder {
-// 	return &mockCacheBuilder{
-// 		inst: mocks.NewCache(t),
-// 	}
-// }
-
 // func (b *mockCacheBuilder) GetCacheErr() {
 // 	b.inst.EXPECT().
 // 		GetInto(mock.Anything, mock.Anything, mock.Anything).

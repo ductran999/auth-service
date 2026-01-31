@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/ports/auth"
 	"auth-service/internal/biz/usecase/auth/credential"
 	"auth-service/internal/domain/authmodel"
@@ -35,7 +36,7 @@ func (uc *loginWithJWTUsecase) Login(ctx context.Context, input LoginJWTInput) (
 	// Verify user credentials
 	account, err := uc.credVerifier.Verify(ctx, input.Email, input.Password)
 	if err != nil {
-		return nil, fmt.Errorf("auth: failed to verify credentials: %w", err)
+		return nil, apperrs.Unauthorized(fmt.Errorf("auth: failed to verify credentials: %w", err))
 	}
 
 	// Prepare token metadata
@@ -45,7 +46,7 @@ func (uc *loginWithJWTUsecase) Login(ctx context.Context, input LoginJWTInput) (
 	// Generate access and refresh tokens
 	tokenPairs, err := uc.tokenService.SignPairs(jti, issuedAt, account)
 	if err != nil {
-		return nil, fmt.Errorf("auth: failed to sign token pairs: %w", err)
+		return nil, apperrs.Internal(fmt.Errorf("auth: failed to sign token pairs: %w", err))
 	}
 
 	// Store Device Session
@@ -58,7 +59,7 @@ func (uc *loginWithJWTUsecase) Login(ctx context.Context, input LoginJWTInput) (
 		ExpiresAt: issuedAt.Add(RefreshTokenLifetime),
 	}
 	if err := uc.tokenStore.Save(ctx, deviceSession); err != nil {
-		return nil, fmt.Errorf("auth: failed to cache refresh token: %w", err)
+		return nil, apperrs.Internal(fmt.Errorf("auth: failed to cache refresh token: %w", err))
 	}
 
 	return tokenPairs, nil

@@ -46,9 +46,9 @@ func (b *mockHasherBuilder) HashingPasswordSameAsOldPass() {
 		Return("hashedPassword", nil)
 }
 
-func (b *mockHasherBuilder) HashPasswordMatch() {
+func (b *mockHasherBuilder) HashPasswordMatch(hashPassword string) {
 	b.inst.EXPECT().
-		ComparePasswordAndHash(mock.AnythingOfType("string"), mock.AnythingOfType("string")).
+		ComparePasswordAndHash(mock.AnythingOfType("string"), hashPassword).
 		Return(true, nil)
 }
 

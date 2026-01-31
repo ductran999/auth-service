@@ -6,6 +6,7 @@ import (
 
 	"auth-service/internal/biz/usecase/session"
 	"auth-service/internal/domain/sessionmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -46,6 +47,6 @@ func (m *mockSessionUsecase) ValidateSessionSuccess() {
 		Validate(mock.Anything, mock.Anything).
 		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
-			AccountID: FakeAccountID,
+			AccountID: fakes.FakeAccount().ID,
 		}, nil)
 }

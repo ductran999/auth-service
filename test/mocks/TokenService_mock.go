@@ -175,22 +175,24 @@ func (_c *TokenService_SignPairs_Call) RunAndReturn(run func(jti string, signAt 
 }
 
 // VerifyAccessToken provides a mock function for the type TokenService
-func (_mock *TokenService) VerifyAccessToken(ctx context.Context, token string) (authmodel.TokenClaims, error) {
+func (_mock *TokenService) VerifyAccessToken(ctx context.Context, token string) (*authmodel.TokenClaims, error) {
 	ret := _mock.Called(ctx, token)
 
 	if len(ret) == 0 {
 		panic("no return value specified for VerifyAccessToken")
 	}
 
-	var r0 authmodel.TokenClaims
+	var r0 *authmodel.TokenClaims
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (authmodel.TokenClaims, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*authmodel.TokenClaims, error)); ok {
 		return returnFunc(ctx, token)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) authmodel.TokenClaims); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *authmodel.TokenClaims); ok {
 		r0 = returnFunc(ctx, token)
 	} else {
-		r0 = ret.Get(0).(authmodel.TokenClaims)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*authmodel.TokenClaims)
+		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = returnFunc(ctx, token)
@@ -230,33 +232,35 @@ func (_c *TokenService_VerifyAccessToken_Call) Run(run func(ctx context.Context,
 	return _c
 }
 
-func (_c *TokenService_VerifyAccessToken_Call) Return(tokenClaims authmodel.TokenClaims, err error) *TokenService_VerifyAccessToken_Call {
+func (_c *TokenService_VerifyAccessToken_Call) Return(tokenClaims *authmodel.TokenClaims, err error) *TokenService_VerifyAccessToken_Call {
 	_c.Call.Return(tokenClaims, err)
 	return _c
 }
 
-func (_c *TokenService_VerifyAccessToken_Call) RunAndReturn(run func(ctx context.Context, token string) (authmodel.TokenClaims, error)) *TokenService_VerifyAccessToken_Call {
+func (_c *TokenService_VerifyAccessToken_Call) RunAndReturn(run func(ctx context.Context, token string) (*authmodel.TokenClaims, error)) *TokenService_VerifyAccessToken_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // VerifyRefreshToken provides a mock function for the type TokenService
-func (_mock *TokenService) VerifyRefreshToken(ctx context.Context, token string) (authmodel.TokenClaims, error) {
+func (_mock *TokenService) VerifyRefreshToken(ctx context.Context, token string) (*authmodel.TokenClaims, error) {
 	ret := _mock.Called(ctx, token)
 
 	if len(ret) == 0 {
 		panic("no return value specified for VerifyRefreshToken")
 	}
 
-	var r0 authmodel.TokenClaims
+	var r0 *authmodel.TokenClaims
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (authmodel.TokenClaims, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*authmodel.TokenClaims, error)); ok {
 		return returnFunc(ctx, token)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) authmodel.TokenClaims); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *authmodel.TokenClaims); ok {
 		r0 = returnFunc(ctx, token)
 	} else {
-		r0 = ret.Get(0).(authmodel.TokenClaims)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*authmodel.TokenClaims)
+		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = returnFunc(ctx, token)
@@ -296,12 +300,12 @@ func (_c *TokenService_VerifyRefreshToken_Call) Run(run func(ctx context.Context
 	return _c
 }
 
-func (_c *TokenService_VerifyRefreshToken_Call) Return(tokenClaims authmodel.TokenClaims, err error) *TokenService_VerifyRefreshToken_Call {
+func (_c *TokenService_VerifyRefreshToken_Call) Return(tokenClaims *authmodel.TokenClaims, err error) *TokenService_VerifyRefreshToken_Call {
 	_c.Call.Return(tokenClaims, err)
 	return _c
 }
 
-func (_c *TokenService_VerifyRefreshToken_Call) RunAndReturn(run func(ctx context.Context, token string) (authmodel.TokenClaims, error)) *TokenService_VerifyRefreshToken_Call {
+func (_c *TokenService_VerifyRefreshToken_Call) RunAndReturn(run func(ctx context.Context, token string) (*authmodel.TokenClaims, error)) *TokenService_VerifyRefreshToken_Call {
 	_c.Call.Return(run)
 	return _c
 }

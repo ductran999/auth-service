@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"auth-service/internal/domain/sessionmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/google/uuid"
@@ -14,7 +15,6 @@ import (
 
 var (
 	FakeSessionID = uuid.MustParse("123e4567-e89b-12d3-a456-426614174000")
-	FakeAccountID = uuid.MustParse("123e4567-e89b-12d3-a456-426614174001")
 
 	ErrCreateSession        = errors.New("unexpected create session error")
 	ErrFindSessionByID      = errors.New("unexpected find session error")
@@ -47,7 +47,7 @@ func (blr *mockSessionRepoBuilder) FindByIdFailed() {
 func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
 	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
-		AccountID: FakeAccountID,
+		AccountID: fakes.FakeAccount().ID,
 		// Account: model.Account{
 		// 	ID:       FakeAccountID,
 		// 	Email:    FakeEmail,
@@ -64,7 +64,7 @@ func (blr *mockSessionRepoBuilder) FindByIDSessionExpired() {
 	// expiredAt := time.Now().Add(-1 * time.Hour)
 	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
-		AccountID: FakeAccountID,
+		AccountID: fakes.FakeAccount().ID,
 		// Account: model.Account{
 		// 	ID:       FakeAccountID,
 		// 	Email:    FakeEmail,
@@ -90,7 +90,7 @@ func (blr *mockSessionRepoBuilder) FindSessionReuse() {
 		FindByID(mock.Anything, mock.Anything).
 		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
-			AccountID: FakeAccountID,
+			AccountID: fakes.FakeAccount().ID,
 			// ExpiresAt: &mockExpires,
 		}, nil)
 }
@@ -140,7 +140,7 @@ func (blr *mockSessionRepoBuilder) FindAllActiveSessionSuccess() {
 	activeSessions := []sessionmodel.Session{
 		{
 			ID:        FakeSessionID,
-			AccountID: FakeAccountID,
+			AccountID: fakes.FakeAccount().ID,
 			// ExpiresAt: nil,
 		},
 	}

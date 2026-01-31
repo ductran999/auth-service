@@ -3,6 +3,7 @@ package credential_test
 import (
 	"auth-service/internal/biz/usecase/auth/credential"
 	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	mockbuilder "auth-service/test/mock-builder"
 	"testing"
 
@@ -21,7 +22,7 @@ func TestVerify_TableDriven(t *testing.T) {
 	}{
 		{
 			name:     "invalid credentials",
-			email:    "test@example.com",
+			email:    fakes.FakeAccount().Email,
 			password: "password",
 			setup: func(t *testing.T) credential.CredentialVerifier {
 				t.Helper()
@@ -37,7 +38,7 @@ func TestVerify_TableDriven(t *testing.T) {
 		},
 		{
 			name:     "disable account",
-			email:    "test@example.com",
+			email:    fakes.FakeAccount().Email,
 			password: "password",
 			setup: func(t *testing.T) credential.CredentialVerifier {
 				t.Helper()
@@ -53,12 +54,12 @@ func TestVerify_TableDriven(t *testing.T) {
 		},
 		{
 			name:     "compare hash got error",
-			email:    "test@example.com",
+			email:    fakes.FakeAccount().Email,
 			password: "password",
 			setup: func(t *testing.T) credential.CredentialVerifier {
 				t.Helper()
 				builders := mockbuilder.NewBuilderContainer(t)
-				builders.AccountRepoBuilder.FindByEmailHasResult()
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.CompareHashPasswordGotError()
 				return *credential.NewCredentialVerifier(
 					builders.HasherBuilder.GetInstance(),
@@ -69,12 +70,12 @@ func TestVerify_TableDriven(t *testing.T) {
 		},
 		{
 			name:     "password not match",
-			email:    "test@example.com",
+			email:    fakes.FakeAccount().Email,
 			password: "password",
 			setup: func(t *testing.T) credential.CredentialVerifier {
 				t.Helper()
 				builders := mockbuilder.NewBuilderContainer(t)
-				builders.AccountRepoBuilder.FindByEmailHasResult()
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.HashPasswordNotMatch()
 				return *credential.NewCredentialVerifier(
 					builders.HasherBuilder.GetInstance(),
@@ -85,13 +86,13 @@ func TestVerify_TableDriven(t *testing.T) {
 		},
 		{
 			name:     "verify success",
-			email:    "test@example.com",
+			email:    fakes.FakeAccount().Email,
 			password: "password",
 			setup: func(t *testing.T) credential.CredentialVerifier {
 				t.Helper()
 				builders := mockbuilder.NewBuilderContainer(t)
-				builders.AccountRepoBuilder.FindByEmailHasResult()
-				builders.HasherBuilder.HashPasswordMatch()
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
+				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
 				return *credential.NewCredentialVerifier(
 					builders.HasherBuilder.GetInstance(),
 					builders.AccountRepoBuilder.GetInstance(),
