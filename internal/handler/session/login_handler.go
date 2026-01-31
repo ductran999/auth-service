@@ -64,14 +64,6 @@ func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	hdl.responseLoginSuccess(ctx, session)
 }
 
-func (hdl *sessionAuthHandler) LogoutAccount(ctx *gin.Context) {
-	// Always clear the cookie
-	ctx.SetCookie(SessionKey, "", -1, "/", "", true, true)
-
-	// Always respond with 204 No Content
-	response.NoContent(ctx)
-}
-
 func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *sessionmodel.Session) {
 	// Determine environment is secure or not
 	secure := ctx.Request.Header.Get("X-Forwarded-Proto") == "https" || ctx.Request.TLS != nil
