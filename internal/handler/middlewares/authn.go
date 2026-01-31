@@ -5,7 +5,7 @@ import (
 	"auth-service/internal/biz/usecase/auth/session"
 	"auth-service/internal/domain/authmodel"
 	"errors"
-	"strings"
+	"slices"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,10 +14,17 @@ type CtxKey string
 
 const AuthCtxKey = "auth_obj"
 
+var (
+	mustAuth = []string{
+		"/api/v1/account/password",
+		"/api/v1/logout",
+	}
+)
+
 func Authenticate(authUC session.AuthSessionUsecase) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		path := c.Request.URL.Path
-		if !strings.HasPrefix(path, "/api/v1/account/password") {
+		if !slices.Contains(mustAuth, path) {
 			c.Next()
 			return
 		}

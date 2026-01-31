@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"auth-service/internal/domain/sessionmodel"
-	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/google/uuid"
@@ -38,49 +37,6 @@ func (b *mockSessionRepoBuilder) GetInstance() *mocks.SessionRepository {
 	return b.inst
 }
 
-func (blr *mockSessionRepoBuilder) FindByIdFailed() {
-	blr.inst.EXPECT().
-		FindByID(mock.Anything, mock.Anything).
-		Return(nil, ErrFindSessionByID)
-}
-
-func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
-	mockSession := sessionmodel.Session{
-		ID:        FakeSessionID,
-		AccountID: fakes.FakeAccount().ID,
-	}
-
-	blr.inst.EXPECT().
-		FindByID(mock.Anything, mock.Anything).
-		Return(&mockSession, nil)
-}
-
-func (blr *mockSessionRepoBuilder) FindByIDSessionExpired() {
-	mockSession := sessionmodel.Session{
-		ID:        FakeSessionID,
-		AccountID: fakes.FakeAccount().ID,
-	}
-
-	blr.inst.EXPECT().
-		FindByID(mock.Anything, mock.Anything).
-		Return(&mockSession, nil)
-}
-
-func (blr *mockSessionRepoBuilder) FindByIDNotFound() {
-	blr.inst.EXPECT().
-		FindByID(mock.Anything, mock.Anything).
-		Return(nil, nil)
-}
-
-func (blr *mockSessionRepoBuilder) FindSessionReuse() {
-	blr.inst.EXPECT().
-		FindByID(mock.Anything, mock.Anything).
-		Return(&sessionmodel.Session{
-			ID:        FakeSessionID,
-			AccountID: fakes.FakeAccount().ID,
-		}, nil)
-}
-
 func (blr *mockSessionRepoBuilder) RevokeFailed() {
 	blr.inst.EXPECT().Revoke(mock.Anything, mock.Anything).Return(ErrUpdateSessionExpires)
 }
@@ -102,53 +58,4 @@ func (blr *mockSessionRepoBuilder) CreateSessionFailed() {
 	blr.inst.EXPECT().
 		Create(mock.Anything, mock.Anything).
 		Return(ErrCreateSession)
-}
-
-func (blr *mockSessionRepoBuilder) DeleteExpiredBeforeFailed() {
-	blr.inst.EXPECT().
-		DeleteExpiredBefore(mock.Anything, mock.Anything).
-		Return(ErrDeleteExpiredBefore)
-}
-
-func (blr *mockSessionRepoBuilder) DeleteExpiredBeforeSuccess() {
-	blr.inst.EXPECT().
-		DeleteExpiredBefore(mock.Anything, mock.Anything).
-		Return(nil)
-}
-
-func (blr *mockSessionRepoBuilder) FindAllActiveSessionFailed() {
-	blr.inst.EXPECT().
-		FindAllActiveSession(mock.Anything).
-		Return(nil, ErrFindActiveSession)
-}
-
-func (blr *mockSessionRepoBuilder) FindAllActiveSessionSuccess() {
-	activeSessions := []sessionmodel.Session{
-		{
-			ID:        FakeSessionID,
-			AccountID: fakes.FakeAccount().ID,
-		},
-	}
-
-	blr.inst.EXPECT().
-		FindAllActiveSession(mock.Anything).
-		Return(activeSessions, nil)
-}
-
-func (blr *mockSessionRepoBuilder) FindNoActiveSession() {
-	blr.inst.EXPECT().
-		FindAllActiveSession(mock.Anything).
-		Return(nil, nil)
-}
-
-func (blr *mockSessionRepoBuilder) MarkSessionsExpiredFailed() {
-	blr.inst.EXPECT().
-		MarkSessionsExpired(mock.Anything, mock.Anything, mock.Anything).
-		Return(ErrMarkSessionsExpired)
-}
-
-func (blr *mockSessionRepoBuilder) MarkSessionsExpiredSuccess() {
-	blr.inst.EXPECT().
-		MarkSessionsExpired(mock.Anything, mock.Anything, mock.Anything).
-		Return(nil)
 }

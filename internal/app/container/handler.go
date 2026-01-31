@@ -17,8 +17,8 @@ type handlers struct {
 func (c *Container) initHandlers() {
 	c.handlers = &handlers{
 		health:      health.NewHealthHandler(c.AppConfig.ServiceVersion),
-		sessionAuth: session.NewSessionAuthHandler(c.Logger, c.useCases.sessionAuth),
+		sessionAuth: session.NewSessionAuthHandler(c.useCases.sessionAuth),
 		jwtAuth:     jwt.NewJWTAuthHandler(c.Logger, c.useCases.jwtAuth),
-		account:     account.NewAccountHandler(c.useCases.account, c.useCases.session),
+		account:     account.NewAccountHandler(c.useCases.account),
 	}
 }

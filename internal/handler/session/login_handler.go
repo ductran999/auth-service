@@ -9,7 +9,6 @@ import (
 	"auth-service/pkg/transport/response"
 	"net/http"
 
-	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,13 +22,11 @@ type SessionAuthHandler interface {
 }
 
 type sessionAuthHandler struct {
-	logger logger.ILogger
 	authUC session.AuthSessionUsecase
 }
 
-func NewSessionAuthHandler(logger logger.ILogger, authUC session.AuthSessionUsecase) SessionAuthHandler {
+func NewSessionAuthHandler(authUC session.AuthSessionUsecase) SessionAuthHandler {
 	return &sessionAuthHandler{
-		logger: logger,
 		authUC: authUC,
 	}
 }
@@ -65,23 +62,6 @@ func (hdl *sessionAuthHandler) LoginAccount(ctx *gin.Context) {
 	}
 
 	hdl.responseLoginSuccess(ctx, session)
-}
-
-func (hdl *sessionAuthHandler) LogoutAccount(ctx *gin.Context) {
-	// Try to get session ID from cookie
-	sessionID, err := ctx.Cookie(SessionKey)
-	if err == nil {
-		// Best-effort logout
-		if err := hdl.authUC.Logout(ctx.Request.Context(), sessionID); err != nil {
-			hdl.logger.Warn(err.Error())
-		}
-	}
-
-	// Always clear the cookie
-	ctx.SetCookie(SessionKey, "", -1, "/", "", true, true)
-
-	// Always respond with 204 No Content
-	response.NoContent(ctx)
 }
 
 func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *sessionmodel.Session) {
