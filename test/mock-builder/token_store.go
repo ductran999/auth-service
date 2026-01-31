@@ -36,15 +36,15 @@ func (b *mockTokenStore) Save_Success(ctx context.Context) {
 }
 
 func (b *mockTokenStore) Exists_Failed(ctx context.Context) {
-	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string")).Return(false, ErrInternalDB)
+	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(false, ErrInternalDB)
 }
 
 func (b *mockTokenStore) Exists_NotExisted(ctx context.Context) {
-	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string")).Return(false, nil)
+	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(false, nil)
 }
 
 func (b *mockTokenStore) Exists_OK(ctx context.Context) {
-	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string")).Return(true, nil)
+	b.inst.EXPECT().Exists(ctx, mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(true, nil)
 }
 
 func (b *mockTokenStore) Revoke_OK(ctx context.Context) {

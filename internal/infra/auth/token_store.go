@@ -32,11 +32,21 @@ func (ts *tokenStore) Save(ctx context.Context, device authmodel.DeviceSession) 
 }
 
 func (ts *tokenStore) Revoke(ctx context.Context, userID, tokenID string) error {
-	return nil
+	key := ts.keyRefreshToken(userID, tokenID)
+	return ts.redisClient.Del(ctx, key)
 }
 
-func (ts *tokenStore) Exists(ctx context.Context, tokenID string) (bool, error) {
-	return false, nil
+func (ts *tokenStore) Exists(ctx context.Context, accountID string, tokenID string) (bool, error) {
+	key := ts.keyRefreshToken(accountID, tokenID)
+	session, err := ts.redisClient.Get(ctx, key)
+	if err != nil {
+		return false, err
+	}
+	if session == "" {
+		return false, nil
+	}
+
+	return true, nil
 }
 
 // KeyRefreshToken returns the Redis key for a specific refresh token.

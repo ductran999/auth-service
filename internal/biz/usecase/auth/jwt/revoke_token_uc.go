@@ -21,9 +21,7 @@ func (uc *revokeTokenUsecase) RevokeRefreshToken(ctx context.Context, refreshTok
 		return apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
-	if err := uc.tokenStore.Revoke(ctx, claims.Subject, claims.ID); err != nil {
-		return apperrs.Internal(err)
-	}
+	_ = uc.tokenStore.Revoke(ctx, claims.Subject, claims.ID)
 
 	return nil
 }

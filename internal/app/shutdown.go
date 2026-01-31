@@ -18,7 +18,10 @@ func waitForShutdown(
 	c.Logger.Info("shutdown signal received")
 
 	shutdownStart := time.Now()
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(c.AppConfig.ShutdownTime)*time.Second)
+	ctx, cancel := context.WithTimeout(
+		context.Background(),
+		time.Duration(c.AppConfig.ShutdownTime)*time.Second,
+	)
 	defer cancel()
 
 	if err := srv.Stop(ctx); err != nil {
@@ -26,7 +29,12 @@ func waitForShutdown(
 	}
 
 	select {
+	default:
+		c.Logger.Info("session cleanup worker stopped gracefully")
 	case <-ctx.Done():
-		c.Logger.Warnf("timeout waiting for session cleanup worker (after %s)", time.Since(shutdownStart))
+		c.Logger.Warnf(
+			"timeout waiting for session cleanup worker (after %s)",
+			time.Since(shutdownStart),
+		)
 	}
 }

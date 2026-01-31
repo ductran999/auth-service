@@ -51,17 +51,6 @@ func TestLoginWithJWT(t *testing.T) {
 			},
 			expectedErr: apperrs.ErrInternal,
 		},
-		// {
-		// 	name: "sign refresh token failed",
-		// 	setup: func(t *testing.T) port.AuthJWTUsecase {
-		// 		t.Helper()
-		// 		builder := mockbuilder.NewBuilderContainer(t)
-		// 		builder.AccountVerifier.VerifySuccess()
-		// 		builder.TokenSigner.SignAccessSuccessAndSignRefreshFailed()
-		// 		return NewAuthJWTUsecaseUT(t, builder)
-		// 	},
-		// 	expectedErr: mockbuilder.ErrSigningToken,
-		// },
 		{
 			name: "save session failed",
 			setup: func(t *testing.T) jwt.AuthJWTUsecase {

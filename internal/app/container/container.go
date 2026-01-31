@@ -51,7 +51,7 @@ func NewContainer(cfg *config.EnvConfiguration) (*Container, error) {
 	log.Println("[INFO] connection db successfully")
 
 	// Initialize Redis-based cache system
-	cache, err := newRedisCache(cfg, logger)
+	cache, err := newRedisCache(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect redis cache: %w", err)
 	}
