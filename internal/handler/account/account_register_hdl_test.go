@@ -22,7 +22,6 @@ import (
 func NewAccountHandlerUT(t *testing.T, builder *mockbuilder.UsecaseBuilderContainer) account.AccountHandler {
 	return account.NewAccountHandler(
 		builder.AccountUC.GetInstance(),
-		builder.SessionUC.GetInstance(),
 	)
 }
 

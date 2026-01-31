@@ -5,7 +5,6 @@ import (
 	"auth-service/internal/biz/usecase/auth/credential"
 	authJwtUsecase "auth-service/internal/biz/usecase/auth/jwt"
 	authSessionUsecase "auth-service/internal/biz/usecase/auth/session"
-	"auth-service/internal/biz/usecase/port"
 	"auth-service/internal/infra/auth"
 	"auth-service/internal/infra/session"
 )
@@ -15,9 +14,6 @@ type useCases struct {
 	sessionAuth authSessionUsecase.AuthSessionUsecase
 
 	account accountUsecase.AccountUsecase
-	session port.SessionUsecase
-
-	backgroundSession port.SessionMaintenanceUsecase
 }
 
 func (c *Container) initUseCases() {
@@ -25,8 +21,6 @@ func (c *Container) initUseCases() {
 		c.Hasher,
 		c.repos.account,
 	)
-
-	// sessionAuthUC := sessionUsecase.NewAuthSessionUsecase(c.Cache, c.repositories.session, c.Hasher, c.repositories.account)
 
 	tokenService := auth.NewJWTSigner(c.Signer)
 	tokenStore := auth.NewTokenStore(c.Cache)
@@ -41,8 +35,6 @@ func (c *Container) initUseCases() {
 		account:     accountUC,
 		jwtAuth:     jwtAuthUC,
 		sessionAuth: sessionAuthUC,
-		// session:           sessionUC,
-		// backgroundSession: sessionUC,
 	}
 }
 

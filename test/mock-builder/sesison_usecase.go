@@ -4,9 +4,6 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/biz/usecase/session"
-	"auth-service/internal/domain/sessionmodel"
-	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -36,17 +33,17 @@ func (m *mockSessionUsecase) ValidateError() {
 		Return(nil, ErrSessionValidate)
 }
 
-func (m *mockSessionUsecase) ValidateInvalidSession() {
-	m.inst.EXPECT().
-		Validate(mock.Anything, mock.Anything).
-		Return(nil, session.ErrInvalidSessionID)
-}
+// func (m *mockSessionUsecase) ValidateInvalidSession() {
+// 	m.inst.EXPECT().
+// 		Validate(mock.Anything, mock.Anything).
+// 		Return(nil, session.ErrInvalidSessionID)
+// }
 
-func (m *mockSessionUsecase) ValidateSessionSuccess() {
-	m.inst.EXPECT().
-		Validate(mock.Anything, mock.Anything).
-		Return(&sessionmodel.Session{
-			ID:        FakeSessionID,
-			AccountID: fakes.FakeAccount().ID,
-		}, nil)
-}
+// func (m *mockSessionUsecase) ValidateSessionSuccess() {
+// 	m.inst.EXPECT().
+// 		Validate(mock.Anything, mock.Anything).
+// 		Return(&sessionmodel.Session{
+// 			ID:        FakeSessionID,
+// 			AccountID: fakes.FakeAccount().ID,
+// 		}, nil)
+// }
