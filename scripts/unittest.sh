@@ -7,4 +7,6 @@ mkdir -p test/coverage
 go test -covermode=set -coverprofile=test/coverage/coverage.out \
   ./internal/biz/usecase/... \
   ./internal/handler/account/... \
-  ./internal/handler/auth/...
+  ./internal/handler/jwt/... \
+  ./internal/handler/session/... \
+  ./internal/handler/health/... 
