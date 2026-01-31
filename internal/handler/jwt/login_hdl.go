@@ -3,7 +3,9 @@ package jwt
 import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
+	"auth-service/internal/biz/usecase/auth/jwt"
 	"auth-service/internal/domain/authmodel"
+	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
 	"net/http"
 	"time"
@@ -11,23 +13,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (hdl *jwtAuthHandler) LogoutJWT(ctx *gin.Context) {
-	refreshToken, err := ctx.Cookie(RefreshTokenKey)
+func (hdl *jwtAuthHandler) LoginWithJWT(ctx *gin.Context) {
+	payload, err := request.ParseAndValidateJSON[openapi.LoginAccountJSONRequestBody](ctx)
 	if err != nil {
-		_ = ctx.Error(apperrs.Unauthorized(err))
+		_ = ctx.Error(apperrs.InvalidInput(err))
 		return
 	}
 
-	if err := hdl.authUC.RevokeRefreshToken(ctx, refreshToken); err != nil {
+	input := jwt.LoginJWTInput{
+		Email:     payload.Email,
+		Password:  payload.Password,
+		IP:        ctx.ClientIP(),
+		UserAgent: ctx.Request.UserAgent(),
+	}
+
+	tokens, err := hdl.authUC.Login(ctx, input)
+	if err != nil {
 		_ = ctx.Error(err)
 		return
 	}
 
-	// Always clear the cookie
-	ctx.SetCookie(RefreshTokenKey, "", -1, "/", "", true, true)
-
-	// Always respond with 204 No Content
-	response.NoContent(ctx)
+	hdl.responseLoginJWTSuccess(ctx, tokens)
 }
 
 func (hdl *jwtAuthHandler) responseLoginJWTSuccess(ctx *gin.Context, tokens *authmodel.TokenPairs) {

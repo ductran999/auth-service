@@ -18,7 +18,7 @@ func (c *Container) initHandlers() {
 	c.handlers = &handlers{
 		health:      health.NewHealthHandler(c.AppConfig.ServiceVersion),
 		sessionAuth: session.NewSessionAuthHandler(c.useCases.sessionAuth),
-		jwtAuth:     jwt.NewJWTAuthHandler(c.Logger, c.useCases.jwtAuth),
+		jwtAuth:     jwt.NewJWTAuthHandler(c.useCases.jwtAuth),
 		account:     account.NewAccountHandler(c.useCases.account),
 	}
 }
