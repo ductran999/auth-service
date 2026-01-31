@@ -20,7 +20,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 
 	payload, err := request.ParseAndValidateJSON[openapi.ChangePasswordJSONRequestBody](ctx)
 	if err != nil {
-		_ = ctx.Error(err)
+		_ = ctx.Error(apperrs.InvalidInput(err))
 		return
 	}
 

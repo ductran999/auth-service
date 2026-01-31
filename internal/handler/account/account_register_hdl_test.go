@@ -28,14 +28,12 @@ func NewAccountHandlerUT(t *testing.T, builder *mockbuilder.UsecaseBuilderContai
 func TestCreateAccount(t *testing.T) {
 	t.Parallel()
 
-	type testcase struct {
+	tests := []struct {
 		name           string
 		setupUT        func(t *testing.T) account.AccountHandler
 		setupPayload   func(t *testing.T) []byte
 		expectedStatus int
-	}
-
-	tests := []testcase{
+	}{
 		{
 			name: "missing email",
 			setupUT: func(t *testing.T) account.AccountHandler {
