@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
+	"auth-service/internal/domain/sessionmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -39,23 +39,23 @@ func (_m *SessionStore) EXPECT() *SessionStore_Expecter {
 }
 
 // Get provides a mock function for the type SessionStore
-func (_mock *SessionStore) Get(ctx context.Context, id string) (*model.Session, error) {
+func (_mock *SessionStore) Get(ctx context.Context, id string) (*sessionmodel.Session, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Get")
 	}
 
-	var r0 *model.Session
+	var r0 *sessionmodel.Session
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Session, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*sessionmodel.Session, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Session); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *sessionmodel.Session); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Session)
+			r0 = ret.Get(0).(*sessionmodel.Session)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -96,34 +96,34 @@ func (_c *SessionStore_Get_Call) Run(run func(ctx context.Context, id string)) *
 	return _c
 }
 
-func (_c *SessionStore_Get_Call) Return(session *model.Session, err error) *SessionStore_Get_Call {
+func (_c *SessionStore_Get_Call) Return(session *sessionmodel.Session, err error) *SessionStore_Get_Call {
 	_c.Call.Return(session, err)
 	return _c
 }
 
-func (_c *SessionStore_Get_Call) RunAndReturn(run func(ctx context.Context, id string) (*model.Session, error)) *SessionStore_Get_Call {
+func (_c *SessionStore_Get_Call) RunAndReturn(run func(ctx context.Context, id string) (*sessionmodel.Session, error)) *SessionStore_Get_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // Refresh provides a mock function for the type SessionStore
-func (_mock *SessionStore) Refresh(ctx context.Context, id string) (*model.Session, error) {
+func (_mock *SessionStore) Refresh(ctx context.Context, id string) (*sessionmodel.Session, error) {
 	ret := _mock.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Refresh")
 	}
 
-	var r0 *model.Session
+	var r0 *sessionmodel.Session
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Session, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*sessionmodel.Session, error)); ok {
 		return returnFunc(ctx, id)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Session); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *sessionmodel.Session); ok {
 		r0 = returnFunc(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Session)
+			r0 = ret.Get(0).(*sessionmodel.Session)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -164,18 +164,18 @@ func (_c *SessionStore_Refresh_Call) Run(run func(ctx context.Context, id string
 	return _c
 }
 
-func (_c *SessionStore_Refresh_Call) Return(session *model.Session, err error) *SessionStore_Refresh_Call {
+func (_c *SessionStore_Refresh_Call) Return(session *sessionmodel.Session, err error) *SessionStore_Refresh_Call {
 	_c.Call.Return(session, err)
 	return _c
 }
 
-func (_c *SessionStore_Refresh_Call) RunAndReturn(run func(ctx context.Context, id string) (*model.Session, error)) *SessionStore_Refresh_Call {
+func (_c *SessionStore_Refresh_Call) RunAndReturn(run func(ctx context.Context, id string) (*sessionmodel.Session, error)) *SessionStore_Refresh_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // Save provides a mock function for the type SessionStore
-func (_mock *SessionStore) Save(ctx context.Context, s *model.Session) error {
+func (_mock *SessionStore) Save(ctx context.Context, s *sessionmodel.Session) error {
 	ret := _mock.Called(ctx, s)
 
 	if len(ret) == 0 {
@@ -183,7 +183,7 @@ func (_mock *SessionStore) Save(ctx context.Context, s *model.Session) error {
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *model.Session) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *sessionmodel.Session) error); ok {
 		r0 = returnFunc(ctx, s)
 	} else {
 		r0 = ret.Error(0)
@@ -198,20 +198,20 @@ type SessionStore_Save_Call struct {
 
 // Save is a helper method to define mock.On call
 //   - ctx context.Context
-//   - s *model.Session
+//   - s *sessionmodel.Session
 func (_e *SessionStore_Expecter) Save(ctx interface{}, s interface{}) *SessionStore_Save_Call {
 	return &SessionStore_Save_Call{Call: _e.mock.On("Save", ctx, s)}
 }
 
-func (_c *SessionStore_Save_Call) Run(run func(ctx context.Context, s *model.Session)) *SessionStore_Save_Call {
+func (_c *SessionStore_Save_Call) Run(run func(ctx context.Context, s *sessionmodel.Session)) *SessionStore_Save_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 *model.Session
+		var arg1 *sessionmodel.Session
 		if args[1] != nil {
-			arg1 = args[1].(*model.Session)
+			arg1 = args[1].(*sessionmodel.Session)
 		}
 		run(
 			arg0,
@@ -226,7 +226,7 @@ func (_c *SessionStore_Save_Call) Return(err error) *SessionStore_Save_Call {
 	return _c
 }
 
-func (_c *SessionStore_Save_Call) RunAndReturn(run func(ctx context.Context, s *model.Session) error) *SessionStore_Save_Call {
+func (_c *SessionStore_Save_Call) RunAndReturn(run func(ctx context.Context, s *sessionmodel.Session) error) *SessionStore_Save_Call {
 	_c.Call.Return(run)
 	return _c
 }

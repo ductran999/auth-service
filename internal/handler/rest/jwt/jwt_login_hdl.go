@@ -3,7 +3,7 @@ package jwt
 import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/biz/usecase/auth/jwt"
 	"auth-service/pkg/transport/request"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func (hdl *jwtAuthHandler) LoginWithJWT(ctx *gin.Context) {
 		return
 	}
 
-	input := dto.LoginJWTInput{
+	input := jwt.LoginJWTInput{
 		Email:     payload.Email,
 		Password:  payload.Password,
 		IP:        ctx.ClientIP(),

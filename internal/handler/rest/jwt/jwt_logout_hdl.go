@@ -3,7 +3,7 @@ package jwt
 import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/domain/authmodel"
 	"auth-service/pkg/transport/response"
 	"net/http"
 	"time"
@@ -30,7 +30,7 @@ func (hdl *jwtAuthHandler) LogoutJWT(ctx *gin.Context) {
 	response.NoContent(ctx)
 }
 
-func (hdl *jwtAuthHandler) responseLoginJWTSuccess(ctx *gin.Context, tokens *dto.TokenPairs) {
+func (hdl *jwtAuthHandler) responseLoginJWTSuccess(ctx *gin.Context, tokens *authmodel.TokenPairs) {
 	// Determine environment is secure or not
 	secure := ctx.Request.Header.Get("X-Forwarded-Proto") == "https" || ctx.Request.TLS != nil
 

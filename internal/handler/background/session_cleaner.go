@@ -1,11 +1,10 @@
 package background
 
 import (
+	"auth-service/internal/biz/usecase/port"
 	"context"
 	"fmt"
 	"time"
-
-	"auth-service/internal/usecase/port"
 
 	"github.com/DucTran999/shared-pkg/logger"
 )

@@ -1,10 +1,12 @@
 package mockbuilder
 
 import (
+	"context"
 	"errors"
 	"testing"
 
-	"auth-service/internal/model"
+	"auth-service/internal/domain/sessionmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/google/uuid"
@@ -13,7 +15,6 @@ import (
 
 var (
 	FakeSessionID = uuid.MustParse("123e4567-e89b-12d3-a456-426614174000")
-	FakeAccountID = uuid.MustParse("123e4567-e89b-12d3-a456-426614174001")
 
 	ErrCreateSession        = errors.New("unexpected create session error")
 	ErrFindSessionByID      = errors.New("unexpected find session error")
@@ -44,14 +45,9 @@ func (blr *mockSessionRepoBuilder) FindByIdFailed() {
 }
 
 func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
-	mockSession := model.Session{
+	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
-		AccountID: FakeAccountID,
-		Account: model.Account{
-			ID:       FakeAccountID,
-			Email:    FakeEmail,
-			IsActive: true,
-		},
+		AccountID: fakes.FakeAccount().ID,
 	}
 
 	blr.inst.EXPECT().
@@ -60,16 +56,9 @@ func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
 }
 
 func (blr *mockSessionRepoBuilder) FindByIDSessionExpired() {
-	// expiredAt := time.Now().Add(-1 * time.Hour)
-	mockSession := model.Session{
+	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
-		AccountID: FakeAccountID,
-		Account: model.Account{
-			ID:       FakeAccountID,
-			Email:    FakeEmail,
-			IsActive: true,
-		},
-		// ExpiresAt: &expiredAt,
+		AccountID: fakes.FakeAccount().ID,
 	}
 
 	blr.inst.EXPECT().
@@ -84,13 +73,11 @@ func (blr *mockSessionRepoBuilder) FindByIDNotFound() {
 }
 
 func (blr *mockSessionRepoBuilder) FindSessionReuse() {
-	// mockExpires := time.Now().Add(time.Minute)
 	blr.inst.EXPECT().
 		FindByID(mock.Anything, mock.Anything).
-		Return(&model.Session{
+		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
-			AccountID: FakeAccountID,
-			// ExpiresAt: &mockExpires,
+			AccountID: fakes.FakeAccount().ID,
 		}, nil)
 }
 
@@ -104,10 +91,10 @@ func (blr *mockSessionRepoBuilder) RevokeSuccess() {
 
 func (blr *mockSessionRepoBuilder) CreateSessionSuccess() {
 	blr.inst.EXPECT().
-		Create(mock.Anything, mock.AnythingOfType("*model.Session")).
-		// Run(func(ctx context.Context, session *model.Session) {
-		// 	s.ID = FakeSessionID
-		// }).
+		Create(mock.Anything, mock.AnythingOfType("*sessionmodel.Session")).
+		Run(func(ctx context.Context, session *sessionmodel.Session) {
+			session.ID = FakeSessionID
+		}).
 		Return(nil)
 }
 
@@ -136,11 +123,10 @@ func (blr *mockSessionRepoBuilder) FindAllActiveSessionFailed() {
 }
 
 func (blr *mockSessionRepoBuilder) FindAllActiveSessionSuccess() {
-	activeSessions := []model.Session{
+	activeSessions := []sessionmodel.Session{
 		{
 			ID:        FakeSessionID,
-			AccountID: FakeAccountID,
-			// ExpiresAt: nil,
+			AccountID: fakes.FakeAccount().ID,
 		},
 	}
 
