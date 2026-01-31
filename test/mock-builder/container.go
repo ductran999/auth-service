@@ -9,6 +9,8 @@ type BuilderContainer struct {
 
 	TokenService *mockTokenService
 	TokenStore   *mockTokenStore
+
+	SessionStore *mockSessionStore
 }
 
 func NewBuilderContainer(t *testing.T) *BuilderContainer {
@@ -18,6 +20,7 @@ func NewBuilderContainer(t *testing.T) *BuilderContainer {
 		HasherBuilder:      newMockHasherBuilder(t),
 		TokenService:       newMockTokenService(t),
 		TokenStore:         newMockTokenStore(t),
+		SessionStore:       newMockSessionStore(t),
 	}
 }
 

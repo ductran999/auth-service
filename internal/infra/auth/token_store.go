@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	SessionKeyPrefix      = "auth:session:"
 	RedisRefreshKeyPrefix = "auth:refresh:"
 )
 

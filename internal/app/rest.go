@@ -12,7 +12,7 @@ import (
 )
 
 func startHTTPServer(c *container.Container) (server.HttpServer, error) {
-	srv, err := httpServer.NewHTTPServer(c.AppConfig, c.Logger, c.RestHandler)
+	srv, err := httpServer.NewHTTPServer(c, c.RestHandler)
 	if err != nil {
 		return nil, fmt.Errorf("failed to initialize HTTP server: %w", err)
 	}

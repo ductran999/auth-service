@@ -1,18 +1,17 @@
 package http
 
 import (
-	"auth-service/config"
 	"auth-service/gen/openapi"
+	"auth-service/internal/app/container"
 
-	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/DucTran999/shared-pkg/server"
 )
 
 // NewHTTPServer creates a new HTTP server with injected dependencies.
-func NewHTTPServer(cfg *config.EnvConfiguration, logger logger.ILogger, apiHandler openapi.ServerInterface) (server.HttpServer, error) {
+func NewHTTPServer(ctn *container.Container, apiHandler openapi.ServerInterface) (server.HttpServer, error) {
 	serverConf := server.ServerConfig{
-		Host: cfg.Host,
-		Port: cfg.Port,
+		Host: ctn.AppConfig.Host,
+		Port: ctn.AppConfig.Port,
 	}
 
 	err := SetupValidator()
@@ -20,7 +19,7 @@ func NewHTTPServer(cfg *config.EnvConfiguration, logger logger.ILogger, apiHandl
 		return nil, err
 	}
 
-	router, err := NewRouter(cfg.ServiceEnv, logger, apiHandler)
+	router, err := NewRouter(ctn, apiHandler)
 	if err != nil {
 		return nil, err
 	}

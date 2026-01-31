@@ -2,9 +2,9 @@ package account
 
 import (
 	"auth-service/gen/openapi"
+	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/account"
-	"auth-service/internal/biz/usecase/session"
-	"auth-service/internal/domain/sessionmodel"
+	"auth-service/internal/handler/rest/middlewares"
 	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
 
@@ -12,14 +12,12 @@ import (
 )
 
 func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
-	// Validate session from cookie
-	session, err := hdl.validateSessionFromCookie(ctx)
+	authObj, err := middlewares.GetAuthObject(ctx)
 	if err != nil {
-		_ = ctx.Error(err)
+		_ = ctx.Error(apperrs.Internal(err))
 		return
 	}
 
-	// Parse & validate input JSON
 	payload, err := request.ParseAndValidateJSON[openapi.ChangePasswordJSONRequestBody](ctx)
 	if err != nil {
 		_ = ctx.Error(err)
@@ -27,7 +25,7 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 	}
 
 	input := account.ChangePasswordInput{
-		AccountID:   session.AccountID.String(),
+		AccountID:   authObj.UserID,
 		OldPassword: payload.OldPassword,
 		NewPassword: payload.NewPassword,
 	}
@@ -37,13 +35,4 @@ func (hdl *accountHandler) ChangePassword(ctx *gin.Context) {
 	}
 
 	response.NoContent(ctx)
-}
-
-func (hdl *accountHandler) validateSessionFromCookie(ctx *gin.Context) (*sessionmodel.Session, error) {
-	sessionID, err := ctx.Cookie("session_id")
-	if err != nil {
-		return nil, session.ErrSessionNotFound
-	}
-
-	return hdl.sessionUC.Validate(ctx.Request.Context(), sessionID)
 }

@@ -34,7 +34,7 @@ func NewTestApp() (*TestApp, error) {
 		return nil, fmt.Errorf("failed to setup validator: %w", err)
 	}
 
-	router, err := http.NewRouter(cfg.ServiceEnv, ctn.Logger, ctn.RestHandler)
+	router, err := http.NewRouter(ctn, ctn.RestHandler)
 	if err != nil {
 		return nil, fmt.Errorf("failed to init router: %w", err)
 	}

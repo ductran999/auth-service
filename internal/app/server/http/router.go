@@ -2,10 +2,10 @@ package http
 
 import (
 	"auth-service/gen/openapi"
+	"auth-service/internal/app/container"
 	"auth-service/internal/handler/rest/middlewares"
 	"fmt"
 
-	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -41,16 +41,15 @@ func SetupValidator() error {
 	return nil
 }
 
-func NewRouter(serviceEnv string, logger logger.ILogger, h openapi.ServerInterface) (*gin.Engine, error) {
-	if serviceEnv == ProductionEnv.String() {
+func NewRouter(ctn *container.Container, h openapi.ServerInterface) (*gin.Engine, error) {
+	if ctn.AppConfig.ServiceEnv == ProductionEnv.String() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	router := gin.New()
+	router := gin.Default()
 	router.Use(
-		gin.Logger(),
-		gin.Recovery(),
-		middlewares.ErrorLogger(logger),
+		middlewares.ErrorLogger(ctn.Logger),
+		middlewares.Authenticate(ctn.GetAuthSessionUC()),
 	)
 
 	openapi.RegisterHandlers(router, h)

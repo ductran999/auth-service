@@ -9,6 +9,11 @@ import (
 	"errors"
 )
 
+var (
+	ErrPasswordMismatch = errors.New("password mismatch")
+	ErrEmailExisted     = errors.New("email already registered")
+)
+
 type RegisterInput struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

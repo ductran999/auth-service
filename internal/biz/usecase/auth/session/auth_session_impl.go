@@ -7,6 +7,7 @@ import (
 	"auth-service/internal/biz/ports/auth"
 	"auth-service/internal/biz/ports/repositories"
 	"auth-service/internal/biz/usecase/auth/credential"
+	"auth-service/internal/domain/authmodel"
 	"auth-service/internal/domain/sessionmodel"
 )
 
@@ -24,11 +25,14 @@ type AuthSessionUsecase interface {
 	// It removes the session from cache (best-effort) and marks it as expired in the database.
 	// Returns an error only if the database update fails.
 	Logout(ctx context.Context, sessionID string) error
+
+	ValidateSession(ctx context.Context, sessionID string) (*authmodel.AuthObj, error)
 }
 
 type authSessionUsecase struct {
 	*sessionLoginUsecase
 	*sessionLogoutUsecase
+	*validateSessionUsecase
 }
 
 func NewAuthSessionUsecase(
@@ -45,6 +49,9 @@ func NewAuthSessionUsecase(
 		sessionLogoutUsecase: &sessionLogoutUsecase{
 			verifyCredential: verifyCredential,
 			sessionRepo:      sessionRepo,
+		},
+		validateSessionUsecase: &validateSessionUsecase{
+			sessionStore: sessionStore,
 		},
 	}
 }

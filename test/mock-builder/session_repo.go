@@ -48,11 +48,6 @@ func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
 	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
 		AccountID: fakes.FakeAccount().ID,
-		// Account: model.Account{
-		// 	ID:       FakeAccountID,
-		// 	Email:    FakeEmail,
-		// 	IsActive: true,
-		// },
 	}
 
 	blr.inst.EXPECT().
@@ -61,16 +56,9 @@ func (blr *mockSessionRepoBuilder) FindByIDSuccess() {
 }
 
 func (blr *mockSessionRepoBuilder) FindByIDSessionExpired() {
-	// expiredAt := time.Now().Add(-1 * time.Hour)
 	mockSession := sessionmodel.Session{
 		ID:        FakeSessionID,
 		AccountID: fakes.FakeAccount().ID,
-		// Account: model.Account{
-		// 	ID:       FakeAccountID,
-		// 	Email:    FakeEmail,
-		// 	IsActive: true,
-		// },
-		// ExpiresAt: &expiredAt,
 	}
 
 	blr.inst.EXPECT().
@@ -85,13 +73,11 @@ func (blr *mockSessionRepoBuilder) FindByIDNotFound() {
 }
 
 func (blr *mockSessionRepoBuilder) FindSessionReuse() {
-	// mockExpires := time.Now().Add(time.Minute)
 	blr.inst.EXPECT().
 		FindByID(mock.Anything, mock.Anything).
 		Return(&sessionmodel.Session{
 			ID:        FakeSessionID,
 			AccountID: fakes.FakeAccount().ID,
-			// ExpiresAt: &mockExpires,
 		}, nil)
 }
 
@@ -141,7 +127,6 @@ func (blr *mockSessionRepoBuilder) FindAllActiveSessionSuccess() {
 		{
 			ID:        FakeSessionID,
 			AccountID: fakes.FakeAccount().ID,
-			// ExpiresAt: nil,
 		},
 	}
 

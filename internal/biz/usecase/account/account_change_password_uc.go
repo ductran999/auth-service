@@ -8,6 +8,11 @@ import (
 	"errors"
 )
 
+var (
+	ErrAccountNotFound        = errors.New("account not found")
+	ErrNewPasswordMustChanged = errors.New("new password must e different")
+)
+
 type ChangePasswordInput struct {
 	AccountID   string
 	OldPassword string

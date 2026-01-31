@@ -20,7 +20,7 @@ func NewAuthUseCaseUT(t *testing.T, builders *mockbuilder.BuilderContainer) sess
 
 	return session.NewAuthSessionUsecase(
 		credential.NewCredentialVerifier(hasher, accountRepo),
-		nil,
+		builders.SessionStore.GetInstance(),
 		builders.SessionRepoBuilder.GetInstance(),
 	)
 }
@@ -68,6 +68,20 @@ func TestLogin(t *testing.T) {
 			expected:    nil,
 		},
 		{
+			name:       "set cache failed",
+			loginInput: loginInput,
+			setup: func(t *testing.T) session.AuthSessionUsecase {
+				builders := mockbuilder.NewBuilderContainer(t)
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
+				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
+				builders.SessionRepoBuilder.CreateSessionSuccess()
+				builders.SessionStore.Set_Failed(t.Context())
+				return NewAuthUseCaseUT(t, builders)
+			},
+			expectedErr: apperrs.ErrInternal,
+			expected:    nil,
+		},
+		{
 			name:       "login success",
 			loginInput: loginInput,
 			setup: func(t *testing.T) session.AuthSessionUsecase {
@@ -75,6 +89,7 @@ func TestLogin(t *testing.T) {
 				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
 				builders.SessionRepoBuilder.CreateSessionSuccess()
+				builders.SessionStore.Set_OK(t.Context())
 				return NewAuthUseCaseUT(t, builders)
 			},
 			expectedErr: nil,

@@ -57,5 +57,9 @@ func (uc *sessionLoginUsecase) Login(ctx context.Context, input LoginInput) (*se
 		return nil, apperrs.Internal(err)
 	}
 
+	if err := uc.sessionStore.Save(ctx, newSession); err != nil {
+		return nil, apperrs.Internal(err)
+	}
+
 	return newSession, nil
 }

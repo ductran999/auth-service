@@ -34,7 +34,7 @@ func (c *Container) initUseCases() {
 
 	jwtAuthUC := authJwtUsecase.NewAuthJWTUsecase(tokenService, tokenStore, credVerifier)
 
-	sessionStore := session.NewSessionStore()
+	sessionStore := session.NewSessionStore(c.Cache)
 	sessionAuthUC := authSessionUsecase.NewAuthSessionUsecase(credVerifier, sessionStore, c.repos.session)
 
 	c.useCases = &useCases{
@@ -44,4 +44,8 @@ func (c *Container) initUseCases() {
 		// session:           sessionUC,
 		// backgroundSession: sessionUC,
 	}
+}
+
+func (c *Container) GetAuthSessionUC() authSessionUsecase.AuthSessionUsecase {
+	return c.useCases.sessionAuth
 }
