@@ -123,7 +123,8 @@ func TestAccountHandler_ChangePassword(t *testing.T) {
 			// Setup gin server
 			logger, _ := logger.NewLogger(logger.Config{Environment: "staging"})
 			router := gin.New()
-			httpserver.SetupValidator()
+			err := httpserver.SetupValidator()
+			require.NoError(t, err)
 			router.Use(middlewares.ErrorLogger(logger), withAuthObj(tc.authObj))
 			router.POST(endpoint, handler.ChangePassword)
 

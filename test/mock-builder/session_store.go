@@ -47,3 +47,11 @@ func (b *mockSessionStore) Set_Failed(ctx context.Context) {
 func (b *mockSessionStore) Set_OK(ctx context.Context) {
 	b.inst.EXPECT().Save(ctx, mock.AnythingOfType("*sessionmodel.Session")).Return(nil)
 }
+
+func (b *mockSessionStore) Refresh_OK(ctx context.Context) {
+	b.inst.EXPECT().Refresh(ctx, mock.AnythingOfType("string")).Return(fakes.Session(), nil)
+}
+
+func (b *mockSessionStore) Refresh_Failed(ctx context.Context) {
+	b.inst.EXPECT().Refresh(ctx, mock.AnythingOfType("string")).Return(nil, ErrInternalDB)
+}

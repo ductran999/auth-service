@@ -70,7 +70,6 @@ func (uc *changePasswordUsecase) hashIfChanged(oldPassword, newPassword string) 
 	passHash, err := uc.hasher.Hash(newPassword)
 	if err != nil {
 		return "", apperrs.Internal(err)
-
 	}
 
 	return passHash, nil
