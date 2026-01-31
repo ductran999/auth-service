@@ -125,7 +125,8 @@ func TestAccountHandler_ChangePassword(t *testing.T) {
 			router := gin.New()
 			err := httpserver.SetupValidator()
 			require.NoError(t, err)
-			httpserver.SetupValidator()
+			err = httpserver.SetupValidator()
+			require.NoError(t, err)
 			router.Use(middlewares.ErrorLogger(logger), withAuthObj(tc.authObj))
 			router.POST(endpoint, handler.ChangePassword)
 
