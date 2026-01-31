@@ -72,10 +72,6 @@ func (js *jwtSigner) SignPairs(jti string, signAt time.Time, account *accountmod
 	}, nil
 }
 
-func (js *jwtSigner) VerifyAccessToken(context.Context, string) (*authmodel.TokenClaims, error) {
-	return &authmodel.TokenClaims{}, nil
-}
-
 func (js *jwtSigner) VerifyRefreshToken(context.Context, string) (*authmodel.TokenClaims, error) {
 	return &authmodel.TokenClaims{}, nil
 }

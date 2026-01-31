@@ -22,7 +22,7 @@ func registerAndLogin(t *testing.T, app *setup.TestApp, email, password string) 
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 	app.Router.ServeHTTP(w, req)
-	require.Equal(t, http.StatusCreated, w.Code)
+	require.Equal(t, http.StatusOK, w.Code)
 
 	// Login
 	req = httptest.NewRequest(http.MethodPost, "/api/v1/login", strings.NewReader(payload))

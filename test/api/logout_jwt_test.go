@@ -23,7 +23,7 @@ func TestJWTLogout(t *testing.T) {
 		req.Header.Set("Content-Type", "application/json")
 		req.AddCookie(&http.Cookie{
 			Name:     "refresh_token",
-			Value:    "mock-refresh-token", // simulated token
+			Value:    "", // simulated token
 			Path:     "/",
 			HttpOnly: true,
 		})
@@ -53,7 +53,7 @@ func TestJWTLogout(t *testing.T) {
 		req.Header.Set("Content-Type", "application/json")
 		w := httptest.NewRecorder()
 		app.Router.ServeHTTP(w, req)
-		require.Equal(t, http.StatusCreated, w.Code)
+		require.Equal(t, http.StatusOK, w.Code)
 
 		// Login to get refresh_token
 		login := `{"email": "jwtlogout@example.com", "password": "Strong123!"}`

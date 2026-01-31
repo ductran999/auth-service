@@ -1,12 +1,11 @@
 package session_test
 
 import (
-	"errors"
-	"testing"
-
 	"auth-service/internal/domain/sessionmodel"
 	"auth-service/internal/infra/session"
 	mockbuilder "auth-service/test/mock-builder"
+	"errors"
+	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/google/uuid"
