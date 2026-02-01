@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"auth-service/internal/domain/accountmodel"
+	account "auth-service/internal/infra/account"
 	postgresql "auth-service/internal/infra/account"
 	mockbuilder "auth-service/test/mock-builder"
 
@@ -21,7 +22,7 @@ func TestAccountRepo_FindByEmail_DBError(t *testing.T) {
 		WillReturnError(errors.New("simulated db failure"))
 
 	// Instantiate the repository and call the method
-	sut := postgresql.NewAccountRepo(gormDB)
+	sut := account.NewAccountRepo(gormDB)
 
 	account, err := sut.FindByEmail(t.Context(), "fail@example.com")
 
