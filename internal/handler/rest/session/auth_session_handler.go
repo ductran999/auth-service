@@ -100,9 +100,9 @@ func (hdl *sessionAuthHandler) responseLoginSuccess(ctx *gin.Context, session *m
 	})
 
 	resp := openapi.Account{
-		Id:    session.AccountID,
-		Email: session.Account.Email,
-		Role:  session.Account.Role,
+		UserId: session.AccountID,
+		Email:  session.Account.Email,
+		Role:   session.Account.Role,
 	}
 
 	response.OK(ctx, resp, "login successfully!")

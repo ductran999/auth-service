@@ -30,7 +30,7 @@ func (hdl *accountHandler) CreateAccount(ctx *gin.Context) {
 	}
 
 	resp := openapi.Account{
-		Id:        account.ID,
+		UserId:    account.ID,
 		Email:     account.Email,
 		Role:      account.Role,
 		CreatedAt: &account.CreatedAt,

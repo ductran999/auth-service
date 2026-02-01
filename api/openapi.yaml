@@ -272,11 +272,11 @@ components:
     Account:
       type: object
       required:
-        - id
+        - user_id
         - email
         - role
       properties:
-        id:
+        user_id:
           type: string
           format: uuid
           x-order: 1

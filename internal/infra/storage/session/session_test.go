@@ -6,8 +6,13 @@ import (
 	"time"
 
 	"auth-service/internal/infra/storage/session"
+	mockbuilder "auth-service/test/mock-builder"
+
 	"auth-service/internal/model"
 	mockbuilder "auth-service/test/mock-builder"
+
+	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/stretchr/testify/require"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/google/uuid"
