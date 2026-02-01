@@ -1,46 +1,40 @@
 package health_test
 
-// import (
-// 	"encoding/json"
-// 	"net/http"
-// 	"net/http/httptest"
-// 	"testing"
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
 
-// 	"auth-service/gen/openapi"
-// 	"auth-service/internal/handler/rest"
+	"auth-service/internal/handler/rest/health"
+	"auth-service/internal/handler/rest/middlewares"
 
-// 	"github.com/gin-gonic/gin"
-// 	"github.com/stretchr/testify/assert"
-// 	"github.com/stretchr/testify/require"
-// )
+	"github.com/DucTran999/shared-pkg/logger"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+)
 
-// func TestCheckLiveness(t *testing.T) {
-// 	// Setup
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.New()
+func TestCheckLiveness(t *testing.T) {
+	// Setup
+	gin.SetMode(gin.TestMode)
+	logger, err := logger.NewLogger(logger.Config{
+		Environment: "unittest",
+	})
+	require.NoError(t, err)
+	router := gin.New()
+	router.Use(middlewares.ErrorLogger(logger))
 
-// 	const version = "v1.2.3"
-// 	handler := rest.NewHealthHandler(version)
+	const version = "v1.2.3"
+	handler := health.NewHealthHandler(version)
 
-// 	router.GET("/healthz", handler.CheckLiveness)
+	router.GET("/livez", handler.CheckLiveness)
 
-// 	// Make request
-// 	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
-// 	w := httptest.NewRecorder()
+	// Make request
+	req := httptest.NewRequest(http.MethodGet, "/livez", nil)
+	w := httptest.NewRecorder()
 
-// 	router.ServeHTTP(w, req)
+	router.ServeHTTP(w, req)
 
-// 	// Assertions
-// 	assert.Equal(t, http.StatusOK, w.Code)
-
-// 	var res openapi.HealthResponse
-// 	err := json.Unmarshal(w.Body.Bytes(), &res)
-// 	require.NoError(t, err)
-
-// 	assert.Equal(t, openapi.HealthResponseStatusHealthy, res.Status)
-// 	assert.NotNil(t, res.Timestamp)
-// 	assert.NotNil(t, res.Uptime)
-// 	assert.NotNil(t, res.Version)
-// 	assert.Equal(t, version, *res.Version)
-// 	assert.GreaterOrEqual(t, *res.Uptime, int64(0))
-// }
+	// Assertions
+	assert.Equal(t, http.StatusOK, w.Code)
+}
