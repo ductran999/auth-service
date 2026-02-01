@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"auth-service/config"
-	"auth-service/internal/container"
+	"auth-service/internal/app/container"
 )
 
 func loadConfig() (*config.EnvConfiguration, error) {

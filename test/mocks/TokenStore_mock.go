@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
+	"auth-service/internal/domain/authmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -39,8 +39,8 @@ func (_m *TokenStore) EXPECT() *TokenStore_Expecter {
 }
 
 // Exists provides a mock function for the type TokenStore
-func (_mock *TokenStore) Exists(ctx context.Context, tokenID string) (bool, error) {
-	ret := _mock.Called(ctx, tokenID)
+func (_mock *TokenStore) Exists(ctx context.Context, userID string, tokenID string) (bool, error) {
+	ret := _mock.Called(ctx, userID, tokenID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Exists")
@@ -48,16 +48,16 @@ func (_mock *TokenStore) Exists(ctx context.Context, tokenID string) (bool, erro
 
 	var r0 bool
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (bool, error)); ok {
-		return returnFunc(ctx, tokenID)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) (bool, error)); ok {
+		return returnFunc(ctx, userID, tokenID)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) bool); ok {
-		r0 = returnFunc(ctx, tokenID)
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string, string) bool); ok {
+		r0 = returnFunc(ctx, userID, tokenID)
 	} else {
 		r0 = ret.Get(0).(bool)
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = returnFunc(ctx, tokenID)
+	if returnFunc, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = returnFunc(ctx, userID, tokenID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -71,12 +71,13 @@ type TokenStore_Exists_Call struct {
 
 // Exists is a helper method to define mock.On call
 //   - ctx context.Context
+//   - userID string
 //   - tokenID string
-func (_e *TokenStore_Expecter) Exists(ctx interface{}, tokenID interface{}) *TokenStore_Exists_Call {
-	return &TokenStore_Exists_Call{Call: _e.mock.On("Exists", ctx, tokenID)}
+func (_e *TokenStore_Expecter) Exists(ctx interface{}, userID interface{}, tokenID interface{}) *TokenStore_Exists_Call {
+	return &TokenStore_Exists_Call{Call: _e.mock.On("Exists", ctx, userID, tokenID)}
 }
 
-func (_c *TokenStore_Exists_Call) Run(run func(ctx context.Context, tokenID string)) *TokenStore_Exists_Call {
+func (_c *TokenStore_Exists_Call) Run(run func(ctx context.Context, userID string, tokenID string)) *TokenStore_Exists_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -86,9 +87,14 @@ func (_c *TokenStore_Exists_Call) Run(run func(ctx context.Context, tokenID stri
 		if args[1] != nil {
 			arg1 = args[1].(string)
 		}
+		var arg2 string
+		if args[2] != nil {
+			arg2 = args[2].(string)
+		}
 		run(
 			arg0,
 			arg1,
+			arg2,
 		)
 	})
 	return _c
@@ -99,7 +105,7 @@ func (_c *TokenStore_Exists_Call) Return(b bool, err error) *TokenStore_Exists_C
 	return _c
 }
 
-func (_c *TokenStore_Exists_Call) RunAndReturn(run func(ctx context.Context, tokenID string) (bool, error)) *TokenStore_Exists_Call {
+func (_c *TokenStore_Exists_Call) RunAndReturn(run func(ctx context.Context, userID string, tokenID string) (bool, error)) *TokenStore_Exists_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -168,7 +174,7 @@ func (_c *TokenStore_Revoke_Call) RunAndReturn(run func(ctx context.Context, use
 }
 
 // Save provides a mock function for the type TokenStore
-func (_mock *TokenStore) Save(ctx context.Context, device model.DeviceSession) error {
+func (_mock *TokenStore) Save(ctx context.Context, device authmodel.DeviceSession) error {
 	ret := _mock.Called(ctx, device)
 
 	if len(ret) == 0 {
@@ -176,7 +182,7 @@ func (_mock *TokenStore) Save(ctx context.Context, device model.DeviceSession) e
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, model.DeviceSession) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, authmodel.DeviceSession) error); ok {
 		r0 = returnFunc(ctx, device)
 	} else {
 		r0 = ret.Error(0)
@@ -191,20 +197,20 @@ type TokenStore_Save_Call struct {
 
 // Save is a helper method to define mock.On call
 //   - ctx context.Context
-//   - device model.DeviceSession
+//   - device authmodel.DeviceSession
 func (_e *TokenStore_Expecter) Save(ctx interface{}, device interface{}) *TokenStore_Save_Call {
 	return &TokenStore_Save_Call{Call: _e.mock.On("Save", ctx, device)}
 }
 
-func (_c *TokenStore_Save_Call) Run(run func(ctx context.Context, device model.DeviceSession)) *TokenStore_Save_Call {
+func (_c *TokenStore_Save_Call) Run(run func(ctx context.Context, device authmodel.DeviceSession)) *TokenStore_Save_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 model.DeviceSession
+		var arg1 authmodel.DeviceSession
 		if args[1] != nil {
-			arg1 = args[1].(model.DeviceSession)
+			arg1 = args[1].(authmodel.DeviceSession)
 		}
 		run(
 			arg0,
@@ -219,7 +225,7 @@ func (_c *TokenStore_Save_Call) Return(err error) *TokenStore_Save_Call {
 	return _c
 }
 
-func (_c *TokenStore_Save_Call) RunAndReturn(run func(ctx context.Context, device model.DeviceSession) error) *TokenStore_Save_Call {
+func (_c *TokenStore_Save_Call) RunAndReturn(run func(ctx context.Context, device authmodel.DeviceSession) error) *TokenStore_Save_Call {
 	_c.Call.Return(run)
 	return _c
 }

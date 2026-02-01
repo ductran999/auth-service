@@ -5,8 +5,9 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/account"
+	"auth-service/internal/biz/usecase/account"
+	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -44,15 +45,10 @@ func (b *mockAccountRepoBuilder) CreateAccountError() {
 }
 
 func (b *mockAccountRepoBuilder) CreateAccountSuccess() {
-	mockAccount := &model.Account{
-		ID:       FakeAccountID,
-		Email:    FakeEmail,
-		IsActive: true,
-	}
 	b.inst.EXPECT().
 		Create(mock.Anything, mock.Anything).Run(
-		func(ctx context.Context, account *model.Account) {
-			*account = *mockAccount
+		func(ctx context.Context, account *accountmodel.Account) {
+			*account = *fakes.FakeAccount()
 		},
 	).Return(nil)
 }
@@ -63,28 +59,18 @@ func (b *mockAccountRepoBuilder) FindByEmailError() {
 		Return(nil, ErrFindAccountByEmail)
 }
 
-func (b *mockAccountRepoBuilder) FindByEmailHasResult() {
-	activeAccount := &model.Account{
-		ID:       FakeAccountID,
-		Email:    FakeEmail,
-		IsActive: true,
-	}
+func (b *mockAccountRepoBuilder) FindByEmailHasResult(ctx context.Context, email string) {
+	activeAccount := fakes.FakeAccount()
 
 	b.inst.EXPECT().
-		FindByEmail(mock.Anything, mock.Anything).
+		FindByEmail(ctx, email).
 		Return(activeAccount, nil)
 }
 
 func (b *mockAccountRepoBuilder) FindByEmailAccountInactive() {
-	mockAccount := &model.Account{
-		ID:       FakeAccountID,
-		Email:    FakeEmail,
-		IsActive: false,
-	}
-
 	b.inst.EXPECT().
 		FindByEmail(mock.Anything, mock.Anything).
-		Return(mockAccount, nil)
+		Return(fakes.FakeAccountInactive(), nil)
 }
 
 func (b *mockAccountRepoBuilder) FindByEmailNoResult() {
@@ -99,17 +85,14 @@ func (b *mockAccountRepoBuilder) FindByIDFailed() {
 		Return(nil, ErrFindAccountByID)
 }
 
-func (b *mockAccountRepoBuilder) FindByIDSuccess() {
-	mockAccount := &model.Account{
-		ID:           FakeAccountID,
-		Email:        FakeEmail,
-		PasswordHash: FakeOldPass,
-		IsActive:     true,
-	}
-
+func (b *mockAccountRepoBuilder) FindByID_NoResult() {
 	b.inst.EXPECT().
 		FindByID(mock.Anything, mock.Anything).
-		Return(mockAccount, nil)
+		Return(nil, account.ErrAccountNotFound)
+}
+
+func (b *mockAccountRepoBuilder) FindByIDSuccess(ctx context.Context, id string) {
+	b.inst.EXPECT().FindByID(ctx, id).Return(fakes.FakeAccount(), nil)
 }
 
 func (b *mockAccountRepoBuilder) UpdatePasswordHashFailed() {
@@ -122,7 +105,7 @@ func (b *mockAccountRepoBuilder) UpdatePasswordHashSuccess() {
 	b.inst.EXPECT().
 		UpdatePasswordHash(mock.Anything,
 			mock.MatchedBy(func(id string) bool {
-				return id == FakeAccountID.String()
+				return id == fakes.FakeAccount().ID.String()
 			}),
 			mock.Anything).
 		Return(nil)

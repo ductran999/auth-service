@@ -33,7 +33,7 @@ type AccessToken struct {
 
 // Account defines model for Account.
 type Account struct {
-	Id        openapi_types.UUID `json:"id"`
+	UserId    openapi_types.UUID `json:"user_id"`
 	Email     string             `json:"email"`
 	Role      string             `json:"role"`
 	CreatedAt *time.Time         `json:"created_at,omitempty"`

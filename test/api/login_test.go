@@ -31,7 +31,7 @@ func TestLogin(t *testing.T) {
 				w := httptest.NewRecorder()
 				app.Router.ServeHTTP(w, req)
 
-				require.Equal(t, http.StatusCreated, w.Code)
+				require.Equal(t, http.StatusOK, w.Code)
 			},
 			payload: `{
 				"email": "login@example.com",

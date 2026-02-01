@@ -26,7 +26,7 @@ func TestRegister(t *testing.T) {
 				"password": "StrongPass123!"
 			}`,
 			beforeTest:     func(t *testing.T, app *setup.TestApp) { app.TruncateTables(t) },
-			expectedStatus: http.StatusCreated,
+			expectedStatus: http.StatusOK,
 		},
 		{
 			name: "invalid email format",
@@ -70,7 +70,7 @@ func TestRegister(t *testing.T) {
 				w := httptest.NewRecorder()
 				app.Router.ServeHTTP(w, req)
 
-				require.Equal(t, http.StatusCreated, w.Code)
+				require.Equal(t, http.StatusOK, w.Code)
 			},
 			expectedStatus: http.StatusConflict,
 		},

@@ -5,8 +5,9 @@ import (
 	"testing"
 
 	"auth-service/internal/apperrs"
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/account"
+	"auth-service/internal/biz/usecase/account"
+	"auth-service/internal/domain/accountmodel"
+	"auth-service/test/fakes"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -46,8 +47,8 @@ func (m *mockAccountUsecase) RegisterConflictEmail() {
 func (m *mockAccountUsecase) RegisterSuccess() {
 	m.inst.EXPECT().
 		Register(mock.Anything, mock.Anything).
-		Return(&model.Account{
-			ID: FakeAccountID,
+		Return(&accountmodel.Account{
+			ID: fakes.FakeAccount().ID,
 		}, nil)
 }
 
