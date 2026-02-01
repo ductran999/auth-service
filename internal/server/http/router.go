@@ -1,10 +1,11 @@
 package http
 
 import (
+	"auth-service/gen/openapi"
+	"auth-service/internal/handler/rest/middlewares"
 	"fmt"
 
-	gen "auth-service/gen/http"
-
+	"github.com/DucTran999/shared-pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -36,17 +37,23 @@ func SetupValidator() error {
 			return fmt.Errorf("failed to register strong validator: %w", err)
 		}
 	}
+
 	return nil
 }
 
-func NewRouter(serviceEnv string, h gen.ServerInterface) (*gin.Engine, error) {
+func NewRouter(serviceEnv string, logger logger.ILogger, h openapi.ServerInterface) (*gin.Engine, error) {
 	if serviceEnv == ProductionEnv.String() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	router := gin.Default()
+	router := gin.New()
+	router.Use(
+		gin.Logger(),
+		gin.Recovery(),
+		middlewares.ErrorLogger(logger),
+	)
 
-	gen.RegisterHandlers(router, h)
+	openapi.RegisterHandlers(router, h)
 
 	return router, nil
 }

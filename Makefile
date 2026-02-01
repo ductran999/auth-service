@@ -34,10 +34,17 @@ tidy: ## Tidy up the go.mod
 lint: ## Run linters
 	golangci-lint run --timeout 10m --config .golangci.yml
 
+.PHONY: testenv
 testenv: ## Setup testenv and migrate db
 	${PKG_SCRIPTS}/testenv.sh
 
+.PHONY: localenv
 localenv: ## Setup localenv and migrate db
+	${PKG_SCRIPTS}/localenv.sh
+
+.PHONY: reset
+reset: ## Reset local env
+	docker compose down -v
 	${PKG_SCRIPTS}/localenv.sh
 
 .PHONY: generate

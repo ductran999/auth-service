@@ -1,11 +1,14 @@
 package container
 
 import (
-	"auth-service/internal/usecase/account"
-	"auth-service/internal/usecase/auth"
+	accountUsecase "auth-service/internal/usecase/account"
+	"auth-service/internal/usecase/auth/credential"
+	authJwtUsecase "auth-service/internal/usecase/auth/jwt"
+	authSessionUsecase "auth-service/internal/usecase/auth/session"
+
+	"auth-service/internal/infra/storage/redis"
+	"auth-service/internal/infra/token/signer"
 	"auth-service/internal/usecase/port"
-	"auth-service/internal/usecase/session"
-	"auth-service/internal/usecase/shared"
 )
 
 type useCases struct {
@@ -19,30 +22,27 @@ type useCases struct {
 }
 
 func (c *Container) initUseCases() {
-	accountVerifier := shared.NewAccountVerifier(
-		c.Hasher,
-		c.repositories.account,
-	)
-	accountUC := account.NewAccountUseCase(
+	accountUC := accountUsecase.NewAccountUseCase(
 		c.Hasher,
 		c.repositories.account,
 	)
 
-	sessionAuthUC := auth.NewAuthSessionUsecase(
-		c.Cache,
-		accountVerifier,
-		c.repositories.account,
-		c.repositories.session,
-	)
-	jwtAuthUC := auth.NewAuthJWTUsecase(c.Signer, c.Cache, accountVerifier)
+	// sessionAuthUC := sessionUsecase.NewAuthSessionUsecase(c.Cache, c.repositories.session, c.Hasher, c.repositories.account)
 
-	sessionUC := session.NewSessionUC(c.Cache, c.repositories.session)
+	tokenService := signer.NewJWTSigner(c.Signer)
+	tokenStore := redis.NewTokenStore(c.Cache)
+	credVerifier := credential.NewCredentialVerifier(c.Hasher, c.repositories.account)
+
+	jwtAuthUC := authJwtUsecase.NewAuthJWTUsecase(tokenService, tokenStore, credVerifier)
+
+	sessionStore := redis.NewSessionStore()
+	sessionAuthUC := authSessionUsecase.NewAuthSessionUsecase(credVerifier, sessionStore, c.repositories.session)
 
 	c.useCases = &useCases{
-		account:           accountUC,
-		jwtAuth:           jwtAuthUC,
-		sessionAuth:       sessionAuthUC,
-		session:           sessionUC,
-		backgroundSession: sessionUC,
+		account:     accountUC,
+		jwtAuth:     jwtAuthUC,
+		sessionAuth: sessionAuthUC,
+		// session:           sessionUC,
+		// backgroundSession: sessionUC,
 	}
 }

@@ -1,18 +1,20 @@
 package container
 
 import (
-	"auth-service/internal/repository"
+	"auth-service/internal/infra/storage/postgresql"
+	"auth-service/internal/infra/storage/session"
+	"auth-service/internal/usecase/auth/ports"
 	"auth-service/internal/usecase/port"
 )
 
 type repositories struct {
 	account port.AccountRepo
-	session port.SessionRepository
+	session ports.SessionRepository
 }
 
 func (c *Container) initRepositories() {
 	c.repositories = &repositories{
-		account: repository.NewAccountRepo(c.AuthDB.DB()),
-		session: repository.NewSessionRepository(c.AuthDB.DB()),
+		account: postgresql.NewAccountRepo(c.AuthDB.DB()),
+		session: session.NewSessionRepository(c.AuthDB.DB()),
 	}
 }

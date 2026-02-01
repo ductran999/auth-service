@@ -1,130 +1,130 @@
 package session
 
-import (
-	"context"
-	"errors"
-	"fmt"
-	"time"
+// import (
+// 	"context"
+// 	"errors"
+// 	"fmt"
+// 	"time"
 
-	"auth-service/internal/errs"
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/port"
-	"auth-service/pkg/cache"
+// 	"auth-service/internal/model"
+// 	"auth-service/internal/usecase/port"
+// 	"auth-service/pkg/cache"
 
-	"github.com/google/uuid"
-)
+// 	"github.com/google/uuid"
+// )
 
-const (
-	sessionDuration = 60 * time.Minute
-)
+// const (
+// 	sessionDuration = 60 * time.Minute
+// )
 
-type sessionUC struct {
-	sessionRepo port.SessionRepository
-	cache       cache.Cache
-}
+// type sessionUC struct {
+// 	sessionRepo port.SessionRepository
+// 	cache       cache.Cache
+// }
 
-func NewSessionUC(cache cache.Cache, sessionRepo port.SessionRepository) *sessionUC {
-	return &sessionUC{
-		sessionRepo: sessionRepo,
-		cache:       cache,
-	}
-}
+// func NewSessionUC(cache cache.Cache, sessionRepo port.SessionRepository) *sessionUC {
+// 	return &sessionUC{
+// 		sessionRepo: sessionRepo,
+// 		cache:       cache,
+// 	}
+// }
 
-// DeleteExpiredBefore removes all sessions from the repository that expired before the given cutoff time.
-// Useful for periodic cleanup of stale session data.
-func (uc *sessionUC) DeleteExpiredBefore(ctx context.Context, cutoff time.Time) error {
-	if err := uc.sessionRepo.DeleteExpiredBefore(ctx, cutoff); err != nil {
-		return fmt.Errorf("failed to delete sessions expired before %s: %w", cutoff.Format(time.RFC3339), err)
-	}
-	return nil
-}
+// // DeleteExpiredBefore removes all sessions from the repository that expired before the given cutoff time.
+// // Useful for periodic cleanup of stale session data.
+// func (uc *sessionUC) DeleteExpiredBefore(ctx context.Context, cutoff time.Time) error {
+// 	if err := uc.sessionRepo.DeleteExpiredBefore(ctx, cutoff); err != nil {
+// 		return fmt.Errorf("failed to delete sessions expired before %s: %w", cutoff.Format(time.RFC3339), err)
+// 	}
 
-func (uc *sessionUC) MarkExpiredSessions(ctx context.Context) error {
-	// Fetch all active sessions from the DB
-	activeSessions, err := uc.sessionRepo.FindAllActiveSession(ctx)
-	if err != nil {
-		return fmt.Errorf("mark expired sessions: failed to fetch active sessions: %w", err)
-	}
+// 	return nil
+// }
 
-	// No active session return intermediately
-	if len(activeSessions) == 0 {
-		return nil
-	}
+// func (uc *sessionUC) MarkExpiredSessions(ctx context.Context) error {
+// 	// Fetch all active sessions from the DB
+// 	activeSessions, err := uc.sessionRepo.FindAllActiveSession(ctx)
+// 	if err != nil {
+// 		return fmt.Errorf("mark expired sessions: failed to fetch active sessions: %w", err)
+// 	}
 
-	// Identify sessions missing in cache (timed out)
-	sessionTimeoutIDs, err := uc.findSessionTimeout(ctx, activeSessions)
-	if err != nil {
-		return fmt.Errorf("mark expired sessions: failed to find timed-out sessions: %w", err)
-	}
+// 	// No active session return intermediately
+// 	if len(activeSessions) == 0 {
+// 		return nil
+// 	}
 
-	//  All session are active return intermediately
-	if len(sessionTimeoutIDs) == 0 {
-		return nil
-	}
+// 	// Identify sessions missing in cache (timed out)
+// 	sessionTimeoutIDs, err := uc.findSessionTimeout(ctx, activeSessions)
+// 	if err != nil {
+// 		return fmt.Errorf("mark expired sessions: failed to find timed-out sessions: %w", err)
+// 	}
 
-	// Update expiration in DB
-	err = uc.sessionRepo.MarkSessionsExpired(ctx, sessionTimeoutIDs, time.Now())
-	if err != nil {
-		return fmt.Errorf("mark expired sessions: failed to update DB: %w", err)
-	}
+// 	//  All session are active return intermediately
+// 	if len(sessionTimeoutIDs) == 0 {
+// 		return nil
+// 	}
 
-	return nil
-}
+// 	// Update expiration in DB
+// 	err = uc.sessionRepo.MarkSessionsExpired(ctx, sessionTimeoutIDs, time.Now())
+// 	if err != nil {
+// 		return fmt.Errorf("mark expired sessions: failed to update DB: %w", err)
+// 	}
 
-func (uc *sessionUC) Validate(ctx context.Context, sessionID string) (*model.Session, error) {
-	if _, err := uuid.Parse(sessionID); err != nil {
-		return nil, errors.Join(errs.ErrInvalidSessionID, err)
-	}
+// 	return nil
+// }
 
-	session, err := uc.findSessionByID(ctx, sessionID)
-	if err != nil {
-		return nil, fmt.Errorf("validate session failed for id=%s: %w", sessionID, err)
-	}
+// func (uc *sessionUC) Validate(ctx context.Context, sessionID string) (*model.Session, error) {
+// 	if _, err := uuid.Parse(sessionID); err != nil {
+// 		return nil, errors.Join(ErrInvalidSessionID, err)
+// 	}
 
-	return session, nil
-}
+// 	session, err := uc.findSessionByID(ctx, sessionID)
+// 	if err != nil {
+// 		return nil, fmt.Errorf("validate session failed for id=%s: %w", sessionID, err)
+// 	}
 
-// findSessionTimeout returns the IDs of sessions that are not found in the cache.
-// These sessions are considered "timed out" and may need to be expired.
-func (uc *sessionUC) findSessionTimeout(ctx context.Context, activeSessions []model.Session) ([]string, error) {
-	cacheKeys := make([]string, len(activeSessions))
-	for i, session := range activeSessions {
-		cacheKeys[i] = cache.KeyFromSessionID(session.ID.String())
-	}
+// 	return session, nil
+// }
 
-	missingKeys, err := uc.cache.MissingKeys(ctx, cacheKeys...)
-	if err != nil {
-		return nil, err
-	}
+// // findSessionTimeout returns the IDs of sessions that are not found in the cache.
+// // These sessions are considered "timed out" and may need to be expired.
+// func (uc *sessionUC) findSessionTimeout(ctx context.Context, activeSessions []model.Session) ([]string, error) {
+// 	cacheKeys := make([]string, len(activeSessions))
+// 	for i, session := range activeSessions {
+// 		cacheKeys[i] = cache.KeyFromSessionID(session.ID.String())
+// 	}
 
-	timedOutSessionIDs := make([]string, 0, len(missingKeys))
-	for _, key := range missingKeys {
-		timedOutSessionIDs = append(timedOutSessionIDs, cache.SessionIDFromKey(key))
-	}
+// 	missingKeys, err := uc.cache.MissingKeys(ctx, cacheKeys...)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	return timedOutSessionIDs, nil
-}
+// 	timedOutSessionIDs := make([]string, 0, len(missingKeys))
+// 	for _, key := range missingKeys {
+// 		timedOutSessionIDs = append(timedOutSessionIDs, cache.SessionIDFromKey(key))
+// 	}
 
-func (uc *sessionUC) findSessionByID(ctx context.Context, sessionID string) (*model.Session, error) {
-	var session model.Session
+// 	return timedOutSessionIDs, nil
+// }
 
-	// Try lookup in cache first
-	if err := uc.cache.GetInto(ctx, cache.KeyFromSessionID(sessionID), &session); err == nil {
-		return &session, nil
-	}
+// func (uc *sessionUC) findSessionByID(ctx context.Context, sessionID string) (*model.Session, error) {
+// 	var session model.Session
 
-	// Fallback to DB
-	found, err := uc.sessionRepo.FindByID(ctx, sessionID)
-	if err != nil {
-		return nil, err
-	}
+// 	// Try lookup in cache first
+// 	if err := uc.cache.GetInto(ctx, cache.KeyFromSessionID(sessionID), &session); err == nil {
+// 		return &session, nil
+// 	}
 
-	// Session is expired or not existed
-	if found == nil || found.IsExpired() {
-		return nil, errs.ErrSessionNotFound
-	}
+// 	// Fallback to DB
+// 	found, err := uc.sessionRepo.FindByID(ctx, sessionID)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	_ = uc.cache.Set(ctx, cache.KeyFromSessionID(sessionID), found, sessionDuration)
+// 	// Session is expired or not existed
+// 	if found == nil || found.IsExpired() {
+// 		return nil, ErrSessionNotFound
+// 	}
 
-	return found, nil
-}
+// 	_ = uc.cache.Set(ctx, cache.KeyFromSessionID(sessionID), found, sessionDuration)
+
+// 	return found, nil
+// }

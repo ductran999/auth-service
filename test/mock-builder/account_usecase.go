@@ -4,8 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/errs"
+	"auth-service/internal/apperrs"
 	"auth-service/internal/model"
+	"auth-service/internal/usecase/account"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -39,7 +40,7 @@ func (m *mockAccountUsecase) RegisterError() {
 func (m *mockAccountUsecase) RegisterConflictEmail() {
 	m.inst.EXPECT().
 		Register(mock.Anything, mock.Anything).
-		Return(nil, errs.ErrEmailExisted)
+		Return(nil, apperrs.Conflict(account.ErrEmailExisted))
 }
 
 func (m *mockAccountUsecase) RegisterSuccess() {
@@ -53,7 +54,7 @@ func (m *mockAccountUsecase) RegisterSuccess() {
 func (m *mockAccountUsecase) ChangePasswordGotErrorSamePass() {
 	m.inst.EXPECT().
 		ChangePassword(mock.Anything, mock.Anything).
-		Return(errs.ErrNewPasswordMustChanged)
+		Return(account.ErrNewPasswordMustChanged)
 }
 
 func (m *mockAccountUsecase) ChangePasswordSuccess() {
@@ -65,7 +66,7 @@ func (m *mockAccountUsecase) ChangePasswordSuccess() {
 func (m *mockAccountUsecase) ChangePassErrGotWrongCredentials() {
 	m.inst.EXPECT().
 		ChangePassword(mock.Anything, mock.Anything).
-		Return(errs.ErrInvalidCredentials)
+		Return(account.ErrPasswordMismatch)
 }
 
 func (m *mockAccountUsecase) ChangePassErrGotErrorDB() {

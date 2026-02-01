@@ -1,14 +1,17 @@
 package container
 
 import (
-	"auth-service/internal/handler/rest"
+	"auth-service/internal/handler/rest/account"
+	health "auth-service/internal/handler/rest/health"
+	"auth-service/internal/handler/rest/jwt"
+	"auth-service/internal/handler/rest/session"
 )
 
 type RestHandler struct {
-	rest.SessionAuthHandler
-	rest.JWTAuthHandler
-	rest.AccountHandler
-	rest.HealthHandler
+	session.SessionAuthHandler
+	jwt.JWTAuthHandler
+	account.AccountHandler
+	health.HealthHandler
 }
 
 func (c *Container) initRestHandler() {

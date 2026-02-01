@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"auth-service/internal/errs"
 	"auth-service/internal/model"
+	"auth-service/internal/usecase/account"
 	"auth-service/test/mocks"
 
 	"github.com/stretchr/testify/mock"
@@ -90,7 +90,7 @@ func (b *mockAccountRepoBuilder) FindByEmailAccountInactive() {
 func (b *mockAccountRepoBuilder) FindByEmailNoResult() {
 	b.inst.EXPECT().
 		FindByEmail(mock.Anything, mock.Anything).
-		Return(nil, errs.ErrAccountNotFound)
+		Return(nil, account.ErrAccountNotFound)
 }
 
 func (b *mockAccountRepoBuilder) FindByIDFailed() {
