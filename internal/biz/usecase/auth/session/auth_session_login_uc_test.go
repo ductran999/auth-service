@@ -1,17 +1,17 @@
 package session_test
 
 import (
-	"testing"
-
 	"auth-service/internal/apperrs"
 	"auth-service/internal/biz/usecase/auth/credential"
 	"auth-service/internal/biz/usecase/auth/session"
 	"auth-service/internal/domain/accountmodel"
 	"auth-service/test/fakes"
 	mockbuilder "auth-service/test/mock-builder"
+	"testing"
 
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func NewAuthUseCaseUT(t *testing.T, builders *mockbuilder.BuilderContainer) session.AuthSessionUsecase {
@@ -61,6 +61,7 @@ func TestLogin(t *testing.T) {
 				builders := mockbuilder.NewBuilderContainer(t)
 				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
+				builders.SessionStore.Refresh_Failed(t.Context())
 				builders.SessionRepoBuilder.CreateSessionFailed()
 				return NewAuthUseCaseUT(t, builders)
 			},
@@ -74,6 +75,7 @@ func TestLogin(t *testing.T) {
 				builders := mockbuilder.NewBuilderContainer(t)
 				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
+				builders.SessionStore.Refresh_Failed(t.Context())
 				builders.SessionRepoBuilder.CreateSessionSuccess()
 				builders.SessionStore.Set_Failed(t.Context())
 				return NewAuthUseCaseUT(t, builders)
@@ -88,8 +90,26 @@ func TestLogin(t *testing.T) {
 				builders := mockbuilder.NewBuilderContainer(t)
 				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
 				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
+				builders.SessionStore.Refresh_Failed(t.Context())
 				builders.SessionRepoBuilder.CreateSessionSuccess()
 				builders.SessionStore.Set_OK(t.Context())
+				return NewAuthUseCaseUT(t, builders)
+			},
+			expectedErr: nil,
+			expected:    expectedAccount,
+		},
+		{
+			name: "refresh session success",
+			loginInput: session.LoginInput{
+				CurrentSessionID: uuid.Nil.String(),
+				Email:            loginInput.Email,
+				Password:         loginInput.Password,
+			},
+			setup: func(t *testing.T) session.AuthSessionUsecase {
+				builders := mockbuilder.NewBuilderContainer(t)
+				builders.AccountRepoBuilder.FindByEmailHasResult(t.Context(), fakes.FakeAccount().Email)
+				builders.HasherBuilder.HashPasswordMatch(fakes.FakeAccount().PasswordHash)
+				builders.SessionStore.Refresh_OK(t.Context())
 				return NewAuthUseCaseUT(t, builders)
 			},
 			expectedErr: nil,
@@ -107,7 +127,7 @@ func TestLogin(t *testing.T) {
 			session, err := sut.Login(ctx, tc.loginInput)
 
 			// Assert
-			assert.ErrorIs(t, err, tc.expectedErr)
+			require.ErrorIs(t, err, tc.expectedErr)
 			if tc.expected != nil {
 				assert.Equal(t, tc.expected.ID, session.AccountID)
 			} else {

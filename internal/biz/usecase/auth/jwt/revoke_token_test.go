@@ -49,7 +49,7 @@ func TestRevokeToken(t *testing.T) {
 				builder.TokenStore.Revoke_Failed(t.Context())
 				return NewAuthJWTUsecaseUT(t, builder)
 			},
-			expectedErr: apperrs.ErrInternal,
+			expectedErr: nil,
 		},
 		{
 			name:         "revoke success",

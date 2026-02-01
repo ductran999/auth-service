@@ -7,7 +7,6 @@ import (
 	"auth-service/config"
 	"auth-service/gen/openapi"
 	"auth-service/internal/biz/ports/security"
-	"auth-service/internal/handler/background"
 	"auth-service/internal/infra/account"
 
 	"github.com/DucTran999/cachekit"
@@ -30,8 +29,7 @@ type Container struct {
 	useCases *useCases
 	handlers *handlers
 
-	RestHandler           openapi.ServerInterface
-	CleanupSessionHandler background.SessionCleaner
+	RestHandler openapi.ServerInterface
 }
 
 // NewContainer initializes and wires together all core dependencies of the application,
@@ -53,7 +51,7 @@ func NewContainer(cfg *config.EnvConfiguration) (*Container, error) {
 	log.Println("[INFO] connection db successfully")
 
 	// Initialize Redis-based cache system
-	cache, err := newRedisCache(cfg, logger)
+	cache, err := newRedisCache(cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect redis cache: %w", err)
 	}
@@ -80,7 +78,6 @@ func NewContainer(cfg *config.EnvConfiguration) (*Container, error) {
 	c.initUseCases()     // Application business logic layer (usecases)
 	c.initHandlers()     // HTTP handlers for API endpoints
 	c.initRestHandler()  // Adapter for generated OpenAPI ServerInterface implementation
-	c.initJobs()
 
 	return c, nil
 }

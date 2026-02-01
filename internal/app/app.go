@@ -30,10 +30,8 @@ func Run() error {
 		return fmt.Errorf("start http server error: %w", err)
 	}
 
-	workerDone := runSessionCleanupWorker(appCtx, c)
-
 	// gracefully shutdown
-	waitForShutdown(appCtx, restSrv, workerDone, c)
+	waitForShutdown(appCtx, restSrv, c)
 
 	return nil
 }

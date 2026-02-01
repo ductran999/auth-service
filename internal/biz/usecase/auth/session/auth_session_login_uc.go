@@ -37,13 +37,10 @@ func (uc *sessionLoginUsecase) Login(ctx context.Context, input LoginInput) (*se
 	}
 
 	// Try to reuse existing session
-	// session, err := uc.sessionStore.Refresh(ctx, input.CurrentSessionID)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// if session != nil {
-	// 	return session, nil
-	// }
+	session, err := uc.sessionStore.Refresh(ctx, input.CurrentSessionID)
+	if err == nil {
+		return session, nil
+	}
 
 	// Create a new session
 	newSession := &sessionmodel.Session{

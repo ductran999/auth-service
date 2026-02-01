@@ -39,7 +39,18 @@ func (s *sessionStore) Save(ctx context.Context, session *sessionmodel.Session) 
 }
 
 func (s *sessionStore) Refresh(ctx context.Context, id string) (*sessionmodel.Session, error) {
-	return nil, nil
+	key := s.cacheKey(id)
+
+	session := &sessionmodel.Session{}
+	if err := s.redisClient.GetInto(ctx, key, session); err != nil {
+		return nil, err
+	}
+
+	if err := s.redisClient.Set(ctx, key, session, SessionTTL); err != nil {
+		return nil, err
+	}
+
+	return session, nil
 }
 
 func (s *sessionStore) cacheKey(sessionID string) string {

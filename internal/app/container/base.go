@@ -1,7 +1,6 @@
 package container
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"path"
@@ -93,12 +92,7 @@ func newSigner(config *config.EnvConfiguration) (jwtkit.JWT, error) {
 	return jwtkit.NewJWT(cfg)
 }
 
-type loggingCache struct {
-	inner  cachekit.RemoteCache
-	logger logger.ILogger
-}
-
-func newRedisCache(config *config.EnvConfiguration, logger logger.ILogger) (cachekit.RemoteCache, error) {
+func newRedisCache(config *config.EnvConfiguration) (cachekit.RemoteCache, error) {
 	cacheConf := cachekit.RedisConfig{
 		Host:     config.RedisHost,
 		Port:     config.RedisPort,
@@ -106,14 +100,4 @@ func newRedisCache(config *config.EnvConfiguration, logger logger.ILogger) (cach
 	}
 
 	return cachekit.NewRedisCache(cacheConf)
-}
-
-// Get retrieves a value from the cache by its key.
-func (lc *loggingCache) GetInto(ctx context.Context, key string, dest any) error {
-	err := lc.inner.GetInto(ctx, key, dest)
-	if err != nil {
-		lc.logger.Warnf("cache get failed: key=%s err=%v", key, err)
-	}
-
-	return err
 }

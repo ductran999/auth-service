@@ -27,7 +27,7 @@ func (uc *refreshTokenUsecase) RefreshToken(ctx context.Context, refreshToken st
 		return nil, apperrs.Unauthorized(ErrInvalidRefreshToken)
 	}
 
-	ok, err := uc.tokenStore.Exists(ctx, claims.ID)
+	ok, err := uc.tokenStore.Exists(ctx, claims.Subject, claims.ID)
 	if err != nil {
 		return nil, apperrs.Internal(err)
 	}
