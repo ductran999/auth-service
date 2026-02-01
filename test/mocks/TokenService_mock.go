@@ -5,8 +5,8 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/domain/accountmodel"
+	"auth-service/internal/domain/authmodel"
 	"context"
 	"time"
 
@@ -41,7 +41,7 @@ func (_m *TokenService) EXPECT() *TokenService_Expecter {
 }
 
 // Sign provides a mock function for the type TokenService
-func (_mock *TokenService) Sign(claims model.TokenClaims) (string, error) {
+func (_mock *TokenService) Sign(claims authmodel.TokenClaims) (string, error) {
 	ret := _mock.Called(claims)
 
 	if len(ret) == 0 {
@@ -50,15 +50,15 @@ func (_mock *TokenService) Sign(claims model.TokenClaims) (string, error) {
 
 	var r0 string
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(model.TokenClaims) (string, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(authmodel.TokenClaims) (string, error)); ok {
 		return returnFunc(claims)
 	}
-	if returnFunc, ok := ret.Get(0).(func(model.TokenClaims) string); ok {
+	if returnFunc, ok := ret.Get(0).(func(authmodel.TokenClaims) string); ok {
 		r0 = returnFunc(claims)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
-	if returnFunc, ok := ret.Get(1).(func(model.TokenClaims) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(authmodel.TokenClaims) error); ok {
 		r1 = returnFunc(claims)
 	} else {
 		r1 = ret.Error(1)
@@ -72,16 +72,16 @@ type TokenService_Sign_Call struct {
 }
 
 // Sign is a helper method to define mock.On call
-//   - claims model.TokenClaims
+//   - claims authmodel.TokenClaims
 func (_e *TokenService_Expecter) Sign(claims interface{}) *TokenService_Sign_Call {
 	return &TokenService_Sign_Call{Call: _e.mock.On("Sign", claims)}
 }
 
-func (_c *TokenService_Sign_Call) Run(run func(claims model.TokenClaims)) *TokenService_Sign_Call {
+func (_c *TokenService_Sign_Call) Run(run func(claims authmodel.TokenClaims)) *TokenService_Sign_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		var arg0 model.TokenClaims
+		var arg0 authmodel.TokenClaims
 		if args[0] != nil {
-			arg0 = args[0].(model.TokenClaims)
+			arg0 = args[0].(authmodel.TokenClaims)
 		}
 		run(
 			arg0,
@@ -95,32 +95,32 @@ func (_c *TokenService_Sign_Call) Return(s string, err error) *TokenService_Sign
 	return _c
 }
 
-func (_c *TokenService_Sign_Call) RunAndReturn(run func(claims model.TokenClaims) (string, error)) *TokenService_Sign_Call {
+func (_c *TokenService_Sign_Call) RunAndReturn(run func(claims authmodel.TokenClaims) (string, error)) *TokenService_Sign_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // SignPairs provides a mock function for the type TokenService
-func (_mock *TokenService) SignPairs(jti string, signAt time.Time, account *model.Account) (*dto.TokenPairs, error) {
+func (_mock *TokenService) SignPairs(jti string, signAt time.Time, account *accountmodel.Account) (*authmodel.TokenPairs, error) {
 	ret := _mock.Called(jti, signAt, account)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SignPairs")
 	}
 
-	var r0 *dto.TokenPairs
+	var r0 *authmodel.TokenPairs
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(string, time.Time, *model.Account) (*dto.TokenPairs, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(string, time.Time, *accountmodel.Account) (*authmodel.TokenPairs, error)); ok {
 		return returnFunc(jti, signAt, account)
 	}
-	if returnFunc, ok := ret.Get(0).(func(string, time.Time, *model.Account) *dto.TokenPairs); ok {
+	if returnFunc, ok := ret.Get(0).(func(string, time.Time, *accountmodel.Account) *authmodel.TokenPairs); ok {
 		r0 = returnFunc(jti, signAt, account)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*dto.TokenPairs)
+			r0 = ret.Get(0).(*authmodel.TokenPairs)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(string, time.Time, *model.Account) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(string, time.Time, *accountmodel.Account) error); ok {
 		r1 = returnFunc(jti, signAt, account)
 	} else {
 		r1 = ret.Error(1)
@@ -136,12 +136,12 @@ type TokenService_SignPairs_Call struct {
 // SignPairs is a helper method to define mock.On call
 //   - jti string
 //   - signAt time.Time
-//   - account *model.Account
+//   - account *accountmodel.Account
 func (_e *TokenService_Expecter) SignPairs(jti interface{}, signAt interface{}, account interface{}) *TokenService_SignPairs_Call {
 	return &TokenService_SignPairs_Call{Call: _e.mock.On("SignPairs", jti, signAt, account)}
 }
 
-func (_c *TokenService_SignPairs_Call) Run(run func(jti string, signAt time.Time, account *model.Account)) *TokenService_SignPairs_Call {
+func (_c *TokenService_SignPairs_Call) Run(run func(jti string, signAt time.Time, account *accountmodel.Account)) *TokenService_SignPairs_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 string
 		if args[0] != nil {
@@ -151,9 +151,9 @@ func (_c *TokenService_SignPairs_Call) Run(run func(jti string, signAt time.Time
 		if args[1] != nil {
 			arg1 = args[1].(time.Time)
 		}
-		var arg2 *model.Account
+		var arg2 *accountmodel.Account
 		if args[2] != nil {
-			arg2 = args[2].(*model.Account)
+			arg2 = args[2].(*accountmodel.Account)
 		}
 		run(
 			arg0,
@@ -164,33 +164,35 @@ func (_c *TokenService_SignPairs_Call) Run(run func(jti string, signAt time.Time
 	return _c
 }
 
-func (_c *TokenService_SignPairs_Call) Return(tokenPairs *dto.TokenPairs, err error) *TokenService_SignPairs_Call {
+func (_c *TokenService_SignPairs_Call) Return(tokenPairs *authmodel.TokenPairs, err error) *TokenService_SignPairs_Call {
 	_c.Call.Return(tokenPairs, err)
 	return _c
 }
 
-func (_c *TokenService_SignPairs_Call) RunAndReturn(run func(jti string, signAt time.Time, account *model.Account) (*dto.TokenPairs, error)) *TokenService_SignPairs_Call {
+func (_c *TokenService_SignPairs_Call) RunAndReturn(run func(jti string, signAt time.Time, account *accountmodel.Account) (*authmodel.TokenPairs, error)) *TokenService_SignPairs_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // VerifyAccessToken provides a mock function for the type TokenService
-func (_mock *TokenService) VerifyAccessToken(ctx context.Context, token string) (model.TokenClaims, error) {
+func (_mock *TokenService) VerifyAccessToken(ctx context.Context, token string) (*authmodel.TokenClaims, error) {
 	ret := _mock.Called(ctx, token)
 
 	if len(ret) == 0 {
 		panic("no return value specified for VerifyAccessToken")
 	}
 
-	var r0 model.TokenClaims
+	var r0 *authmodel.TokenClaims
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (model.TokenClaims, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*authmodel.TokenClaims, error)); ok {
 		return returnFunc(ctx, token)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) model.TokenClaims); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *authmodel.TokenClaims); ok {
 		r0 = returnFunc(ctx, token)
 	} else {
-		r0 = ret.Get(0).(model.TokenClaims)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*authmodel.TokenClaims)
+		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = returnFunc(ctx, token)
@@ -230,33 +232,35 @@ func (_c *TokenService_VerifyAccessToken_Call) Run(run func(ctx context.Context,
 	return _c
 }
 
-func (_c *TokenService_VerifyAccessToken_Call) Return(tokenClaims model.TokenClaims, err error) *TokenService_VerifyAccessToken_Call {
+func (_c *TokenService_VerifyAccessToken_Call) Return(tokenClaims *authmodel.TokenClaims, err error) *TokenService_VerifyAccessToken_Call {
 	_c.Call.Return(tokenClaims, err)
 	return _c
 }
 
-func (_c *TokenService_VerifyAccessToken_Call) RunAndReturn(run func(ctx context.Context, token string) (model.TokenClaims, error)) *TokenService_VerifyAccessToken_Call {
+func (_c *TokenService_VerifyAccessToken_Call) RunAndReturn(run func(ctx context.Context, token string) (*authmodel.TokenClaims, error)) *TokenService_VerifyAccessToken_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // VerifyRefreshToken provides a mock function for the type TokenService
-func (_mock *TokenService) VerifyRefreshToken(ctx context.Context, token string) (model.TokenClaims, error) {
+func (_mock *TokenService) VerifyRefreshToken(ctx context.Context, token string) (*authmodel.TokenClaims, error) {
 	ret := _mock.Called(ctx, token)
 
 	if len(ret) == 0 {
 		panic("no return value specified for VerifyRefreshToken")
 	}
 
-	var r0 model.TokenClaims
+	var r0 *authmodel.TokenClaims
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (model.TokenClaims, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*authmodel.TokenClaims, error)); ok {
 		return returnFunc(ctx, token)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) model.TokenClaims); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *authmodel.TokenClaims); ok {
 		r0 = returnFunc(ctx, token)
 	} else {
-		r0 = ret.Get(0).(model.TokenClaims)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*authmodel.TokenClaims)
+		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = returnFunc(ctx, token)
@@ -296,12 +300,12 @@ func (_c *TokenService_VerifyRefreshToken_Call) Run(run func(ctx context.Context
 	return _c
 }
 
-func (_c *TokenService_VerifyRefreshToken_Call) Return(tokenClaims model.TokenClaims, err error) *TokenService_VerifyRefreshToken_Call {
+func (_c *TokenService_VerifyRefreshToken_Call) Return(tokenClaims *authmodel.TokenClaims, err error) *TokenService_VerifyRefreshToken_Call {
 	_c.Call.Return(tokenClaims, err)
 	return _c
 }
 
-func (_c *TokenService_VerifyRefreshToken_Call) RunAndReturn(run func(ctx context.Context, token string) (model.TokenClaims, error)) *TokenService_VerifyRefreshToken_Call {
+func (_c *TokenService_VerifyRefreshToken_Call) RunAndReturn(run func(ctx context.Context, token string) (*authmodel.TokenClaims, error)) *TokenService_VerifyRefreshToken_Call {
 	_c.Call.Return(run)
 	return _c
 }

@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
+	"auth-service/internal/domain/accountmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -39,7 +39,7 @@ func (_m *AccountRepo) EXPECT() *AccountRepo_Expecter {
 }
 
 // Create provides a mock function for the type AccountRepo
-func (_mock *AccountRepo) Create(ctx context.Context, account *model.Account) error {
+func (_mock *AccountRepo) Create(ctx context.Context, account *accountmodel.Account) error {
 	ret := _mock.Called(ctx, account)
 
 	if len(ret) == 0 {
@@ -47,7 +47,7 @@ func (_mock *AccountRepo) Create(ctx context.Context, account *model.Account) er
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, *model.Account) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, *accountmodel.Account) error); ok {
 		r0 = returnFunc(ctx, account)
 	} else {
 		r0 = ret.Error(0)
@@ -62,20 +62,20 @@ type AccountRepo_Create_Call struct {
 
 // Create is a helper method to define mock.On call
 //   - ctx context.Context
-//   - account *model.Account
+//   - account *accountmodel.Account
 func (_e *AccountRepo_Expecter) Create(ctx interface{}, account interface{}) *AccountRepo_Create_Call {
 	return &AccountRepo_Create_Call{Call: _e.mock.On("Create", ctx, account)}
 }
 
-func (_c *AccountRepo_Create_Call) Run(run func(ctx context.Context, account *model.Account)) *AccountRepo_Create_Call {
+func (_c *AccountRepo_Create_Call) Run(run func(ctx context.Context, account *accountmodel.Account)) *AccountRepo_Create_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 *model.Account
+		var arg1 *accountmodel.Account
 		if args[1] != nil {
-			arg1 = args[1].(*model.Account)
+			arg1 = args[1].(*accountmodel.Account)
 		}
 		run(
 			arg0,
@@ -90,29 +90,29 @@ func (_c *AccountRepo_Create_Call) Return(err error) *AccountRepo_Create_Call {
 	return _c
 }
 
-func (_c *AccountRepo_Create_Call) RunAndReturn(run func(ctx context.Context, account *model.Account) error) *AccountRepo_Create_Call {
+func (_c *AccountRepo_Create_Call) RunAndReturn(run func(ctx context.Context, account *accountmodel.Account) error) *AccountRepo_Create_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // FindByEmail provides a mock function for the type AccountRepo
-func (_mock *AccountRepo) FindByEmail(ctx context.Context, email string) (*model.Account, error) {
+func (_mock *AccountRepo) FindByEmail(ctx context.Context, email string) (*accountmodel.Account, error) {
 	ret := _mock.Called(ctx, email)
 
 	if len(ret) == 0 {
 		panic("no return value specified for FindByEmail")
 	}
 
-	var r0 *model.Account
+	var r0 *accountmodel.Account
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Account, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*accountmodel.Account, error)); ok {
 		return returnFunc(ctx, email)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Account); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *accountmodel.Account); ok {
 		r0 = returnFunc(ctx, email)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Account)
+			r0 = ret.Get(0).(*accountmodel.Account)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -153,34 +153,34 @@ func (_c *AccountRepo_FindByEmail_Call) Run(run func(ctx context.Context, email 
 	return _c
 }
 
-func (_c *AccountRepo_FindByEmail_Call) Return(account *model.Account, err error) *AccountRepo_FindByEmail_Call {
+func (_c *AccountRepo_FindByEmail_Call) Return(account *accountmodel.Account, err error) *AccountRepo_FindByEmail_Call {
 	_c.Call.Return(account, err)
 	return _c
 }
 
-func (_c *AccountRepo_FindByEmail_Call) RunAndReturn(run func(ctx context.Context, email string) (*model.Account, error)) *AccountRepo_FindByEmail_Call {
+func (_c *AccountRepo_FindByEmail_Call) RunAndReturn(run func(ctx context.Context, email string) (*accountmodel.Account, error)) *AccountRepo_FindByEmail_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // FindByID provides a mock function for the type AccountRepo
-func (_mock *AccountRepo) FindByID(ctx context.Context, accountID string) (*model.Account, error) {
+func (_mock *AccountRepo) FindByID(ctx context.Context, accountID string) (*accountmodel.Account, error) {
 	ret := _mock.Called(ctx, accountID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for FindByID")
 	}
 
-	var r0 *model.Account
+	var r0 *accountmodel.Account
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*model.Account, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*accountmodel.Account, error)); ok {
 		return returnFunc(ctx, accountID)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *model.Account); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *accountmodel.Account); ok {
 		r0 = returnFunc(ctx, accountID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Account)
+			r0 = ret.Get(0).(*accountmodel.Account)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -221,12 +221,12 @@ func (_c *AccountRepo_FindByID_Call) Run(run func(ctx context.Context, accountID
 	return _c
 }
 
-func (_c *AccountRepo_FindByID_Call) Return(account *model.Account, err error) *AccountRepo_FindByID_Call {
+func (_c *AccountRepo_FindByID_Call) Return(account *accountmodel.Account, err error) *AccountRepo_FindByID_Call {
 	_c.Call.Return(account, err)
 	return _c
 }
 
-func (_c *AccountRepo_FindByID_Call) RunAndReturn(run func(ctx context.Context, accountID string) (*model.Account, error)) *AccountRepo_FindByID_Call {
+func (_c *AccountRepo_FindByID_Call) RunAndReturn(run func(ctx context.Context, accountID string) (*accountmodel.Account, error)) *AccountRepo_FindByID_Call {
 	_c.Call.Return(run)
 	return _c
 }

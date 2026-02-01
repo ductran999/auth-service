@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	"auth-service/internal/model"
+	"auth-service/internal/domain/authmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -168,7 +168,7 @@ func (_c *TokenStore_Revoke_Call) RunAndReturn(run func(ctx context.Context, use
 }
 
 // Save provides a mock function for the type TokenStore
-func (_mock *TokenStore) Save(ctx context.Context, device model.DeviceSession) error {
+func (_mock *TokenStore) Save(ctx context.Context, device authmodel.DeviceSession) error {
 	ret := _mock.Called(ctx, device)
 
 	if len(ret) == 0 {
@@ -176,7 +176,7 @@ func (_mock *TokenStore) Save(ctx context.Context, device model.DeviceSession) e
 	}
 
 	var r0 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, model.DeviceSession) error); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, authmodel.DeviceSession) error); ok {
 		r0 = returnFunc(ctx, device)
 	} else {
 		r0 = ret.Error(0)
@@ -191,20 +191,20 @@ type TokenStore_Save_Call struct {
 
 // Save is a helper method to define mock.On call
 //   - ctx context.Context
-//   - device model.DeviceSession
+//   - device authmodel.DeviceSession
 func (_e *TokenStore_Expecter) Save(ctx interface{}, device interface{}) *TokenStore_Save_Call {
 	return &TokenStore_Save_Call{Call: _e.mock.On("Save", ctx, device)}
 }
 
-func (_c *TokenStore_Save_Call) Run(run func(ctx context.Context, device model.DeviceSession)) *TokenStore_Save_Call {
+func (_c *TokenStore_Save_Call) Run(run func(ctx context.Context, device authmodel.DeviceSession)) *TokenStore_Save_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 model.DeviceSession
+		var arg1 authmodel.DeviceSession
 		if args[1] != nil {
-			arg1 = args[1].(model.DeviceSession)
+			arg1 = args[1].(authmodel.DeviceSession)
 		}
 		run(
 			arg0,
@@ -219,7 +219,7 @@ func (_c *TokenStore_Save_Call) Return(err error) *TokenStore_Save_Call {
 	return _c
 }
 
-func (_c *TokenStore_Save_Call) RunAndReturn(run func(ctx context.Context, device model.DeviceSession) error) *TokenStore_Save_Call {
+func (_c *TokenStore_Save_Call) RunAndReturn(run func(ctx context.Context, device authmodel.DeviceSession) error) *TokenStore_Save_Call {
 	_c.Call.Return(run)
 	return _c
 }

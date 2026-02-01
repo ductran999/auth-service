@@ -3,7 +3,7 @@ package account
 import (
 	"auth-service/gen/openapi"
 	"auth-service/internal/apperrs"
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/biz/usecase/account"
 	"auth-service/pkg/transport/request"
 	"auth-service/pkg/transport/response"
 
@@ -18,7 +18,7 @@ func (hdl *accountHandler) CreateAccount(ctx *gin.Context) {
 		return
 	}
 
-	input := dto.RegisterInput{
+	input := account.RegisterInput{
 		Email:    payload.Email,
 		Password: payload.Password,
 	}

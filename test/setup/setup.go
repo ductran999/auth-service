@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"auth-service/config"
-	"auth-service/internal/container"
-	"auth-service/internal/server/http"
+	"auth-service/internal/app/container"
+	"auth-service/internal/app/server/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
@@ -34,7 +34,7 @@ func NewTestApp() (*TestApp, error) {
 		return nil, fmt.Errorf("failed to setup validator: %w", err)
 	}
 
-	router, err := http.NewRouter(cfg.ServiceEnv, ctn.Logger, ctn.RestHandler)
+	router, err := http.NewRouter(ctn, ctn.RestHandler)
 	if err != nil {
 		return nil, fmt.Errorf("failed to init router: %w", err)
 	}

@@ -6,8 +6,11 @@ type BuilderContainer struct {
 	AccountRepoBuilder *mockAccountRepoBuilder
 	SessionRepoBuilder *mockSessionRepoBuilder
 	HasherBuilder      *mockHasherBuilder
-	// CacheBuilder       *mockCacheBuilder
-	// TokenSigner     *mockSignerBuilder
+
+	TokenService *mockTokenService
+	TokenStore   *mockTokenStore
+
+	SessionStore *mockSessionStore
 }
 
 func NewBuilderContainer(t *testing.T) *BuilderContainer {
@@ -15,8 +18,9 @@ func NewBuilderContainer(t *testing.T) *BuilderContainer {
 		AccountRepoBuilder: newMockAccountRepoBuilder(t),
 		SessionRepoBuilder: newMockSessionRepoBuilder(t),
 		HasherBuilder:      newMockHasherBuilder(t),
-		// CacheBuilder:       newMockCacheBuilder(t),
-		// TokenSigner:     NewMockSignerBuilder(t),
+		TokenService:       newMockTokenService(t),
+		TokenStore:         newMockTokenStore(t),
+		SessionStore:       newMockSessionStore(t),
 	}
 }
 

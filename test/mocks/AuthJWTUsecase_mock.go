@@ -5,7 +5,8 @@
 package mocks
 
 import (
-	"auth-service/internal/usecase/dto"
+	"auth-service/internal/biz/usecase/auth/jwt"
+	"auth-service/internal/domain/authmodel"
 	"context"
 
 	mock "github.com/stretchr/testify/mock"
@@ -39,26 +40,26 @@ func (_m *AuthJWTUsecase) EXPECT() *AuthJWTUsecase_Expecter {
 }
 
 // Login provides a mock function for the type AuthJWTUsecase
-func (_mock *AuthJWTUsecase) Login(ctx context.Context, input dto.LoginJWTInput) (*dto.TokenPairs, error) {
+func (_mock *AuthJWTUsecase) Login(ctx context.Context, input jwt.LoginJWTInput) (*authmodel.TokenPairs, error) {
 	ret := _mock.Called(ctx, input)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Login")
 	}
 
-	var r0 *dto.TokenPairs
+	var r0 *authmodel.TokenPairs
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, dto.LoginJWTInput) (*dto.TokenPairs, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, jwt.LoginJWTInput) (*authmodel.TokenPairs, error)); ok {
 		return returnFunc(ctx, input)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, dto.LoginJWTInput) *dto.TokenPairs); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, jwt.LoginJWTInput) *authmodel.TokenPairs); ok {
 		r0 = returnFunc(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*dto.TokenPairs)
+			r0 = ret.Get(0).(*authmodel.TokenPairs)
 		}
 	}
-	if returnFunc, ok := ret.Get(1).(func(context.Context, dto.LoginJWTInput) error); ok {
+	if returnFunc, ok := ret.Get(1).(func(context.Context, jwt.LoginJWTInput) error); ok {
 		r1 = returnFunc(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -73,20 +74,20 @@ type AuthJWTUsecase_Login_Call struct {
 
 // Login is a helper method to define mock.On call
 //   - ctx context.Context
-//   - input dto.LoginJWTInput
+//   - input jwt.LoginJWTInput
 func (_e *AuthJWTUsecase_Expecter) Login(ctx interface{}, input interface{}) *AuthJWTUsecase_Login_Call {
 	return &AuthJWTUsecase_Login_Call{Call: _e.mock.On("Login", ctx, input)}
 }
 
-func (_c *AuthJWTUsecase_Login_Call) Run(run func(ctx context.Context, input dto.LoginJWTInput)) *AuthJWTUsecase_Login_Call {
+func (_c *AuthJWTUsecase_Login_Call) Run(run func(ctx context.Context, input jwt.LoginJWTInput)) *AuthJWTUsecase_Login_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
 			arg0 = args[0].(context.Context)
 		}
-		var arg1 dto.LoginJWTInput
+		var arg1 jwt.LoginJWTInput
 		if args[1] != nil {
-			arg1 = args[1].(dto.LoginJWTInput)
+			arg1 = args[1].(jwt.LoginJWTInput)
 		}
 		run(
 			arg0,
@@ -96,34 +97,34 @@ func (_c *AuthJWTUsecase_Login_Call) Run(run func(ctx context.Context, input dto
 	return _c
 }
 
-func (_c *AuthJWTUsecase_Login_Call) Return(tokenPairs *dto.TokenPairs, err error) *AuthJWTUsecase_Login_Call {
+func (_c *AuthJWTUsecase_Login_Call) Return(tokenPairs *authmodel.TokenPairs, err error) *AuthJWTUsecase_Login_Call {
 	_c.Call.Return(tokenPairs, err)
 	return _c
 }
 
-func (_c *AuthJWTUsecase_Login_Call) RunAndReturn(run func(ctx context.Context, input dto.LoginJWTInput) (*dto.TokenPairs, error)) *AuthJWTUsecase_Login_Call {
+func (_c *AuthJWTUsecase_Login_Call) RunAndReturn(run func(ctx context.Context, input jwt.LoginJWTInput) (*authmodel.TokenPairs, error)) *AuthJWTUsecase_Login_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // RefreshToken provides a mock function for the type AuthJWTUsecase
-func (_mock *AuthJWTUsecase) RefreshToken(ctx context.Context, refreshToken string) (*dto.TokenPairs, error) {
+func (_mock *AuthJWTUsecase) RefreshToken(ctx context.Context, refreshToken string) (*authmodel.TokenPairs, error) {
 	ret := _mock.Called(ctx, refreshToken)
 
 	if len(ret) == 0 {
 		panic("no return value specified for RefreshToken")
 	}
 
-	var r0 *dto.TokenPairs
+	var r0 *authmodel.TokenPairs
 	var r1 error
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*dto.TokenPairs, error)); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) (*authmodel.TokenPairs, error)); ok {
 		return returnFunc(ctx, refreshToken)
 	}
-	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *dto.TokenPairs); ok {
+	if returnFunc, ok := ret.Get(0).(func(context.Context, string) *authmodel.TokenPairs); ok {
 		r0 = returnFunc(ctx, refreshToken)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*dto.TokenPairs)
+			r0 = ret.Get(0).(*authmodel.TokenPairs)
 		}
 	}
 	if returnFunc, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -164,12 +165,12 @@ func (_c *AuthJWTUsecase_RefreshToken_Call) Run(run func(ctx context.Context, re
 	return _c
 }
 
-func (_c *AuthJWTUsecase_RefreshToken_Call) Return(tokenPairs *dto.TokenPairs, err error) *AuthJWTUsecase_RefreshToken_Call {
+func (_c *AuthJWTUsecase_RefreshToken_Call) Return(tokenPairs *authmodel.TokenPairs, err error) *AuthJWTUsecase_RefreshToken_Call {
 	_c.Call.Return(tokenPairs, err)
 	return _c
 }
 
-func (_c *AuthJWTUsecase_RefreshToken_Call) RunAndReturn(run func(ctx context.Context, refreshToken string) (*dto.TokenPairs, error)) *AuthJWTUsecase_RefreshToken_Call {
+func (_c *AuthJWTUsecase_RefreshToken_Call) RunAndReturn(run func(ctx context.Context, refreshToken string) (*authmodel.TokenPairs, error)) *AuthJWTUsecase_RefreshToken_Call {
 	_c.Call.Return(run)
 	return _c
 }

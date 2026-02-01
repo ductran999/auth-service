@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"auth-service/internal/container"
-	"auth-service/internal/worker"
+	"auth-service/internal/app/container"
+	"auth-service/internal/app/worker"
 )
 
 func runSessionCleanupWorker(ctx context.Context, c *container.Container) <-chan struct{} {
